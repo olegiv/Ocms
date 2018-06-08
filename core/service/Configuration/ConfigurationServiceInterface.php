@@ -15,7 +15,12 @@ interface ConfigurationServiceInterface {
 	 */
   public static function getInstance(); 
 	
-	public function getConfigurationGlobal ();
+	/**
+	 * 
+	 * @param string $section
+	 * @return \stdClass
+	 */
+	public function getConfigurationGlobal(string $section = ''): \stdClass;
 	
 	public function setConfigurationGlobal ();
 	

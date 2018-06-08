@@ -2,7 +2,7 @@
 
 namespace Ocms\core\model;
 
-use Ocms\core\exeption\Exception;
+use Ocms\core\exception\Exception;
 use Ocms\core\service\Configuration\ConfigurationService;
 
 /**
@@ -12,7 +12,7 @@ use Ocms\core\service\Configuration\ConfigurationService;
  */
 class ModelSQLite implements ModelSQLiteInterface {
 
-	const DBFile = 'data/scms.db';
+	const DBFile = 'data/ocms.db';
 	const INSTALLFile = 'install/sqlite.sql';
 
 	/**
@@ -20,6 +20,12 @@ class ModelSQLite implements ModelSQLiteInterface {
 	 * @var ModelSQLite This class instance
 	 */
 	static $_instance;
+	
+	/**
+	 *
+	 * @var type 
+	 */
+	private $conf;
 
 	/**
 	 *
@@ -42,7 +48,10 @@ class ModelSQLite implements ModelSQLiteInterface {
 	/**
 	 * 
 	 */
-	private function __construct() {}
+	private function __construct() {
+		
+		$this->conf = ConfigurationService::getInstance()->getConfigurationGlobal('DB');
+	}
 
 	/**
 	 * 
@@ -99,6 +108,8 @@ class ModelSQLite implements ModelSQLiteInterface {
 	 */
 	private function connect() {
 
+		
+		//if (($dbFile = $this->file))
 		$this->db = new \PDO('sqlite:' . self::DBFile);
 		$this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
@@ -115,7 +126,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 	/**
 	 * 
 	 * @return string
-	 * @throws Ocms\core\exeption\Exception
+	 * @throws Ocms\core\exception\Exception
 	 */
 	private function getInitSql (): string {
 		

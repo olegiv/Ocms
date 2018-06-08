@@ -1,9 +1,28 @@
 {
 	"DB": {
 		"type": "sqlite",
-		"prefix": "ocms_"
+		"prefix": "ocms_",
+		"file": "data/ocms.db"
 	},
 	"Site": {
-		"homepageId": 1
+		"homepageId": 1,
+		"cache": {
+			"enabled": 0,
+			"path": "data/cache"
+		}
+	},
+	"Layout": {
+		"template": {
+			"id": "default"
+		}
+	},
+	"Server": {
+		
+	},
+	"User": {
+		
+	},
+	"Lang": {
+		
 	}
 }

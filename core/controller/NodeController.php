@@ -2,7 +2,7 @@
 
 namespace Ocms\core\controller;
 
-use Ocms\core\exeption\Exception;
+use Ocms\core\exception\Exception;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;
 
@@ -51,7 +51,7 @@ class NodeController extends ControllerBase implements ControllerInterface {
 	/**
 	 * 
 	 * @param int $nodeId
-	 * @throws Ocms\core\exeption\Exception
+	 * @throws Ocms\core\exception\Exception
 	 */
 	protected function init (int $nodeId = 0) {
 		

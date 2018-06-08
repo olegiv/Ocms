@@ -9,4 +9,16 @@ namespace Ocms\core\view;
  */
 abstract class ViewBase implements ViewBaseInterface {
 	
+	/**
+	 *
+	 * @var 
+	 */
+	private $conf;
+	
+	/**
+	 *
+	 * @var string
+	 */
+	private $templatesPath = 'templates/default/twig';
+	
 }

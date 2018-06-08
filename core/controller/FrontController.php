@@ -2,7 +2,7 @@
 
 namespace Ocms\core\controller;
 
-use Ocms\core\exeption\Exception;
+use Ocms\core\exception\Exception;
 use Ocms\core\service\Configuration\ConfigurationService;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;

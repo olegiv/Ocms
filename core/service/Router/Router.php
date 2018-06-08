@@ -2,7 +2,7 @@
 
 namespace Ocms\core\service\Router;
 
-use Ocms\core\exeption\Exception;
+use Ocms\core\exception\Exception;
 
 /**
  * Description of Router
@@ -74,7 +74,7 @@ class Router implements RouterInterface {
 		try {
 			$this->setController();
 			call_user_func ($this->controllerClass . '::' . $this->controllerMethod, $this->parameter);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
 	}
@@ -110,7 +110,7 @@ class Router implements RouterInterface {
 	/**
 	 * 
 	 * @param string $controller
-	 * @throws Ocms\core\exeption\Exception
+	 * @throws Ocms\core\exception\Exception
 	 */
 	private function validateController (string $controller, string $method) {
 		

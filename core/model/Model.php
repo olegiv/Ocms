@@ -2,7 +2,7 @@
 
 namespace Ocms\core\model;
 
-use Ocms\core\exeption\Exception;
+use Ocms\core\exception\Exception;
 use Ocms\core\service\Configuration\ConfigurationService;
 
 /**
@@ -52,7 +52,7 @@ class Model implements ModelInterface {
 
 	/**
 	 * 
-	 * @throws \Exception
+	 * @throws Ocms\core\exception\Exception
 	 */
 	public function init() {
 		
@@ -63,7 +63,7 @@ class Model implements ModelInterface {
 			case 'mysql':
 				break;
 			default:
-				throw new \Exception ('Bad DB type: ' . $dbType);
+				throw new Exception ('Bad DB type: ' . $dbType);
 		}
 	}
 	
@@ -71,7 +71,7 @@ class Model implements ModelInterface {
 	 * 
 	 * @param int $nodeId
 	 * @return \stdClass
-	 * @throws Ocms\core\exeption\Exception
+	 * @throws Ocms\core\exception\Exception
 	 */
 	public function getNode (int $nodeId): \stdClass {
 		

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ocms\core\exeption;
+namespace Ocms\core\exception;
 
 /**
  * Description of Exception

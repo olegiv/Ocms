@@ -2,18 +2,30 @@
 
 namespace Ocms\core\view;
 
+use Ocms\core\service\Configuration\ConfigurationService;
+
 /**
  * Description of View
  *
  * @author olegiv
  */
 class View extends ViewBase {
+	
+	const CACHE_DEFAULT_PATH = 'data/cache';
+	
+	const TWIG_DEFAULT_PATH = 'templates/default/twig';
 
 	/**
 	 *
 	 * @var View This class instance
 	 */
 	static $_instance;
+	
+	/**
+	 *
+	 * @var 
+	 */
+	private $conf;
 
 	/**
 	 *
@@ -37,12 +49,43 @@ class View extends ViewBase {
 	 * 
 	 */
 	private function __construct() {
-
-		$loader = new \Twig_Loader_Filesystem('templates/default');
-		$this->twigObj = new \Twig_Environment($loader, []);
-		//'cache' => 'data/cache',
+		
+		$this->conf = ConfigurationService::getInstance()->getConfigurationGlobal();
+		$loader = new \Twig_Loader_Filesystem ($this->getTwigPath());
+		$this->twigObj = new \Twig_Environment ($loader, $this->getTwigOptions());
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
+	private function getTwigPath (): string {
+		
+		if (isset($this->conf->Layout->template->id)) {
+			$twigPath = 'templates/' . $this->conf->Layout->template->id . '/twig';
+		} else {
+			$twigPath = self::TWIG_DEFAULT_PATH;
+		}
+		return $twigPath;
+	}
+
+	/**
+	 * 
+	 * @return array
+	 */
+	private function getTwigOptions (): array {
+		
+		$twigOptions = [];
+		if (isset ($this->conf->Site->cache->enabled) && $this->conf->Site->cache->enabled) {
+			if (isset($this->conf->Site->cache->path)) {
+				$twigOptions['cache'] = $this->conf->Site->cache->path;
+			} else {
+				$twigOptions['cache'] = self::CACHE_DEFAULT_PATH; // 'cache' => 'data/cache',
+			}
+		}
+		return $twigOptions;
+	}
+
 	/**
 	 * 
 	 */
