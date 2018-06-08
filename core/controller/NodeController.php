@@ -2,6 +2,7 @@
 
 namespace Ocms\core\controller;
 
+use Ocms\core\exeption\Exception;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;
 
@@ -50,12 +51,13 @@ class NodeController extends ControllerBase implements ControllerInterface {
 	/**
 	 * 
 	 * @param int $nodeId
+	 * @throws Ocms\core\exeption\Exception
 	 */
 	protected function init (int $nodeId = 0) {
 		
 		$this->nodeId = $nodeId;
 		if (!($this->node = Model::getInstance()->getNode($this->nodeId))) {
-			throw new \Exception('Cannot load page node: ' . $this->nodeId);
+			throw new Exception('Cannot load page node: ' . $this->nodeId);
 		}
 	}
 	

@@ -2,6 +2,7 @@
 
 namespace Ocms\core\model;
 
+use Ocms\core\exeption\Exception;
 use Ocms\core\service\Configuration\ConfigurationService;
 
 /**
@@ -114,12 +115,12 @@ class ModelSQLite implements ModelSQLiteInterface {
 	/**
 	 * 
 	 * @return string
-	 * @throws \Exception
+	 * @throws Ocms\core\exeption\Exception
 	 */
 	private function getInitSql (): string {
 		
 		if (!($sql = file_get_contents (self::INSTALLFile))) {
-			throw new \Exception ('Cannot open file: ' . self::INSTALLFile);
+			throw new Exception ('Cannot open file: ' . self::INSTALLFile);
 		}
 		return str_replace ('#dbPrefix#', ConfigurationService::getInstance()->getDbPrefix(), $sql);
 	}

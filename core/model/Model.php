@@ -2,6 +2,7 @@
 
 namespace Ocms\core\model;
 
+use Ocms\core\exeption\Exception;
 use Ocms\core\service\Configuration\ConfigurationService;
 
 /**
@@ -70,7 +71,7 @@ class Model implements ModelInterface {
 	 * 
 	 * @param int $nodeId
 	 * @return \stdClass
-	 * @throws \Exception
+	 * @throws Ocms\core\exeption\Exception
 	 */
 	public function getNode (int $nodeId): \stdClass {
 		
@@ -79,7 +80,7 @@ class Model implements ModelInterface {
 		$stmt->execute([$nodeId]);
 		$node = $stmt->fetchObject();
 		if (! $node) {
-			throw new \Exception('Cannot load node: ' . $nodeId);
+			throw new Exception('Cannot load node: ' . $nodeId);
 		}
 		return $node;
 	}

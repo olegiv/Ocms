@@ -2,6 +2,8 @@
 
 namespace Ocms\core\service\Router;
 
+use Ocms\core\exeption\Exception;
+
 /**
  * Description of Router
  *
@@ -108,7 +110,7 @@ class Router implements RouterInterface {
 	/**
 	 * 
 	 * @param string $controller
-	 * @throws \Exception
+	 * @throws Ocms\core\exeption\Exception
 	 */
 	private function validateController (string $controller, string $method) {
 		
@@ -116,13 +118,13 @@ class Router implements RouterInterface {
 			$rc = new \ReflectionClass($controller);
 			if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerInterface')) {
 				if(! $rc->hasMethod ($method)) {
-					throw new \Exception (t('Controller does not have method: ') . $method);
+					throw new Exception (t('Controller does not have method: ') . $method);
 				}
 			} else {
-				throw new \Exception (t('Controller does not implement ControllerInterface: ') . $controller);
+				throw new Exception (t('Controller does not implement ControllerInterface: ') . $controller);
 			}
 		} else {
-			throw new \Exception (t('Controller does not exists: ') . $controller);
+			throw new Exception (t('Controller does not exists: ') . $controller);
 		}
 	}
 

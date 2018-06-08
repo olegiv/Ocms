@@ -1,7 +1,8 @@
 <?php
 
-//namespace Ocms\core\service\Configuration;
 namespace Ocms\core\service\Configuration;
+
+use Ocms\core\exeption\Exception;
 
 /**
  * Description of ConfigurationService
@@ -45,19 +46,19 @@ class ConfigurationService implements ConfigurationServiceInterface {
 	/**
 	 * 
 	 * @return type
-	 * @throws \Exception
+	 * @throws Ocms\core\exeption\Exception
 	 */
 	private function loadConfigurationGlobal() {
 		
 		try {
 			if (! ($confJson = file_get_contents ('conf/global.json'))) {
-				throw new \Exception(t('Cannot open global configuration file: ') . $e->getMessage());
+				throw new Exception(t('Cannot open global configuration file: ') . $e->getMessage());
 			}
 			if (! ($this->configurationGlobal = json_decode ($confJson))) {
-				throw new \Exception(t('Cannot parse global configuration: ') . $e->getMessage());
+				throw new Exception(t('Cannot parse global configuration: ') . $e->getMessage());
 			}
 			return $this->configurationGlobal;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			die (t('Cannot load global configuration: ') . $e->getMessage());
 		}
 	}

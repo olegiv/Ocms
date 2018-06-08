@@ -2,6 +2,7 @@
 
 namespace Ocms\core\controller;
 
+use Ocms\core\exeption\Exception;
 use Ocms\core\service\Configuration\ConfigurationService;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;
@@ -56,7 +57,7 @@ class FrontController extends ControllerBase implements ControllerInterface {
 		
 		$this->nodeId = ConfigurationService::getInstance()->getHomePageId();
 		if (!($this->node = Model::getInstance()->getNode($this->nodeId))) {
-			throw new \Exception('Cannot load Home page node');
+			throw new Exception('Cannot load Home page node');
 		}
 	}
 	
