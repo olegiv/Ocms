@@ -10,6 +10,18 @@ namespace Ocms\core\controller;
 abstract class ControllerBase implements ControllerBaseInterface {
 	
 	/**
+	 *
+	 * @var int 
+	 */
+	protected $nodeId;
+	
+	/**
+	 *
+	 * @var 
+	 */
+	protected $node;
+	
+	/**
 	 * 
 	 */
 	protected function getConfig () {
@@ -18,15 +30,10 @@ abstract class ControllerBase implements ControllerBaseInterface {
 	
 	/**
 	 * 
+	 * @param int $nodeId
 	 */
-	protected function init() {
-
-	}
-
-	/**
-	 * 
-	 */
-	public function run () {
+	public static function viewAction (int $nodeID = 0) {
 		
-	}
+		
+	} 
 }

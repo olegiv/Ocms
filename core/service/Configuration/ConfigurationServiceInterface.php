@@ -19,5 +19,22 @@ interface ConfigurationServiceInterface {
 	
 	public function setConfigurationGlobal ();
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function getDbType (): string;
+	
+	/**
+	 * 
+	 * @return int
+	 */
+	public function getHomePageId (): int;
+		
+	/**
+	 * 
+	 * @return string
+	 */
+	public function getDbPrefix (): string;
+	
 }

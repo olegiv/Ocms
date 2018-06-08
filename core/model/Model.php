@@ -22,6 +22,12 @@ class Model implements ModelInterface {
 	 * @var type \PDO
 	 */
 	private $db;
+	
+	/**
+	 *
+	 * @var string
+	 */
+	private $dbPrefix;
 
 	/**
 	 * 
@@ -38,7 +44,10 @@ class Model implements ModelInterface {
 	/**
 	 * 
 	 */
-	private function __construct() {}
+	private function __construct() {
+		
+		$this->dbPrefix = ConfigurationService::getInstance()->getDbPrefix();
+	}
 
 	/**
 	 * 
@@ -55,6 +64,24 @@ class Model implements ModelInterface {
 			default:
 				throw new \Exception ('Bad DB type: ' . $dbType);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param int $nodeId
+	 * @return \stdClass
+	 * @throws \Exception
+	 */
+	public function getNode (int $nodeId): \stdClass {
+		
+		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'node WHERE id=?';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute([$nodeId]);
+		$node = $stmt->fetchObject();
+		if (! $node) {
+			throw new \Exception('Cannot load node: ' . $nodeId);
+		}
+		return $node;
 	}
 
 }

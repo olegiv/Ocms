@@ -1,0 +1,9 @@
+{
+	"DB": {
+		"type": "sqlite",
+		"prefix": "ocms_"
+	},
+	"Site": {
+		"homepageId": 1
+	}
+}

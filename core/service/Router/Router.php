@@ -12,6 +12,8 @@ class Router implements RouterInterface {
 	const DEFAULT_CONTROLLER = 'Ocms\core\controller\FrontController';
 	
 	const CONTROLLER_GETINSTANCE_METHOD = 'getInstance';
+	
+	const CONTROLLER_CLASS_PREFIX = 'Ocms\core\controller\\';
 
 	/**
 	 *
@@ -19,6 +21,25 @@ class Router implements RouterInterface {
 	 */
 	static $_instance;
 	
+	/**
+	 *
+	 * @var string
+	 */
+	private $controllerClass;
+	
+	/**
+	 *
+	 * @var string
+	 */
+	private $controllerMethod;
+	
+	/**
+	 *
+	 * @var string
+	 */
+	private $parameter;
+
+
 	/**
 	 * 
 	 * @return Router
@@ -49,9 +70,8 @@ class Router implements RouterInterface {
 	public function run () {
 		
 		try {
-			$controller = $this->getController();
-			$controllerObj = call_user_func ($controller . '::' . self::CONTROLLER_GETINSTANCE_METHOD);
-			$controllerObj->run();
+			$this->setController();
+			call_user_func ($this->controllerClass . '::' . $this->controllerMethod, $this->parameter);
 		} catch (\Exception $e) {
 			echo $e->getMessage();
 		}
@@ -59,24 +79,30 @@ class Router implements RouterInterface {
 	
 	/**
 	 * 
-	 * @return string
 	 */
-	private function getController (): string {
+	private function setController () {
 		
-		if (! ($controller = $this->getControllerFromRequest())) {
-			$controller = self::DEFAULT_CONTROLLER;
-		}
-		$this->validateController($controller);
-		return $controller;
+		$this->getControllerFromRequest();
+		$this->validateController($this->controllerClass, $this->controllerMethod);
 	}
 	
 	/**
 	 * 
-	 * @return string
 	 */
-	private function getControllerFromRequest (): string {
+	private function getControllerFromRequest (){
 		
-		return '';
+		$request = getenv ('REQUEST_URI');
+    $splits = explode('/', trim($request,'/'));
+
+    $this->controllerClass = !empty($splits[0]) ? ucfirst($splits[0]).'Controller' : 'FrontController';
+		$this->controllerClass = self::CONTROLLER_CLASS_PREFIX . $this->controllerClass;
+    $this->controllerMethod = !empty($splits[1]) ? $splits[1].'Action' : 'viewAction';
+		
+    if (isset($splits[2]) && !empty(trim ($splits[2]))){
+      $this->parameter = trim($splits[2]);
+		} else {
+			$this->parameter = 0; // @todo
+		}
 	}
 	
 	/**
@@ -84,14 +110,19 @@ class Router implements RouterInterface {
 	 * @param string $controller
 	 * @throws \Exception
 	 */
-	private function validateController (string $controller) {
+	private function validateController (string $controller, string $method) {
 		
-		if (! class_exists($controller)) {
+		if (class_exists ($controller)) {
+			$rc = new \ReflectionClass($controller);
+			if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerInterface')) {
+				if(! $rc->hasMethod ($method)) {
+					throw new \Exception (t('Controller does not have method: ') . $method);
+				}
+			} else {
+				throw new \Exception (t('Controller does not implement ControllerInterface: ') . $controller);
+			}
+		} else {
 			throw new \Exception (t('Controller does not exists: ') . $controller);
-		}
-		if (! method_exists($controller, self::CONTROLLER_GETINSTANCE_METHOD)) {
-			throw new \Exception (t('Controller method ') .
-							self::CONTROLLER_GETINSTANCE_METHOD . ' does not exists: ' . $controller);
 		}
 	}
 

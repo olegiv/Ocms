@@ -2,6 +2,8 @@
 
 namespace Ocms\core\model;
 
+use Ocms\core\service\Configuration\ConfigurationService;
+
 /**
  * Description of ModelSQLite
  *
@@ -10,7 +12,7 @@ namespace Ocms\core\model;
 class ModelSQLite implements ModelSQLiteInterface {
 
 	const DBFile = 'data/scms.db';
-	const INSTALLFile = 'Ocms/install/sqlite.sql';
+	const INSTALLFile = 'install/sqlite.sql';
 
 	/**
 	 *
@@ -116,10 +118,10 @@ class ModelSQLite implements ModelSQLiteInterface {
 	 */
 	private function getInitSql (): string {
 		
-		if (!($sqls = file (self::INSTALLFile))) {
+		if (!($sql = file_get_contents (self::INSTALLFile))) {
 			throw new \Exception ('Cannot open file: ' . self::INSTALLFile);
 		}
-		return implode("\n", $sqls);
+		return str_replace ('#dbPrefix#', ConfigurationService::getInstance()->getDbPrefix(), $sql);
 	}
 
 }

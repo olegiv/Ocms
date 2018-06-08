@@ -12,6 +12,6 @@ interface ControllerBaseInterface {
 	/**
 	 * 
 	 */
-	public function run ();
+	//public function init (int $nodeId);
 	
 }

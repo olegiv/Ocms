@@ -2,20 +2,19 @@
 
 namespace Ocms\core\controller;
 
-use Ocms\core\service\Configuration\ConfigurationService;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;
 
 /**
- * Description of FrontController
+ * Description of NodeController
  *
  * @author olegiv
  */
-class FrontController extends ControllerBase implements ControllerInterface {
+class NodeController extends ControllerBase implements ControllerInterface {
 	
 	/**
 	 *
-	 * @var FrontController This class instance
+	 * @var NodeController This class instance
 	 */
 	static $_instance;
 	
@@ -29,13 +28,13 @@ class FrontController extends ControllerBase implements ControllerInterface {
 	 *
 	 * @var 
 	 */
-	public $node;
+	protected $node;
 
 	/**
 	 * 
-	 * @return FrontController
+	 * @return NodeController
 	 */
-  public static function getInstance(): FrontController {
+  public static function getInstance(): NodeController {
   
 		if(!(self::$_instance instanceof self)) {
       self::$_instance = new self();
@@ -54,9 +53,9 @@ class FrontController extends ControllerBase implements ControllerInterface {
 	 */
 	protected function init (int $nodeId = 0) {
 		
-		$this->nodeId = ConfigurationService::getInstance()->getHomePageId();
+		$this->nodeId = $nodeId;
 		if (!($this->node = Model::getInstance()->getNode($this->nodeId))) {
-			throw new \Exception('Cannot load Home page node');
+			throw new \Exception('Cannot load page node: ' . $this->nodeId);
 		}
 	}
 	
