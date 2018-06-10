@@ -48,13 +48,14 @@ class Model implements ModelInterface {
 	private function __construct() {
 		
 		$this->dbPrefix = ConfigurationService::getInstance()->getDbPrefix();
+		$this->initDb();
 	}
 
 	/**
 	 * 
 	 * @throws Ocms\core\exception\Exception
 	 */
-	public function init() {
+	private function initDb() {
 		
 		switch (($dbType = ConfigurationService::getInstance()->getDbType())) {
 			case 'sqlite':

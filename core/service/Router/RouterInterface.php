@@ -12,24 +12,19 @@ interface RouterInterface {
 	/**
 	 * 
 	 */
-	public function init ();
-
-	/**
-	 * 
-	 */
 	public function run ();
 	
 	/**
 	 * 
 	 * @return array
 	 */
-	public function getParams (): array;
+	//public function getParams (): array;
 	
 	/**
 	 * 
 	 * @param string $key
 	 * @return string
 	 */
-	public function getParam (string $key): string;
+	//public function getParam (string $key): string;
 	
 }

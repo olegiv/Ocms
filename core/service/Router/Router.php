@@ -11,9 +11,10 @@ use Ocms\core\exception\Exception;
  */
 class Router implements RouterInterface {
 	
-	const DEFAULT_CONTROLLER = 'Ocms\core\controller\FrontController';
+	const DEFAULT_CONTROLLER = 'FrontController';
+	const DEFAULT_ACTION = 'viewAction';
 	
-	const CONTROLLER_GETINSTANCE_METHOD = 'getInstance';
+	//const CONTROLLER_GETINSTANCE_METHOD = 'getInstance';
 	
 	const CONTROLLER_CLASS_PREFIX = 'Ocms\core\controller\\';
 
@@ -58,13 +59,6 @@ class Router implements RouterInterface {
 	 * 
 	 */
 	private function __construct() {}
-	
-	/**
-	 * 
-	 */
-	public function init () {
-
-	}
 
 	/**
 	 * 
@@ -96,9 +90,9 @@ class Router implements RouterInterface {
 		$request = getenv ('REQUEST_URI');
     $splits = explode('/', trim($request,'/'));
 
-    $this->controllerClass = !empty($splits[0]) ? ucfirst($splits[0]).'Controller' : 'FrontController';
+    $this->controllerClass = !empty($splits[0]) ? ucfirst($splits[0]).'Controller' : self::DEFAULT_CONTROLLER;
 		$this->controllerClass = self::CONTROLLER_CLASS_PREFIX . $this->controllerClass;
-    $this->controllerMethod = !empty($splits[1]) ? $splits[1].'Action' : 'viewAction';
+    $this->controllerMethod = !empty($splits[1]) ? $splits[1].'Action' : self::DEFAULT_ACTION;
 		
     if (isset($splits[2]) && !empty(trim ($splits[2]))){
       $this->parameter = trim($splits[2]);
@@ -118,13 +112,13 @@ class Router implements RouterInterface {
 			$rc = new \ReflectionClass($controller);
 			if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerInterface')) {
 				if(! $rc->hasMethod ($method)) {
-					throw new Exception (t('Controller does not have method: ') . $method);
+					throw new Exception (t('Controller %s does not have method %s', [$controller, $method]));
 				}
 			} else {
-				throw new Exception (t('Controller does not implement ControllerInterface: ') . $controller);
+				throw new Exception (t('Controller %s does not implement ControllerInterface', [$controller]));
 			}
 		} else {
-			throw new Exception (t('Controller does not exists: ') . $controller);
+			throw new Exception (t('Controller %s does not exists', [$controller]));
 		}
 	}
 
@@ -132,17 +126,17 @@ class Router implements RouterInterface {
 	 * 
 	 * @return array
 	 */
-	public function getParams (): array {
+	/*public function getParams (): array {
 		
 		return [];
-	}
+	}*/
 	
 	/**
 	 * 
 	 * @param string $key
 	 * @return string
 	 */
-	public function getParam (string $key): string {
+	/*public function getParam (string $key): string {
 		
 		$param = '';
 		if (($params = $this->getParams())) {
@@ -151,6 +145,6 @@ class Router implements RouterInterface {
 			}
 		}
 		return $param;
-	}
+	}*/
 
 }

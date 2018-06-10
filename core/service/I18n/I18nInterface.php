@@ -11,14 +11,7 @@ interface I18nInterface {
 	
 	/**
 	 * 
-	 */
-	public function init ();
-	
-	/**
-	 * 
-	 * @param string $string
-	 * @param string $lang
 	 * @return string
 	 */
-	public function translate (string $string, string $lang = ''): string;
+	public function translate (): string;
 }

@@ -8,11 +8,6 @@ namespace Ocms\core\view;
  * @author olegiv
  */
 interface ViewBaseInterface {
-	
-	/**
-	 * 
-	 */
-	public function init();
 
 	/**
 	 * 

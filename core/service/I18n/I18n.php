@@ -16,6 +16,12 @@ class I18n implements I18nInterface {
 	static $_instance;
 	
 	/**
+	 *
+	 * @var array
+	 */
+	private $lang_hash = [];
+	
+	/**
 	 * 
 	 * @return I18n
 	 */
@@ -30,25 +36,40 @@ class I18n implements I18nInterface {
 	/**
 	 * 
 	 */
-	private function __construct() {}
+	private function __construct() {
+		
+		$this->loadTranslations();
+	}
 	
 	/**
 	 * 
 	 */
-	public function init () {
+	private function loadTranslations () {
 
 	}
 
-/**
+	/**
 	 * 
-	 * @param string $string
-	 * @param string $lang
 	 * @return string
 	 */
-	public function translate (string $string, string $lang = ''): string {
+	public function translate (): string {
+		
+		$args = func_get_args ();
 
-		return $string;
-	}
-	
+		if (! ($original = array_shift ($args))) {
+			return '';
+		}
+
+		if (isset ($args[0]) && is_array ($args[0])) {
+			$args = $args[0];
+		}
+
+		foreach (array_keys ($this->lang_hash) as $lang) {
+			if (! empty ($this->lang_hash[$lang][$original])) {
+				return vsprintf ($this->lang_hash[$lang][$original], $args);
+			}
+		}
+
+		return vsprintf ($original, $args);
+	}	
 }
-

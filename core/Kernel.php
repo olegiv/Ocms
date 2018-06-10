@@ -2,6 +2,7 @@
 
 namespace Ocms\core;
 
+use Ocms\core\block\Block;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;
 use Ocms\core\service\Router\Router;
@@ -23,6 +24,12 @@ class Kernel implements KernelInterface {
 	static $_instance;
 	
 	/**
+	 *
+	 * @var Router 
+	 */
+	private $routerInstance;
+	
+	/**
 	 * 
 	 * @return Kernel
 	 */
@@ -37,17 +44,13 @@ class Kernel implements KernelInterface {
 	/**
 	 * 
 	 */
-	private function __construct() {}
-	
-	/**
-	 * 
-	 */
-	private function init() {
-
-		Model::getInstance()->init();
-		View::getInstance()->init();
-		I18n::getInstance()->init();
-		Router::getInstance()->init();
+	private function __construct() {
+				
+		Model::getInstance();
+		View::getInstance();
+		I18n::getInstance();
+		$this->routerInstance = Router::getInstance();
+		Block::getInstance();
 	}
 	
 	/**
@@ -55,7 +58,6 @@ class Kernel implements KernelInterface {
 	 */
 	public function run () {
 		
-		$this->init();
-		Router::getInstance()->run();
+		$this->routerInstance->run();
 	}
 }

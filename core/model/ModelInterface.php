@@ -8,7 +8,5 @@ namespace Ocms\core\model;
  * @author olegiv
  */
 interface ModelInterface {
-	
-	public function init ();
 
 }

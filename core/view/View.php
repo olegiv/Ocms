@@ -88,14 +88,6 @@ class View extends ViewBase {
 
 	/**
 	 * 
-	 */
-	public function init() {
-		
-		
-	}
-
-	/**
-	 * 
 	 * @param string $template
 	 * @param array $params
 	 * @return string

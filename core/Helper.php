@@ -4,12 +4,9 @@ use Ocms\core\service\I18n\I18n;
 
 /**
  * 
- * @param string $string
- * @param string $lang
  * @return string
  */
-function t(string $string, string $lang = ''): string {
+function t (): string {
 	
-	
-	return I18n::getInstance()->translate ($string, $lang);
+	return call_user_func_array (array (I18n::getInstance(), 'translate'), func_get_args ());
 }
