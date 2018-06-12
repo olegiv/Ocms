@@ -3,6 +3,7 @@
 namespace Ocms\core\controller;
 
 use Ocms\core\exception\Exception;
+use Ocms\core\block\Block;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;
 
@@ -68,7 +69,10 @@ class NodeController extends ControllerBase implements ControllerInterface {
 	public static function viewAction (int $nodeId = 0) {
 		
 		self::getInstance()->init ($nodeId);
-		echo View::getInstance()->render('index', (array) self::getInstance()->node);
+		echo View::getInstance()->render ('node', 
+			array_merge ((array) self::getInstance()->node,
+				['blocks' => Block::getInstance()->getBlocksForNode($nodeId)])
+		);
 	}
 	
 }

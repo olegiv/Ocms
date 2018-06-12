@@ -3,3 +3,24 @@
     Author     : olegiv
 */
 
+.node-title {
+	background-color: lightgray;
+}
+
+.node-body {
+	
+}
+
+.block {
+	border-width: 1px;
+	border-color: gray;
+	border-style: solid;
+}
+
+.block h3.title {
+	background-color: lightgray;
+}
+
+.block .body {
+	
+}

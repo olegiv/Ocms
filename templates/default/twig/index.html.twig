@@ -1,11 +1,26 @@
+<!DOCTYPE html>
 <html>
 	<head>
-		<title>{{ title }}</title>
-		<link href="templates/default/css/default.css" rel="stylesheet" type="text/css"/>
-		{{ head }}
+		{% block head %}
+			{{ include ('head.html.twig') }}
+		{% endblock %}
 	</head>
 	<body>
-		<h1>{{ title }}</h1>
-		{{ body | raw }}
+		{% block body %}
+			<div id="content">
+				{% block content %}
+					<h1 class="node-title">{{ title }}</h1>
+					{{ body | raw }}
+				{% endblock %}
+			</div>
+			{% block sidebar %}
+				{{ include ('sidebar.html.twig') }}
+			{% endblock %}
+		{% endblock %}
+		<div id="footer">
+			{% block footer %}
+				&copy; Copyright 2018 by <a href="https://opossum.su/" target="_blank">Opossum</a>.
+			{% endblock %}
+		</div>
 	</body>
 </html>

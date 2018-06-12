@@ -2,6 +2,8 @@
 
 namespace Ocms\core\block;
 
+use Ocms\core\model\Model;
+
 /**
  * Description of NodeController
  *
@@ -32,4 +34,13 @@ class Block extends BlockBase implements BlockInterface {
 	 */
 	private function __construct() {}
 	
+	/**
+	 * 
+	 * @param int $nodeId
+	 * @return array
+	 */
+	public function getBlocksForNode (int $nodeId): array {
+	
+		return Model::getInstance()->getBlocks();
+	}	
 }

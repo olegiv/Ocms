@@ -9,4 +9,10 @@ namespace Ocms\core\block;
  */
 interface BlockInterface {
 	
+	/**
+	 * 
+	 * @param int $nodeId
+	 * @return array
+	 */
+	public function getBlocksForNode (int $nodeId): array;
 }

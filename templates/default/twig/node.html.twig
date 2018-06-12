@@ -1,0 +1,13 @@
+{% extends "index.html.twig" %}
+
+{% block body %}
+	<div id="content">
+		{% block content %}
+			<h1 class="node-title">{{ title }}</h1>
+			{{ body | raw }}
+		{% endblock %}
+	</div>
+	{% block sidebar %}
+		{{ include ('sidebar.html.twig') }}
+	{% endblock %}
+{% endblock %}

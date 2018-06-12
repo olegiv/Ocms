@@ -79,11 +79,42 @@ class Model implements ModelInterface {
 		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'node WHERE id=?';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute([$nodeId]);
-		$node = $stmt->fetchObject();
-		if (! $node) {
-			throw new Exception('Cannot load node: ' . $nodeId);
+		if (! ($node = $stmt->fetchObject ())) {
+			throw new Exception (t ('Cannot load node: %s', $nodeId));
 		}
 		return $node;
 	}
-
+	
+	/**
+	 * 
+	 * @param int $blockId
+	 * @return \stdClass
+	 * @throws Ocms\core\exception\Exception
+	 */
+	public function getBlock (int $blockId): \stdClass {
+		
+		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'block WHERE id=?';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute([$blockId]);
+		if (! ($block = $stmt->fetchObject())) {
+			throw new Exception (t ('Cannot load block: %s', $blockId));
+		}
+		return $block;
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 * @throws Ocms\core\exception\Exception
+	 */
+	public function getBlocks (): array {
+		
+		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'block';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute();
+		if (! ($blocks = $stmt->fetchAll(\PDO::FETCH_OBJ))) {
+			throw new Exception (t ('Cannot load blocks'));
+		}
+		return $blocks;
+	}
 }
