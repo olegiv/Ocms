@@ -2,7 +2,7 @@
 
 namespace Ocms\core\controller;
 
-use Ocms\core\exception\Exception;
+use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\block\Block;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;
@@ -12,7 +12,7 @@ use Ocms\core\view\View;
  *
  * @author olegiv
  */
-class NodeController extends ControllerBase implements ControllerInterface {
+class NodeController extends NodeControllerBase implements ControllerInterface {
 	
 	/**
 	 *
@@ -20,18 +20,6 @@ class NodeController extends ControllerBase implements ControllerInterface {
 	 */
 	static $_instance;
 	
-	/**
-	 *
-	 * @var int 
-	 */
-	protected $nodeId;
-	
-	/**
-	 *
-	 * @var 
-	 */
-	protected $node;
-
 	/**
 	 * 
 	 * @return NodeController
@@ -46,33 +34,30 @@ class NodeController extends ControllerBase implements ControllerInterface {
 	
 	/**
 	 * 
-	 */
-	private function __construct() {}
-	
-	/**
-	 * 
 	 * @param int $nodeId
-	 * @throws Ocms\core\exception\Exception
+	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
-	protected function init (int $nodeId = 0) {
+	protected function get (int $nodeId = 0) {
 		
-		$this->nodeId = $nodeId;
-		if (!($this->node = Model::getInstance()->getNode($this->nodeId))) {
-			throw new Exception('Cannot load page node: ' . $this->nodeId);
+		try {
+			if (! ($node = Model::getInstance()->getNode ($nodeId))) {
+				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Cannot load page node: %s', $nodeId));
+			}
+		} catch (ExceptionRuntime $e) {
+			
 		}
+		return $node;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param int $nodeId
 	 */
 	public static function viewAction (int $nodeId = 0) {
-		
-		self::getInstance()->init ($nodeId);
-		echo View::getInstance()->render ('node', 
-			array_merge ((array) self::getInstance()->node,
-				['blocks' => Block::getInstance()->getBlocksForNode($nodeId)])
+
+		echo View::getInstance()->render ('node',
+			array_merge ((array) self::getInstance()->get ($nodeId),
+				['blocks' => Block::getInstance()->getBlocksForNode ($nodeId)])
 		);
 	}
-	
 }

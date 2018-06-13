@@ -15,4 +15,10 @@ interface BlockInterface {
 	 * @return array
 	 */
 	public function getBlocksForNode (int $nodeId): array;
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function getBlocksForBlogIndex (): array;
 }

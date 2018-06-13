@@ -42,5 +42,15 @@ class Block extends BlockBase implements BlockInterface {
 	public function getBlocksForNode (int $nodeId): array {
 	
 		return Model::getInstance()->getBlocks();
-	}	
+	}
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function getBlocksForBlogIndex (): array {
+
+		return Model::getInstance()->getBlocksForBlogIndex();
+	}
+
 }

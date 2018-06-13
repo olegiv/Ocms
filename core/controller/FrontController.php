@@ -2,7 +2,7 @@
 
 namespace Ocms\core\controller;
 
-use Ocms\core\exception\Exception;
+use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\service\Configuration\ConfigurationService;
 use Ocms\core\block\Block;
 use Ocms\core\model\Model;
@@ -13,7 +13,7 @@ use Ocms\core\view\View;
  *
  * @author olegiv
  */
-class FrontController extends ControllerBase implements ControllerInterface {
+class FrontController extends NodeControllerBase implements ControllerInterface {
 	
 	/**
 	 *
@@ -22,57 +22,43 @@ class FrontController extends ControllerBase implements ControllerInterface {
 	static $_instance;
 	
 	/**
-	 *
-	 * @var int 
-	 */
-	protected $nodeId;
-	
-	/**
-	 *
-	 * @var 
-	 */
-	public $node;
-
-	/**
 	 * 
 	 * @return FrontController
 	 */
   public static function getInstance(): FrontController {
   
 		if(!(self::$_instance instanceof self)) {
-      self::$_instance = new self();
+			self::$_instance = new self();
 		}
     return self::$_instance;
   }
 	
 	/**
-	 * 
-	 */
-	private function __construct() {}
-	
-	/**
-	 * 
+	 *
 	 * @param int $nodeId
+	 * @return \stdClass
+	 * @throws ExceptionRuntime
 	 */
-	protected function init (int $nodeId = 0) {
+	protected function get ($nodeId) {
 		
-		$this->nodeId = ConfigurationService::getInstance()->getHomePageId();
-		if (!($this->node = Model::getInstance()->getNode($this->nodeId))) {
-			throw new Exception('Cannot load Home page node');
+		if (!($node = Model::getInstance()->getNode($nodeId))) {
+			throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, 'Cannot load Home page node: %s', $nodeId);
 		}
+		return $node;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param int $nodeId
 	 */
-	public static function viewAction (int $nodeId = 0) {
-		
-		self::getInstance()->init ($nodeId);
-		echo View::getInstance()->render ('node', 
-			array_merge ((array) self::getInstance()->node,
+	public static function viewAction(int $nodeId = 0) {
+
+		if (! ($nodeId = ConfigurationService::getInstance()->getHomePageId ())) {
+			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Cannot get home page ID'));
+		}
+		echo View::getInstance()->render ('node',
+			array_merge ((array) self::getInstance()->get($nodeId),
 				['blocks' => Block::getInstance()->getBlocksForNode($nodeId)])
 		);
 	}
-	
 }

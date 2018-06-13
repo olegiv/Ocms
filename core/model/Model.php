@@ -2,7 +2,7 @@
 
 namespace Ocms\core\model;
 
-use Ocms\core\exception\Exception;
+use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\service\Configuration\ConfigurationService;
 
 /**
@@ -53,7 +53,7 @@ class Model implements ModelInterface {
 
 	/**
 	 * 
-	 * @throws Ocms\core\exception\Exception
+	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
 	private function initDb() {
 		
@@ -64,7 +64,7 @@ class Model implements ModelInterface {
 			case 'mysql':
 				break;
 			default:
-				throw new Exception ('Bad DB type: ' . $dbType);
+				throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Bad DB type: %s', $dbType));
 		}
 	}
 	
@@ -72,49 +72,74 @@ class Model implements ModelInterface {
 	 * 
 	 * @param int $nodeId
 	 * @return \stdClass
-	 * @throws Ocms\core\exception\Exception
 	 */
-	public function getNode (int $nodeId): \stdClass {
+	public function getNode (int $nodeId) {
 		
 		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'node WHERE id=?';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute([$nodeId]);
-		if (! ($node = $stmt->fetchObject ())) {
-			throw new Exception (t ('Cannot load node: %s', $nodeId));
-		}
-		return $node;
+		return $stmt->fetchObject ();
 	}
-	
+
+	/**
+	 *
+	 * @param int $blogId
+	 * @return \stdClass
+	 */
+	public function getBlog (int $blogId) {
+
+		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'blog WHERE id=?';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute([$blogId]);
+		return $stmt->fetchObject();
+	}
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function getBlogs () {
+
+		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'blog';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute();
+		return $stmt->fetchAll(\PDO::FETCH_OBJ);
+	}
+
 	/**
 	 * 
 	 * @param int $blockId
 	 * @return \stdClass
-	 * @throws Ocms\core\exception\Exception
 	 */
-	public function getBlock (int $blockId): \stdClass {
+	public function getBlock (int $blockId) {
 		
 		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'block WHERE id=?';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute([$blockId]);
-		if (! ($block = $stmt->fetchObject())) {
-			throw new Exception (t ('Cannot load block: %s', $blockId));
-		}
-		return $block;
+		return $stmt->fetchObject();
 	}
 	
 	/**
 	 * 
 	 * @return array
-	 * @throws Ocms\core\exception\Exception
 	 */
-	public function getBlocks (): array {
+	public function getBlocks () {
 		
 		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'block';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
-		if (! ($blocks = $stmt->fetchAll(\PDO::FETCH_OBJ))) {
-			throw new Exception (t ('Cannot load blocks'));
-		}
-		return $blocks;
+		return $stmt->fetchAll(\PDO::FETCH_OBJ);
+	}
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function getBlocksForBlogIndex () {
+
+		/**
+		 * @todo
+		 */
+		return $this->getBlocks ();
 	}
 }

@@ -22,5 +22,12 @@ interface ExceptionInterface {
 
 	public function __toString();								 // formated string for display
 
-	public function __construct($message = null, $code = 0);
+	/**
+	 *
+	 * @param int $type
+	 * @param string $message
+	 * @param int $code
+	 * @throws \Exception
+	 */
+	public function __construct (int $type, $message = null, $code = 0);
 }

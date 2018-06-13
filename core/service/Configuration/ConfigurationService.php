@@ -2,7 +2,7 @@
 
 namespace Ocms\core\service\Configuration;
 
-use Ocms\core\exception\Exception;
+use Ocms\core\exception\ExceptionFatal;
 
 /**
  * Description of ConfigurationService
@@ -10,6 +10,8 @@ use Ocms\core\exception\Exception;
  * @author olegiv
  */
 class ConfigurationService implements ConfigurationServiceInterface {
+
+	const GLOBAL_CONF_FILE = 'conf/global.json';
 	
 	/**
 	 *
@@ -30,7 +32,7 @@ class ConfigurationService implements ConfigurationServiceInterface {
   public static function getInstance(): ConfigurationService {
   
 		if(!(self::$_instance instanceof self)) {
-      self::$_instance = new self();
+			self::$_instance = new self();
 		}
     return self::$_instance;
   }
@@ -45,19 +47,17 @@ class ConfigurationService implements ConfigurationServiceInterface {
 
 	/**
 	 * 
-	 * @throws Ocms\core\exception\Exception
+	 * @throws Ocms\core\exception\ExceptionFatal
 	 */
 	private function loadConfigurationGlobal() {
 		
-		try {
-			if (! ($confJson = file_get_contents ('conf/global.json'))) {
-				throw new Exception(t('Cannot open global configuration file: ') . $e->getMessage());
-			}
-			if (! ($this->configurationGlobal = json_decode ($confJson))) {
-				throw new Exception(t('Cannot parse global configuration: ') . $e->getMessage());
-			}
-		} catch (Exception $e) {
-			die (t('Cannot load global configuration: ') . $e->getMessage());
+		if (! ($confJson = file_get_contents (self::GLOBAL_CONF_FILE))) {
+			throw new ExceptionFatal (ExceptionFatal::E_FATAL,
+				t('Cannot open global configuration file'));
+		}
+		if (! ($this->configurationGlobal = json_decode ($confJson))) {
+			throw new ExceptionFatal (ExceptionFatal::E_FATAL,
+				t ('Cannot parse global configuration'));
 		}
 	}
 
@@ -91,7 +91,7 @@ class ConfigurationService implements ConfigurationServiceInterface {
 		if (isset($this->configurationGlobal->Site->homepageId)) {
 			$homePageId = (int)$this->configurationGlobal->Site->homepageId;
 		} else {
-			$homePageId = 0;
+			$homePageId = 1;
 		}
 		return $homePageId;
 	}

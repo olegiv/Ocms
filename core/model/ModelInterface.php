@@ -13,15 +13,25 @@ interface ModelInterface {
 	 * 
 	 * @param int $nodeId
 	 * @return \stdClass
-	 * @throws Ocms\core\exception\Exception
 	 */
-	public function getNode (int $nodeId): \stdClass;
+	public function getNode (int $nodeId);
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function getBlogs ();
 	
 	/**
 	 * 
 	 * @param int $blockId
 	 * @return \stdClass
-	 * @throws Ocms\core\exception\Exception
 	 */
-	public function getBlock (int $blockId): \stdClass;
+	public function getBlock (int $blockId);
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function getBlocksForBlogIndex ();
 }

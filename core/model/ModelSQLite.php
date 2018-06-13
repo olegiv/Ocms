@@ -2,7 +2,7 @@
 
 namespace Ocms\core\model;
 
-use Ocms\core\exception\Exception;
+use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\service\Configuration\ConfigurationService;
 
 /**
@@ -90,7 +90,12 @@ class ModelSQLite implements ModelSQLiteInterface {
 			die();
 		}
 	}
-	
+
+	/**
+	 *
+	 * @param string $sql
+	 * @throws Ocms\core\exception\ExceptionRuntime
+	 */
 	private function transaction (string $sql) {
 		
 		try {
@@ -98,8 +103,8 @@ class ModelSQLite implements ModelSQLiteInterface {
 			$this->db->exec($sql);
 			$this->db->commit();
 		} catch (\PDOException $e) {
-			echo $e->getMessage();
 			$this->db->rollBack();
+			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, $e->getMessage());
 		}
 	}
 
@@ -107,9 +112,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 	 * 
 	 */
 	private function connect() {
-
 		
-		//if (($dbFile = $this->file))
 		$this->db = new \PDO('sqlite:' . self::DBFile);
 		$this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
@@ -126,12 +129,12 @@ class ModelSQLite implements ModelSQLiteInterface {
 	/**
 	 * 
 	 * @return string
-	 * @throws Ocms\core\exception\Exception
+	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
 	private function getInitSql (): string {
 		
 		if (!($sql = file_get_contents (self::INSTALLFile))) {
-			throw new Exception ('Cannot open file: ' . self::INSTALLFile);
+			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t('Cannot open file: %s', self::INSTALLFile));
 		}
 		return str_replace ('#dbPrefix#', ConfigurationService::getInstance()->getDbPrefix(), $sql);
 	}

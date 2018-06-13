@@ -6,6 +6,9 @@
 		{% block content %}
 			<h1 class="node-title">{{ title }}</h1>
 			{{ body | raw }}
+			{% for blog in blogs %}
+				{% include "blog-list-item.html.twig" %}
+			{% endfor %}
 		{% endblock %}
 	</div>
 	{{ include ('sidebar/left.html.twig') }}

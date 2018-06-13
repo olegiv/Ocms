@@ -92,9 +92,13 @@ class View extends ViewBase {
 	 * @param array $params
 	 * @return string
 	 */
-	public function render(string $template, array $params = []): string {
+	public function render (string $template, array $params = []): string {
 
-		return $this->twigObj->render($template . '.html.twig', $params);
+		try {
+			return $this->twigObj->render($template . '.html.twig', $params);
+		} catch (\Exception $e) {
+			echo ($e->getMessage ());
+		}
 	}
 
 }

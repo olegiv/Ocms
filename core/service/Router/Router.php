@@ -2,7 +2,7 @@
 
 namespace Ocms\core\service\Router;
 
-use Ocms\core\exception\Exception;
+use Ocms\core\exception\ExceptionRuntime;
 
 /**
  * Description of Router
@@ -13,8 +13,6 @@ class Router implements RouterInterface {
 	
 	const DEFAULT_CONTROLLER = 'FrontController';
 	const DEFAULT_ACTION = 'viewAction';
-	
-	//const CONTROLLER_GETINSTANCE_METHOD = 'getInstance';
 	
 	const CONTROLLER_CLASS_PREFIX = 'Ocms\core\controller\\';
 
@@ -50,7 +48,7 @@ class Router implements RouterInterface {
   public static function getInstance(): Router {
   
 		if(!(self::$_instance instanceof self)) {
-      self::$_instance = new self();
+			self::$_instance = new self();
 		}
     return self::$_instance;
   }
@@ -64,22 +62,24 @@ class Router implements RouterInterface {
 	 * 
 	 */
 	public function run () {
-		
+
 		try {
-			$this->setController();
-			call_user_func ($this->controllerClass . '::' . $this->controllerMethod, $this->parameter);
-		} catch (Exception $e) {
+			if ($this->setController()) {
+				call_user_func ($this->controllerClass . '::' . $this->controllerMethod, $this->parameter);
+			}
+		} catch (\Exception $e) {
 			echo $e->getMessage();
 		}
 	}
 	
 	/**
 	 * 
+	 * @return bool
 	 */
-	private function setController () {
+	private function setController (): bool {
 		
 		$this->getControllerFromRequest();
-		$this->validateController($this->controllerClass, $this->controllerMethod);
+		return $this->validateController($this->controllerClass, $this->controllerMethod);
 	}
 	
 	/**
@@ -104,22 +104,32 @@ class Router implements RouterInterface {
 	/**
 	 * 
 	 * @param string $controller
-	 * @throws Ocms\core\exception\Exception
+	 * @return bool
+	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
-	private function validateController (string $controller, string $method) {
+	private function validateController (string $controller, string $method): bool {
 		
-		if (class_exists ($controller)) {
-			$rc = new \ReflectionClass($controller);
-			if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerInterface')) {
-				if(! $rc->hasMethod ($method)) {
-					throw new Exception (t('Controller %s does not have method %s', [$controller, $method]));
+		$return = TRUE;
+		try {
+			if (class_exists ($controller)) {
+				$rc = new \ReflectionClass($controller);
+				if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerInterface')) {
+					if(! $rc->hasMethod ($method)) {
+						throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
+							t('Controller %s does not have method %s', $controller, $method));
+					}
+				} else {
+					throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
+						t('Controller %s does not implement ControllerInterface', $controller));
 				}
 			} else {
-				throw new Exception (t('Controller %s does not implement ControllerInterface', [$controller]));
+				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND,
+					t('Controller %s does not exists', $controller));
 			}
-		} else {
-			throw new Exception (t('Controller %s does not exists', [$controller]));
+		} catch (ExceptionRuntime $e) {
+			$return = FALSE;
 		}
+		return $return;
 	}
 
 	/**
