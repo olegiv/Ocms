@@ -1,5 +1,10 @@
 {
-    "require": {
-        "twig/twig": "^2.0"
-    }
+	"name": "opossum/cms",
+	"description": "The Opossum CMS",
+	"keywords": ["cms", "content management", "wysiwyg", "opossum"],
+	"homepage": "https://ocms.tech/",
+	"require": {
+		"php": ">=7.0.0",
+		"twig/twig": "^2.0"
+	}
 }
