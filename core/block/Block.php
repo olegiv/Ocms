@@ -2,7 +2,7 @@
 
 namespace Ocms\core\block;
 
-use Ocms\core\model\Model;
+use Ocms\core\Kernel;
 
 /**
  * Description of NodeController
@@ -41,7 +41,7 @@ class Block extends BlockBase implements BlockInterface {
 	 */
 	public function getBlocksForNode (int $nodeId): array {
 	
-		return Model::getInstance()->getBlocks();
+		return Kernel::$modelObj->getBlocks();
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Block extends BlockBase implements BlockInterface {
 	 */
 	public function getBlocksForBlogIndex (): array {
 
-		return Model::getInstance()->getBlocksForBlogIndex();
+		return Kernel::$modelObj->getBlocksForBlogIndex();
 	}
 
 }

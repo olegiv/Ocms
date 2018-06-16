@@ -45,9 +45,9 @@ DROP TABLE IF EXISTS `#dbPrefix#sidebar`;
 
 CREATE TABLE `#dbPrefix#sidebar` ( `id` TEXT PRIMARY KEY, `title` TEXT, `body` TEXT );
 
-INSERT INTO `#dbPrefix#sidebar` (title, body) VALUES
-	('sidebar1', 'Sidebar 1'),
-	('sidebar2', 'Sidebar 2');
+INSERT INTO `#dbPrefix#sidebar` (id, title, body) VALUES
+	('sidebar1', 'Sidebar 1', ''),
+	('sidebar2', 'Sidebar 2', '');
 
 /* block */
 

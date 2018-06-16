@@ -1,6 +1,6 @@
 <?php
 
-use Ocms\core\service\I18n\I18n;
+use Ocms\core\Kernel;
 
 /**
  * 
@@ -8,7 +8,7 @@ use Ocms\core\service\I18n\I18n;
  */
 function t (): string {
 	
-	return call_user_func_array (array (I18n::getInstance(), 'translate'), func_get_args ());
+	return call_user_func_array (array (Kernel::$i18nObj, 'translate'), func_get_args ());
 }
 
 /**

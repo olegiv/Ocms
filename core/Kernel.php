@@ -2,11 +2,16 @@
 
 namespace Ocms\core;
 
+use Ocms\core\service\Configuration\ConfigurationService;
 use Ocms\core\block\Block;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;
 use Ocms\core\service\Router\Router;
 use Ocms\core\service\I18n\I18n;
+
+use Ocms\core\controller\NodeController;
+use Ocms\core\controller\FrontController;
+use Ocms\core\controller\BlogController;
 
 require_once 'core/Helper.php';
 
@@ -19,19 +24,67 @@ class Kernel implements KernelInterface {
 	
 	/**
 	 *
-	 * @var Kernel This class instance
+	 * @var Ocms\core\Kernel This class instance
 	 */
 	static $_instance;
 	
 	/**
 	 *
-	 * @var Router 
+	 * @var Ocms\core\service\Router 
 	 */
-	private $routerInstance;
+	public static $routerObj;
 	
 	/**
+	 *
+	 * @var Ocms\core\service\Configuration\ConfigurationService 
+	 */
+	public static $configurationObj;
+
+	/**
+	 *
+	 * @var Ocms\core\model\Model
+	 */
+	public static $modelObj;
+
+	/**
+	 *
+	 * @var Ocms\core\view\View 
+	 */
+	public static $viewObj;
+	
+	/**
+	 *
+	 * @var Ocms\core\service\I18n 
+	 */
+	public static $i18nObj;
+	
+	/**
+	 *
+	 * @var Ocms\core\block\Block 
+	 */
+	public static $blockObj;
+	
+	/**
+	 *
+	 * @var Ocms\core\controller\NodeController 
+	 */
+	public static $nodeControllerObj;
+	
+	/**
+	 *
+	 * @var Ocms\core\controller\FrontController 
+	 */
+	public static $frontControllerObj;
+	
+	/**
+	 *
+	 * @var Ocms\core\controller\BlogController 
+	 */
+	public static $blogControllerObj;
+
+	/**
 	 * 
-	 * @return Kernel
+	 * @return Ocms\core\Kernel
 	 */
   public static function getInstance(): Kernel {
   
@@ -46,11 +99,16 @@ class Kernel implements KernelInterface {
 	 */
 	private function __construct() {
 				
-		Model::getInstance();
-		View::getInstance();
-		I18n::getInstance();
-		$this->routerInstance = Router::getInstance();
-		Block::getInstance();
+		self::$configurationObj = ConfigurationService::getInstance();
+		$this->setEnv();
+		self::$modelObj = Model::getInstance();
+		self::$viewObj = View::getInstance();
+		self::$i18nObj = I18n::getInstance();
+		self::$routerObj = Router::getInstance();
+		self::$blockObj = Block::getInstance();
+		self::$nodeControllerObj = NodeController::getInstance();
+		self::$frontControllerObj = FrontController::getInstance();
+		self::$blogControllerObj = BlogController::getInstance();
 	}
 	
 	/**
@@ -58,6 +116,16 @@ class Kernel implements KernelInterface {
 	 */
 	public function run () {
 		
-		$this->routerInstance->run();
+		self::$routerObj->run();
+	}
+	
+	/**
+	 * 
+	 */
+	private function setEnv () {
+		
+		if (($errorReporting = self::$configurationObj->getConfigurationGlobal('Server')->error_reporting)) {
+			error_reporting($errorReporting);
+		}
 	}
 }

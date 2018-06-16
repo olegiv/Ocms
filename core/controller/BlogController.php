@@ -3,9 +3,7 @@
 namespace Ocms\core\controller;
 
 use Ocms\core\exception\ExceptionRuntime;
-use Ocms\core\block\Block;
-use Ocms\core\model\Model;
-use Ocms\core\view\View;
+use Ocms\core\Kernel;
 
 /**
  * Description of BlogController
@@ -16,13 +14,13 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	
 	/**
 	 *
-	 * @var NodeController This class instance
+	 * @var Ocms\core\controller\BlogController This class instance
 	 */
 	static $_instance;
 
 	/**
 	 * 
-	 * @return BlogController
+	 * @return Ocms\core\controller\BlogController
 	 */
   public static function getInstance(): BlogController {
   
@@ -41,7 +39,7 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	protected function get (int $nodeId = 0) {
 
 		try {
-			if (!($blog = Model::getInstance()->getBlog($nodeId))) {
+			if (!($blog = Kernel::$modelObj->getBlog($nodeId))) {
 				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Cannot load blog: %s', $nodeId));
 			}
 		} catch (ExceptionRuntime $e) {}
@@ -56,7 +54,7 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	protected function getList () {
 
 		try {
-			if (!($blogs = Model::getInstance()->getBlogs())) {
+			if (!($blogs = Kernel::$modelObj->getBlogs())) {
 				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Cannot load blogs'));
 			}
 		} catch (ExceptionRuntime $e) {}
@@ -68,11 +66,11 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	 */
 	public static function indexAction () {
 
-		if (($blogs = self::getInstance ()->getList ())) {
-			echo View::getInstance()->render ('blogs',
+		if (($blogs = Kernel::$blogControllerObj->getList ())) {
+			echo Kernel::$viewObj->render ('extend/blogs',
 				array_merge (
 					['blogs' => $blogs],
-					['blocks' => Block::getInstance()->getBlocksForBlogIndex()])
+					['blocks' => Kernel::$blockObj->getBlocksForBlogIndex()])
 			);
 		}
 	}
@@ -83,8 +81,8 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	 */
 	public static function renderList () {
 
-		if (($blogs = self::getInstance ()->getList ())) {
-			$html = View::getInstance()->render ('blogs',	['blogs' => $blogs]);
+		if (($blogs = Kernel::$blogControllerObj->getList ())) {
+			$html = Kernel::$viewObj->render ('extend/blogs',	['blogs' => $blogs]);
 		}
 		return $html;
 	}
@@ -95,10 +93,10 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	 */
 	public static function viewAction (int $nodeId = 0) {
 
-		if (($node = self::getInstance()->get ($nodeId))) {
-			echo View::getInstance()->render ('blog',
+		if (($node = Kernel::$blogControllerObj->get ($nodeId))) {
+			echo Kernel::$viewObj->render ('extend/blog',
 				array_merge ((array)$node,
-					['blocks' => Block::getInstance()->getBlocksForNode($nodeId)])
+					['blocks' => Kernel::$blockObj->getBlocksForNode($nodeId)])
 			);
 		}
 	}

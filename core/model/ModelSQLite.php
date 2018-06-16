@@ -3,7 +3,7 @@
 namespace Ocms\core\model;
 
 use Ocms\core\exception\ExceptionRuntime;
-use Ocms\core\service\Configuration\ConfigurationService;
+use Ocms\core\Kernel;
 
 /**
  * Description of ModelSQLite
@@ -50,7 +50,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 	 */
 	private function __construct() {
 		
-		$this->conf = ConfigurationService::getInstance()->getConfigurationGlobal('DB');
+		$this->conf = Kernel::$configurationObj->getConfigurationGlobal('DB');
 	}
 
 	/**
@@ -136,7 +136,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 		if (!($sql = file_get_contents (self::INSTALLFile))) {
 			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t('Cannot open file: %s', self::INSTALLFile));
 		}
-		return str_replace ('#dbPrefix#', ConfigurationService::getInstance()->getDbPrefix(), $sql);
+		return str_replace ('#dbPrefix#', Kernel::$configurationObj->getDbPrefix(), $sql);
 	}
 
 }

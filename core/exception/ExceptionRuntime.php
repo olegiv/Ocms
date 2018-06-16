@@ -2,7 +2,7 @@
 
 namespace Ocms\core\exception;
 
-use Ocms\core\view\View;
+use Ocms\core\Kernel;
 
 /**
  * Description of Exception
@@ -23,12 +23,16 @@ class ExceptionRuntime extends ExceptionBase implements ExceptionInterface {
 		parent::__construct ($type, $message, $code);
 		
 		switch ($type) {
+			case self::E_CONTINUE:
+				// @todo
+				// Log
+				break;
 			case self::E_ACCESS_DENIED:
 			case self::E_NOT_FOUND:
 			case self::E_METHOD_NOT_ALLOWED:
 			case self::E_FATAL:
 				http_response_code($type);
-				echo View::getInstance()->render('errors/runtime',
+				echo Kernel::$viewObj->render('extend/error/runtime',
 								['message' => $this->getMessage (), 'type' => $type]);
 				break;
 			default:

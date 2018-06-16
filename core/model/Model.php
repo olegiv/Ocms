@@ -3,7 +3,7 @@
 namespace Ocms\core\model;
 
 use Ocms\core\exception\ExceptionRuntime;
-use Ocms\core\service\Configuration\ConfigurationService;
+use Ocms\core\Kernel;
 
 /**
  * Description of Model
@@ -47,7 +47,7 @@ class Model implements ModelInterface {
 	 */
 	private function __construct() {
 		
-		$this->dbPrefix = ConfigurationService::getInstance()->getDbPrefix();
+		$this->dbPrefix = Kernel::$configurationObj->getDbPrefix();
 		$this->initDb();
 	}
 
@@ -57,7 +57,7 @@ class Model implements ModelInterface {
 	 */
 	private function initDb() {
 		
-		switch (($dbType = ConfigurationService::getInstance()->getDbType())) {
+		switch (($dbType = Kernel::$configurationObj->getDbType())) {
 			case 'sqlite':
 				$this->db = ModelSQLite::getInstance()->init();
 				break;

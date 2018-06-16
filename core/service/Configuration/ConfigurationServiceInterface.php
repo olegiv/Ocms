@@ -11,9 +11,9 @@ interface ConfigurationServiceInterface {
 	
 	/**
 	 * 
-	 * @return ConfigurationService
+	 * @return Ocms\core\service\ConfigurationService
 	 */
-  public static function getInstance(); 
+  public static function getInstance(): ConfigurationService; 
 	
 	/**
 	 * 

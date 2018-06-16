@@ -2,7 +2,8 @@
 
 namespace Ocms\core\view;
 
-use Ocms\core\service\Configuration\ConfigurationService;
+use Ocms\core\Kernel;
+use Ocms\core\exception\ExceptionRuntime;
 
 /**
  * Description of View
@@ -50,7 +51,7 @@ class View extends ViewBase {
 	 */
 	private function __construct() {
 		
-		$this->conf = ConfigurationService::getInstance()->getConfigurationGlobal();
+		$this->conf = Kernel::$configurationObj->getConfigurationGlobal();
 		$loader = new \Twig_Loader_Filesystem ($this->getTwigPath());
 		$this->twigObj = new \Twig_Environment ($loader, $this->getTwigOptions());
 	}
@@ -91,14 +92,17 @@ class View extends ViewBase {
 	 * @param string $template
 	 * @param array $params
 	 * @return string
+	 * @throws \Ocms\core\exception\ExceptionFatal
 	 */
 	public function render (string $template, array $params = []): string {
 
 		try {
-			return $this->twigObj->render($template . '.html.twig', $params);
+			$return = $this->twigObj->render($template . '.html.twig', $params);
 		} catch (\Exception $e) {
-			echo ($e->getMessage ());
+			throw new ExceptionRuntime (ExceptionRuntime::E_CONTINUE, $e->getMessage ());
+			//$return = '';
 		}
+		return $return;
 	}
 
 }

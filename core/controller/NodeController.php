@@ -2,10 +2,8 @@
 
 namespace Ocms\core\controller;
 
+use Ocms\core\Kernel;
 use Ocms\core\exception\ExceptionRuntime;
-use Ocms\core\block\Block;
-use Ocms\core\model\Model;
-use Ocms\core\view\View;
 
 /**
  * Description of NodeController
@@ -16,13 +14,13 @@ class NodeController extends NodeControllerBase implements ControllerInterface {
 	
 	/**
 	 *
-	 * @var NodeController This class instance
+	 * @var Ocms\core\controller\NodeController This class instance
 	 */
 	static $_instance;
 	
 	/**
 	 * 
-	 * @return NodeController
+	 * @return Ocms\core\controller\NodeController
 	 */
   public static function getInstance(): NodeController {
   
@@ -40,7 +38,7 @@ class NodeController extends NodeControllerBase implements ControllerInterface {
 	protected function get (int $nodeId = 0) {
 		
 		try {
-			if (! ($node = Model::getInstance()->getNode ($nodeId))) {
+			if (! ($node = Kernel::$modelObj->getNode ($nodeId))) {
 				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Cannot load page node: %s', $nodeId));
 			}
 		} catch (ExceptionRuntime $e) {
@@ -55,9 +53,9 @@ class NodeController extends NodeControllerBase implements ControllerInterface {
 	 */
 	public static function viewAction (int $nodeId = 0) {
 
-		echo View::getInstance()->render ('node',
-			array_merge ((array) self::getInstance()->get ($nodeId),
-				['blocks' => Block::getInstance()->getBlocksForNode ($nodeId)])
+		echo Kernel::$viewObj->render ('extend/node',
+			array_merge ((array) Kernel::$nodeControllerObj->get ($nodeId),
+				['blocks' => Kernel::$blockObj->getBlocksForNode ($nodeId)])
 		);
 	}
 }

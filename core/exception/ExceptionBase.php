@@ -4,6 +4,7 @@ namespace Ocms\core\exception;
 
 abstract class ExceptionBase extends \Exception implements ExceptionInterface {
 
+	const E_CONTINUE = 100;
 	const E_ACCESS_DENIED = 403;
 	const E_NOT_FOUND = 404;
 	const E_METHOD_NOT_ALLOWED = 405;

@@ -3,10 +3,7 @@
 namespace Ocms\core\controller;
 
 use Ocms\core\exception\ExceptionRuntime;
-use Ocms\core\service\Configuration\ConfigurationService;
-use Ocms\core\block\Block;
-use Ocms\core\model\Model;
-use Ocms\core\view\View;
+use Ocms\core\Kernel;
 
 /**
  * Description of FrontController
@@ -17,13 +14,13 @@ class FrontController extends NodeControllerBase implements ControllerInterface 
 	
 	/**
 	 *
-	 * @var FrontController This class instance
+	 * @var Ocms\core\controller\FrontController This class instance
 	 */
 	static $_instance;
 	
 	/**
 	 * 
-	 * @return FrontController
+	 * @return Ocms\core\controller\FrontController
 	 */
   public static function getInstance(): FrontController {
   
@@ -37,11 +34,11 @@ class FrontController extends NodeControllerBase implements ControllerInterface 
 	 *
 	 * @param int $nodeId
 	 * @return \stdClass
-	 * @throws ExceptionRuntime
+	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
 	protected function get ($nodeId) {
 		
-		if (!($node = Model::getInstance()->getNode($nodeId))) {
+		if (!($node = Kernel::$modelObj->getNode($nodeId))) {
 			throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, 'Cannot load Home page node: %s', $nodeId);
 		}
 		return $node;
@@ -53,12 +50,12 @@ class FrontController extends NodeControllerBase implements ControllerInterface 
 	 */
 	public static function viewAction(int $nodeId = 0) {
 
-		if (! ($nodeId = ConfigurationService::getInstance()->getHomePageId ())) {
+		if (! ($nodeId = Kernel::$configurationObj->getHomePageId ())) {
 			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Cannot get home page ID'));
 		}
-		echo View::getInstance()->render ('node',
-			array_merge ((array) self::getInstance()->get($nodeId),
-				['blocks' => Block::getInstance()->getBlocksForNode($nodeId)])
+		echo Kernel::$viewObj->render ('extend/node',
+			array_merge ((array) Kernel::$frontControllerObj->get($nodeId),
+				['blocks' => Kernel::$blockObj->getBlocksForNode($nodeId)])
 		);
 	}
 }
