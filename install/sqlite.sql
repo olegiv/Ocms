@@ -24,9 +24,9 @@ CREATE TABLE `#dbPrefix#node` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` 
 	`body` TEXT, `keywords` TEXT, `description` TEXT);
 
 INSERT INTO `#dbPrefix#node` (id, title, body, keywords, description) VALUES
-  (1, 'Homepage', '<h2>This is Opossum CMS Homepage</h2><p>Hello Opossum!</p>', 'opossum,possum', 'Opossum CMS Homepage');
-INSERT INTO `#dbPrefix#node` (title, body, keywords, description) VALUES
-	('Test Page', '<h2>This is a test page for Oposum CMS</h2><p>How s life Possum?</p>', 'page1', 'OCMS page1');
+  (1, 'Homepage', '<h2>Welcome to Opossum CMS!</h2>', 'opossum,possum,CMS', 'Opossum CMS Homepage'),
+	(2, 'Blogs', '<h2>Opossum CMS Blogs</h2>', 'blog,blogs', 'Opossum CMS Blogs'),
+	(3, 'About', '<h2>Opossum CMS Blogs</h2>', 'about', 'About Opossum CMS');
 
 /* blog */
 
@@ -56,12 +56,22 @@ INSERT INTO `#dbPrefix#sidebar` (id, title) VALUES
 
 DROP TABLE IF EXISTS `#dbPrefix#block`;
 
-CREATE TABLE `#dbPrefix#block` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `id2_sidebar` TEXT,
-	`title` TEXT, `body` TEXT, `controller` TEXT,  FOREIGN KEY(id2_sidebar) REFERENCES #dbPrefix#sidebar(id));
+CREATE TABLE `#dbPrefix#block` ( 
+	`id` INTEGER PRIMARY KEY AUTOINCREMENT,
+	`id2_sidebar` TEXT,
+	`title` TEXT,
+	`body` TEXT,
+	`controller` TEXT,
+	`display_in_nodes_logic` INTEGER,
+	`display_in_nodes` TEXT,
+	`display_in_blog` INTEGER,
+	FOREIGN KEY(id2_sidebar) REFERENCES #dbPrefix#sidebar(id)
+);
 
-INSERT INTO `#dbPrefix#block` (id2_sidebar, title, body, controller) VALUES
-	('right', 'Right block', 'This is my right block', ''),
-	('right', 'Facebook', '<iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fopossum.su&width=300&height=380&colorscheme=light&show_faces=true&header=false&stream=false&show_border=false&appId=449051328458464" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:390px;" allowtransparency="true">
-</iframe>', ''),
-	('left', 'Left block', 'This is my left block', ''),
-	('middle', 'Middle block', 'This is my middle block', 'BLOG_LIST');
+INSERT INTO `#dbPrefix#block` (
+	id2_sidebar, title, body, controller, display_in_nodes_logic, display_in_nodes, display_in_blog) VALUES
+		('right', 'Right block', 'This is my right block', '', 0, '', 1),
+		('right', 'Facebook', '<iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fopossum.su&width=300&height=380&colorscheme=light&show_faces=true&header=false&stream=false&show_border=false&appId=449051328458464" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:390px;" allowtransparency="true">
+</iframe>', '', 0, '', 1),
+		('left', 'Left block', 'This is my left block', '', 0, '', 1),
+		('middle', 'Blogs', '', 'BLOG_LIST', 1, '1,2', 0);

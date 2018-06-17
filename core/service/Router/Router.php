@@ -88,7 +88,8 @@ class Router implements RouterInterface {
 	private function getControllerFromRequest (){
 		
 		$request = getenv ('REQUEST_URI');
-    $splits = explode('/', trim($request,'/'));
+		$parts = explode('?', $request);
+    $splits = explode('/', trim($parts[0],'/'));
 
     $this->controllerClass = !empty($splits[0]) ? ucfirst($splits[0]).'Controller' : self::DEFAULT_CONTROLLER;
 		$this->controllerClass = self::CONTROLLER_CLASS_PREFIX . $this->controllerClass;

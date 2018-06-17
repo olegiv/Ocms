@@ -3,6 +3,7 @@
 namespace Ocms\core\model;
 
 use Ocms\core\exception\ExceptionRuntime;
+use Ocms\core\exception\ExceptionFatal;
 use Ocms\core\Kernel;
 
 /**
@@ -64,7 +65,7 @@ class Model implements ModelInterface {
 			case 'mysql':
 				break;
 			default:
-				throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Bad DB type: %s', $dbType));
+				throw new ExceptionFatal (ExceptionFatal::E_FATAL, t ('Bad DB type: %s', $dbType));
 		}
 	}
 	
@@ -123,12 +124,46 @@ class Model implements ModelInterface {
 	 * 
 	 * @return array
 	 */
-	public function getBlocks () {
+	public function getBlocksForBlog () {
+	
+		if (($blocks = $this->getBlocks())) {
+			foreach ($blocks as $key => $block) {
+				if (! isset($block->display_in_blog) || ! $block->display_in_blog) {
+					unset ($blocks[$key]);
+				}
+			}
+		}
+		return $blocks;
+	}
+
+	/**
+	 * 
+	 * @return array
+	 */
+	public function getBlocks ($nodeId = 0) {
 		
 		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'block';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
-		return $stmt->fetchAll(\PDO::FETCH_OBJ);
+		$blocks = $stmt->fetchAll(\PDO::FETCH_OBJ);
+		if ($nodeId && $blocks) {
+			foreach ($blocks as $key => $block) {
+				if ($block->display_in_nodes) {
+					$displayInNodes = explode(',', $block->display_in_nodes);
+					if (! in_array($nodeId, $displayInNodes)) {
+						if ($block->display_in_nodes_logic) {
+							unset($blocks[$key]);
+						}
+					} else {
+						if (! $block->display_in_nodes_logic) {
+							unset($blocks[$key]);
+						}
+					}
+				}
+			}
+			
+		}
+		return $blocks;
 	}
 
 	/**

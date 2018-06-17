@@ -86,7 +86,6 @@ class ModelSQLite implements ModelSQLiteInterface {
 			$this->connect();
 			$this->transaction($this->getInitSql());
 		} catch (\Exception $e) {
-			echo $e->getMessage();
 			die();
 		}
 	}

@@ -97,7 +97,7 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 		if (($node = Kernel::$blogControllerObj->get ($nodeId))) {
 			echo Kernel::$viewObj->render ('extend/blog',
 				array_merge ((array)$node,
-					['blocks' => Kernel::$blockObj->getBlocksForNode($nodeId)],
+					['blocks' => Kernel::$blockObj->getBlocksForBlog()],
 					['analytics' => Kernel::$analyticsObj->getTrackerHtmlCode()])
 			);
 		}

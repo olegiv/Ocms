@@ -34,4 +34,16 @@ interface ModelInterface {
 	 * @return array
 	 */
 	public function getBlocksForBlogIndex ();
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function getBlocks ($nodeId = 0);
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function getBlocksForBlog ();
 }

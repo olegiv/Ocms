@@ -41,7 +41,22 @@ class Block extends BlockBase implements BlockInterface {
 	 */
 	public function getBlocksForNode (int $nodeId): array {
 	
-		if (($blocks = Kernel::$modelObj->getBlocks())) {
+		if (($blocks = Kernel::$modelObj->getBlocks($nodeId))) {
+			foreach ($blocks as $key => $block) {
+				$blocks[$key]->html = $this->renderBlock($block);
+			}
+		}
+		return $blocks;
+	}
+	
+	/**
+	 * 
+	 * @param int $nodeId
+	 * @return array
+	 */
+	public function getBlocksForBlog (): array {
+	
+		if (($blocks = Kernel::$modelObj->getBlocksForBlog())) {
 			foreach ($blocks as $key => $block) {
 				$blocks[$key]->html = $this->renderBlock($block);
 			}
