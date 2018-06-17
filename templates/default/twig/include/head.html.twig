@@ -7,3 +7,7 @@
 {% if description %}
 	<meta name="description" content="{{description}}"/>
 {% endif %}
+
+{% if analytics %}
+	{{analytics | raw}}
+{% endif %}

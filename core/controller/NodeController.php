@@ -55,7 +55,8 @@ class NodeController extends NodeControllerBase implements ControllerInterface {
 
 		echo Kernel::$viewObj->render ('extend/node',
 			array_merge ((array) Kernel::$nodeControllerObj->get ($nodeId),
-				['blocks' => Kernel::$blockObj->getBlocksForNode ($nodeId)])
+				['blocks' => Kernel::$blockObj->getBlocksForNode ($nodeId)],
+				['analytics' => Kernel::$analyticsObj->getTrackerHtmlCode()])
 		);
 	}
 }

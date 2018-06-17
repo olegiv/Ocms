@@ -15,6 +15,8 @@ use Ocms\core\controller\FrontController;
 use Ocms\core\controller\BlogController;
 use Ocms\core\controller\BlockController;
 
+use Ocms\core\service\Analytics\AnalyticsService;
+
 require_once 'core/Helper.php';
 
 /**
@@ -95,6 +97,12 @@ class Kernel implements KernelInterface {
 	 * @var Ocms\core\controller\BlockController 
 	 */
 	public static $blockControllerObj;
+	
+	/**
+	 *
+	 * @var Ocms\core\service\Analytics\AnalyticsService 
+	 */
+	public static $analyticsObj;
 
 	/**
 	 * 
@@ -125,6 +133,7 @@ class Kernel implements KernelInterface {
 		self::$frontControllerObj = FrontController::getInstance();
 		self::$blogControllerObj = BlogController::getInstance();
 		self::$blockControllerObj = BlockController::getInstance();
+		self::$analyticsObj = AnalyticsService::getInstance();
 	}
 	
 	/**

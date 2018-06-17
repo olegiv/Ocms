@@ -55,7 +55,8 @@ class FrontController extends NodeControllerBase implements ControllerInterface 
 		}
 		echo Kernel::$viewObj->render ('extend/node',
 			array_merge ((array) Kernel::$frontControllerObj->get($nodeId),
-				['blocks' => Kernel::$blockObj->getBlocksForNode($nodeId)])
+				['blocks' => Kernel::$blockObj->getBlocksForNode($nodeId)],
+				['analytics' => Kernel::$analyticsObj->getTrackerHtmlCode()])
 		);
 	}
 }

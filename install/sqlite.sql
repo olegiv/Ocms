@@ -43,20 +43,25 @@ INSERT INTO `#dbPrefix#blog` (title, body, tags, description) VALUES
 
 DROP TABLE IF EXISTS `#dbPrefix#sidebar`;
 
-CREATE TABLE `#dbPrefix#sidebar` ( `id` TEXT PRIMARY KEY, `title` TEXT, `body` TEXT );
+CREATE TABLE `#dbPrefix#sidebar` ( `id` TEXT PRIMARY KEY, `title` TEXT );
 
-INSERT INTO `#dbPrefix#sidebar` (id, title, body) VALUES
-	('sidebar1', 'Sidebar 1', ''),
-	('sidebar2', 'Sidebar 2', '');
+INSERT INTO `#dbPrefix#sidebar` (id, title) VALUES
+	('left', 'Left'),
+	('top', 'Top'),
+	('right', 'Right'),
+	('bottom', 'Bottom'),
+	('middle', 'Middle');
 
 /* block */
 
 DROP TABLE IF EXISTS `#dbPrefix#block`;
 
-CREATE TABLE `#dbPrefix#block` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `id2_sidebar` INTEGER,
-	`title` TEXT, `body` TEXT, `controller` TEXT );
+CREATE TABLE `#dbPrefix#block` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `id2_sidebar` TEXT,
+	`title` TEXT, `body` TEXT, `controller` TEXT,  FOREIGN KEY(id2_sidebar) REFERENCES #dbPrefix#sidebar(id));
 
 INSERT INTO `#dbPrefix#block` (id2_sidebar, title, body, controller) VALUES
 	('right', 'Right block', 'This is my right block', ''),
+	('right', 'Facebook', '<iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fopossum.su&width=300&height=380&colorscheme=light&show_faces=true&header=false&stream=false&show_border=false&appId=449051328458464" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:390px;" allowtransparency="true">
+</iframe>', ''),
 	('left', 'Left block', 'This is my left block', ''),
 	('middle', 'Middle block', 'This is my middle block', 'BLOG_LIST');
