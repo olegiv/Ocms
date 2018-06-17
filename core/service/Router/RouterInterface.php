@@ -11,6 +11,12 @@ interface RouterInterface {
 
 	/**
 	 * 
+	 * @return Ocms\core\service\Router\Router
+	 */
+  public static function getInstance(): Router;
+
+	/**
+	 * 
 	 */
 	public function run ();
 	

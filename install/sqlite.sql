@@ -54,8 +54,9 @@ INSERT INTO `#dbPrefix#sidebar` (id, title, body) VALUES
 DROP TABLE IF EXISTS `#dbPrefix#block`;
 
 CREATE TABLE `#dbPrefix#block` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `id2_sidebar` INTEGER,
-	`title` TEXT, `body` TEXT );
+	`title` TEXT, `body` TEXT, `controller` TEXT );
 
-INSERT INTO `#dbPrefix#block` (id2_sidebar, title, body) VALUES
-	('right', 'Right block', 'This is my right block'),
-	('left', 'Left block', 'This is my left block');
+INSERT INTO `#dbPrefix#block` (id2_sidebar, title, body, controller) VALUES
+	('right', 'Right block', 'This is my right block', ''),
+	('left', 'Left block', 'This is my left block', ''),
+	('middle', 'Middle block', 'This is my middle block', 'BLOG_LIST');

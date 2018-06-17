@@ -3,6 +3,7 @@
 namespace Ocms\core;
 
 use Ocms\core\service\Configuration\ConfigurationService;
+use Ocms\core\service\Log\LogService;
 use Ocms\core\block\Block;
 use Ocms\core\model\Model;
 use Ocms\core\view\View;
@@ -12,6 +13,7 @@ use Ocms\core\service\I18n\I18n;
 use Ocms\core\controller\NodeController;
 use Ocms\core\controller\FrontController;
 use Ocms\core\controller\BlogController;
+use Ocms\core\controller\BlockController;
 
 require_once 'core/Helper.php';
 
@@ -39,6 +41,12 @@ class Kernel implements KernelInterface {
 	 * @var Ocms\core\service\Configuration\ConfigurationService 
 	 */
 	public static $configurationObj;
+
+	/**
+	 *
+	 * @var Ocms\core\service\Log\ 
+	 */
+	public static $logObj;
 
 	/**
 	 *
@@ -81,6 +89,12 @@ class Kernel implements KernelInterface {
 	 * @var Ocms\core\controller\BlogController 
 	 */
 	public static $blogControllerObj;
+	
+	/**
+	 *
+	 * @var Ocms\core\controller\BlockController 
+	 */
+	public static $blockControllerObj;
 
 	/**
 	 * 
@@ -100,15 +114,17 @@ class Kernel implements KernelInterface {
 	private function __construct() {
 				
 		self::$configurationObj = ConfigurationService::getInstance();
+		self::$logObj = LogService::getInstance();
 		$this->setEnv();
-		self::$modelObj = Model::getInstance();
 		self::$viewObj = View::getInstance();
+		self::$modelObj = Model::getInstance();
 		self::$i18nObj = I18n::getInstance();
 		self::$routerObj = Router::getInstance();
 		self::$blockObj = Block::getInstance();
 		self::$nodeControllerObj = NodeController::getInstance();
 		self::$frontControllerObj = FrontController::getInstance();
 		self::$blogControllerObj = BlogController::getInstance();
+		self::$blockControllerObj = BlockController::getInstance();
 	}
 	
 	/**
@@ -125,7 +141,19 @@ class Kernel implements KernelInterface {
 	private function setEnv () {
 		
 		if (($errorReporting = self::$configurationObj->getConfigurationGlobal('Server')->error_reporting)) {
-			error_reporting($errorReporting);
+			eval ('?><?php error_reporting (' . $errorReporting . '); ?>');
 		}
+		if (self::$configurationObj->getConfigurationGlobal('Server')->display_errors) {
+			ini_set ('display_errors', 1);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return bool
+	 */
+	public static function inDebug (): bool {
+		
+		return (bool)self::$configurationObj->getConfigurationGlobal('Server')->debug;
 	}
 }

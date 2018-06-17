@@ -5,7 +5,7 @@ namespace Ocms\core\exception;
 use Ocms\core\Kernel;
 
 /**
- * Description of Exception
+ * Description of ExceptionRuntime
  *
  * @author olegiv
  */
@@ -23,10 +23,6 @@ class ExceptionRuntime extends ExceptionBase implements ExceptionInterface {
 		parent::__construct ($type, $message, $code);
 		
 		switch ($type) {
-			case self::E_CONTINUE:
-				// @todo
-				// Log
-				break;
 			case self::E_ACCESS_DENIED:
 			case self::E_NOT_FOUND:
 			case self::E_METHOD_NOT_ALLOWED:

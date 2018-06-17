@@ -18,7 +18,7 @@ class Router implements RouterInterface {
 
 	/**
 	 *
-	 * @var Router This class instance
+	 * @var Ocms\core\service\Router\Router This class instance
 	 */
 	static $_instance;
 	
@@ -43,7 +43,7 @@ class Router implements RouterInterface {
 
 	/**
 	 * 
-	 * @return Router
+	 * @return Ocms\core\service\Router\Router
 	 */
   public static function getInstance(): Router {
   

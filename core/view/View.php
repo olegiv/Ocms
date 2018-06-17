@@ -3,7 +3,6 @@
 namespace Ocms\core\view;
 
 use Ocms\core\Kernel;
-use Ocms\core\exception\ExceptionRuntime;
 
 /**
  * Description of View
@@ -92,17 +91,16 @@ class View extends ViewBase {
 	 * @param string $template
 	 * @param array $params
 	 * @return string
-	 * @throws \Ocms\core\exception\ExceptionFatal
 	 */
 	public function render (string $template, array $params = []): string {
 
 		try {
-			$return = $this->twigObj->render($template . '.html.twig', $params);
+			$html = $this->twigObj->render($template . '.html.twig', $params);
 		} catch (\Exception $e) {
-			throw new ExceptionRuntime (ExceptionRuntime::E_CONTINUE, $e->getMessage ());
-			//$return = '';
+			Kernel::$logObj->log($e->getMessage ());
+			$html = '';
 		}
-		return $return;
+		return $html;
 	}
 
 }

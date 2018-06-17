@@ -67,7 +67,7 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	public static function indexAction () {
 
 		if (($blogs = Kernel::$blogControllerObj->getList ())) {
-			echo Kernel::$viewObj->render ('extend/blogs',
+			echo Kernel::$viewObj->render ('blogs',
 				array_merge (
 					['blogs' => $blogs],
 					['blocks' => Kernel::$blockObj->getBlocksForBlogIndex()])
@@ -82,7 +82,7 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	public static function renderList () {
 
 		if (($blogs = Kernel::$blogControllerObj->getList ())) {
-			$html = Kernel::$viewObj->render ('extend/blogs',	['blogs' => $blogs]);
+			$html = Kernel::$viewObj->render ('blogs',	['blogs' => $blogs]);
 		}
 		return $html;
 	}

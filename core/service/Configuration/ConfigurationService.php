@@ -15,7 +15,7 @@ class ConfigurationService implements ConfigurationServiceInterface {
 	
 	/**
 	 *
-	 * @var ConfigurationService This class instance
+	 * @var Ocms\core\service\Configuration\ConfigurationService This class instance
 	 */
 	static $_instance;
 	
@@ -27,7 +27,7 @@ class ConfigurationService implements ConfigurationServiceInterface {
 	
 	/**
 	 * 
-	 * @return ConfigurationService
+	 * @return Ocms\core\service\Configuration\ConfigurationService
 	 */
   public static function getInstance(): ConfigurationService {
   
