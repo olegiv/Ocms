@@ -84,9 +84,9 @@ class ModelSQLite implements ModelSQLiteInterface {
 		try {
 			$this->createFile();
 			$this->connect();
-			$this->transaction($this->getInitSql());
+			$this->db->exec($this->getInitSql());
 		} catch (\Exception $e) {
-			die();
+			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, $e->getMessage());
 		}
 	}
 
@@ -95,7 +95,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 	 * @param string $sql
 	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
-	private function transaction (string $sql) {
+	/*private function transaction (string $sql) {
 		
 		try {
 			$this->db->beginTransaction();
@@ -105,7 +105,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 			$this->db->rollBack();
 			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, $e->getMessage());
 		}
-	}
+	}*/
 
 	/**
 	 * 
