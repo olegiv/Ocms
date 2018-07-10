@@ -13,7 +13,7 @@ class View extends ViewBase {
 	
 	const CACHE_DEFAULT_PATH = 'data/cache';
 	
-	const TWIG_DEFAULT_PATH = 'templates/default/twig';
+	const TWIG_DEFAULT_PATH = 'templates/default';
 
 	/**
 	 *
@@ -62,7 +62,7 @@ class View extends ViewBase {
 	private function getTwigPath (): string {
 		
 		if (isset($this->conf->Layout->template->id)) {
-			$twigPath = 'templates/' . $this->conf->Layout->template->id . '/twig';
+			$twigPath = 'templates/' . $this->conf->Layout->template->id;
 		} else {
 			$twigPath = self::TWIG_DEFAULT_PATH;
 		}
@@ -95,6 +95,8 @@ class View extends ViewBase {
 	public function render (string $template, array $params = []): string {
 
 		try {
+			$params = array_merge($params,
+							['template_root' => '/templates/' . $this->conf->Layout->template->id . '/']);
 			$html = $this->twigObj->render($template . '.html.twig', $params);
 		} catch (\Exception $e) {
 			Kernel::$logObj->log($e->getMessage ());

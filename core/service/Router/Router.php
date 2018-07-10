@@ -117,15 +117,15 @@ class Router implements RouterInterface {
 				if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerInterface')) {
 					if(! $rc->hasMethod ($method)) {
 						throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
-							t('Controller %s does not have method %s', $controller, $method));
+							t('Controller "%s" does not have method %s', $controller, $method));
 					}
 				} else {
 					throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
-						t('Controller %s does not implement ControllerInterface', $controller));
+						t('Controller "%s" does not implement ControllerInterface', $controller));
 				}
 			} else {
 				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND,
-					t('Controller %s does not exists', $controller));
+					t('Controller "%s" does not exist', $controller));
 			}
 		} catch (ExceptionRuntime $e) {
 			$return = FALSE;

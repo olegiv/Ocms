@@ -53,7 +53,7 @@ class FrontController extends NodeControllerBase implements ControllerInterface 
 		if (! ($nodeId = Kernel::$configurationObj->getHomePageId ())) {
 			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Cannot get home page ID'));
 		}
-		echo Kernel::$viewObj->render ('extend/node',
+		echo Kernel::$viewObj->render ('extend/front',
 			array_merge ((array) Kernel::$frontControllerObj->get($nodeId),
 				['blocks' => Kernel::$blockObj->getBlocksForNode($nodeId)],
 				['analytics' => Kernel::$analyticsObj->getTrackerHtmlCode()])

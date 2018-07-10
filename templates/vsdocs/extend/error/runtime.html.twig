@@ -1,0 +1,14 @@
+{% extends "index.html.twig" %}
+
+{% block body %}
+	{{ include ('sidebar/top.html.twig') }}
+	<div id="content">
+		{% block content %}
+			<h1 class="node-title">Error {{ type }}</h1>
+			<p>{{ message }}</p>
+		{% endblock %}
+	</div>
+	{{ include ('sidebar/left.html.twig') }}
+	{{ include ('sidebar/right.html.twig') }}
+	{{ include ('sidebar/bottom.html.twig') }}
+{% endblock %}
