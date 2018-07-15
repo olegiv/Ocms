@@ -1,0 +1,33 @@
+<!-- Blog Page -->
+<div class="blog">
+	<div class="row">
+		<div class="col-md-12 col-sm-12">
+			<!-- Blog List -->
+			<div class="blog-grid">
+				<div class="row">
+					<div class="col-md-4 col-sm-5">
+						<div class="blog-grid-image">
+							<a href="/blog/view/{{blog.id}}">
+								<span class="blog-grid-image-over"></span>
+								<img src="/data/pix/blog/{{blog.id}}/1280x853.png" class="" alt="article image"> </a>
+						</div>
+					</div>
+					<div class="col-md-8 col-sm-7">
+						<h3 class="blog-grid-title">
+							<a href="/blog/view/{{blog.id}}">{{ blog.title }}</a>
+						</h3>
+						<p class="blog-grid-excerpt">{{ blog.abstract | raw }}</p>
+						<div class="blog-grid-meta">
+							<span class="blog-grid-date">{{ blog.content_date }}</span>
+							<span class="blog-grid-author">by
+								<a href="#">{{ blog.id2_author }}</a>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End of Blog List -->
+		</div>
+	</div>
+</div>
+<!-- End of Blog Page -->

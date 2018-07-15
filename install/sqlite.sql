@@ -45,14 +45,31 @@ CREATE TABLE IF NOT EXISTS `ocms_blog` (
 	`id2_author`	INTEGER NOT NULL,
 	`id2_category`	INTEGER NOT NULL,
 	`title`	TEXT NOT NULL,
-	`body`	TEXT,
-	`tags`	TEXT,
-	`description`	TEXT,
+	`abstract`	TEXT NOT NULL,
+	`body`	TEXT NOT NULL,
+	`tags`	TEXT NOT NULL,
+	`description`	TEXT NOT NULL,
 	FOREIGN KEY(`id2_category`) REFERENCES `ocms_category`(`id`),
 	FOREIGN KEY(`id2_author`) REFERENCES `ocms_user`(`id`)
 );
-INSERT INTO `ocms_blog` (id,created,content_date,id2_author,id2_category,title,body,tags,description) VALUES (1,1531257375,1531257375,1,1,'Blog #1','This is the 1st blog','#blog #1st','1st blog description'),
- (2,1531257377,1531257377,2,2,'Blog #2','This is the 2nd blog','#blog #2nd','2nd blog description');
+INSERT INTO `ocms_blog` (id,created,content_date,id2_author,id2_category,title,abstract,body,tags,description) VALUES (1,1531257375,1531257375,1,1,'Can Bender bend an iPhone6 Plus?','From an engineering standpoint, the iPhone is an amazingly small and delicately constructed device. The only thing really contributing to the structural integrity of the iPhone 6 Plus is the thin aluminum frame that covers the back and reaches around the sides.','<iframe src="//www.youtube.com/embed/znK652H6yQM?rel=0" frameborder="0" width="560" height="315">
+</iframe>
+<p>
+	YES! He can. Even not Bender but you - just look how to do it.
+</p>
+<p data-textannotation-id="0e32af19d50fcba027757a08c4af7aed">
+	According to experts, though, it probably shouldn''t be surprising. As Jeremy Irons, a Design Engineer at&nbsp;<a href="http://creativeengineering.com/" target="_blank">Creative Engineering&nbsp;</a>explained:
+</p>
+<p data-textannotation-id="c1830b3478b878fd3201e5c7712336af">
+	<em>From an engineering standpoint, the iPhone is an amazingly small and delicately constructed device. The only thing really contributing to the structural integrity of the iPhone 6 Plus is the thin aluminum frame that covers the back and reaches around the sides. There is also another very thin piece of steel behind the glass, but we are not working with much as far as bending strength.</em>
+</p>','bend iphone Bender','From an engineering standpoint, the iPhone is an amazingly small and delicately constructed device. The only thing really contributing to the structural integrity of the iPhone 6 Plus is the thin aluminum frame that covers the back and reaches around the sides.'),
+ (2,1531257377,1531257377,2,2,'SQL Joins Diagram','For those about to SQL - we salute you :-)','<p>
+	For those about to SQL - we salute you :-)
+</p>
+
+<p>
+	Source: <a title="Data Visualisation at Google +" href="https://plus.google.com/111053008130113715119/about" target="_blank">Data Visualisation</a>
+</p>','db loin mysql sql syntax','For those about to SQL - we salute you :-)');
 DROP TABLE IF EXISTS `ocms_block`;
 CREATE TABLE IF NOT EXISTS `ocms_block` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
