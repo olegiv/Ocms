@@ -12,6 +12,6 @@ interface ControllerInterface {
 	/**
 	 * 
 	 */
-	public static function viewAction ();
+	public static function viewAction ($nodeId);
 	
 }

@@ -9,41 +9,5 @@ namespace Ocms\core\model;
  */
 interface ModelInterface {
 
-	/**
-	 * 
-	 * @param int $nodeId
-	 * @return \stdClass
-	 */
-	public function getNode (int $nodeId);
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function getBlogs ();
 	
-	/**
-	 * 
-	 * @param int $blockId
-	 * @return \stdClass
-	 */
-	public function getBlock (int $blockId);
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function getBlocksForBlogIndex ();
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function getBlocks ($nodeId = 0);
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function getBlocksForBlog ();
 }

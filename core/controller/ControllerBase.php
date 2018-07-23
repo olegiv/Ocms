@@ -3,7 +3,7 @@
 namespace Ocms\core\controller;
 
 /**
- * Description of FrontController
+ * Description of ControllerBase
  *
  * @author olegiv
  */
@@ -32,7 +32,7 @@ abstract class ControllerBase implements ControllerBaseInterface {
 	 * 
 	 * @param int $nodeId
 	 */
-	public static function viewAction (int $nodeId = 0) {
+	public static function viewAction ($nodeId) {
 		
 		
 	} 

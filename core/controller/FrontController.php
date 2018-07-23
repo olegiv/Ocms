@@ -4,6 +4,7 @@ namespace Ocms\core\controller;
 
 use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\Kernel;
+use Ocms\core\model\NodeModel;
 
 /**
  * Description of FrontController
@@ -38,7 +39,7 @@ class FrontController extends NodeControllerBase implements ControllerInterface 
 	 */
 	protected function get ($nodeId) {
 		
-		if (!($node = Kernel::$modelObj->getNode($nodeId))) {
+		if (!($node = NodeModel::getNode($nodeId))) {
 			throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, 'Cannot load Home page node: %s', $nodeId);
 		}
 		return $node;
@@ -48,7 +49,7 @@ class FrontController extends NodeControllerBase implements ControllerInterface 
 	 *
 	 * @param int $nodeId
 	 */
-	public static function viewAction(int $nodeId = 0) {
+	public static function viewAction($nodeId) {
 
 		if (! ($nodeId = Kernel::$configurationObj->getHomePageId ())) {
 			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Cannot get home page ID'));

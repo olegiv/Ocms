@@ -9,6 +9,7 @@ use Ocms\core\model\Model;
 use Ocms\core\view\View;
 use Ocms\core\service\Router\Router;
 use Ocms\core\service\I18n\I18n;
+use Ocms\core\service\User\UserService;
 
 use Ocms\core\controller\NodeController;
 use Ocms\core\controller\FrontController;
@@ -25,6 +26,9 @@ require_once 'core/Helper.php';
  * @author olegiv
  */
 class Kernel implements KernelInterface {
+	
+	const NODE_BLOG = 'NODE_BLOG';
+	const NODE_PAGE = 'NODE_PAGE';
 	
 	/**
 	 *
@@ -67,6 +71,12 @@ class Kernel implements KernelInterface {
 	 * @var Ocms\core\service\I18n 
 	 */
 	public static $i18nObj;
+	
+	/**
+	 *
+	 * @var Ocms\core\service\User 
+	 */
+	public static $userObj;
 	
 	/**
 	 *
@@ -127,6 +137,7 @@ class Kernel implements KernelInterface {
 		self::$viewObj = View::getInstance();
 		self::$modelObj = Model::getInstance();
 		self::$i18nObj = I18n::getInstance();
+		self::$userObj = UserService::getInstance();
 		self::$routerObj = Router::getInstance();
 		self::$blockObj = Block::getInstance();
 		self::$nodeControllerObj = NodeController::getInstance();

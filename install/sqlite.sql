@@ -62,14 +62,14 @@ INSERT INTO `ocms_blog` (id,created,content_date,id2_author,id2_category,title,a
 </p>
 <p data-textannotation-id="c1830b3478b878fd3201e5c7712336af">
 	<em>From an engineering standpoint, the iPhone is an amazingly small and delicately constructed device. The only thing really contributing to the structural integrity of the iPhone 6 Plus is the thin aluminum frame that covers the back and reaches around the sides. There is also another very thin piece of steel behind the glass, but we are not working with much as far as bending strength.</em>
-</p>','bend iphone Bender','From an engineering standpoint, the iPhone is an amazingly small and delicately constructed device. The only thing really contributing to the structural integrity of the iPhone 6 Plus is the thin aluminum frame that covers the back and reaches around the sides.'),
+</p>','bend iPhone Bender','From an engineering standpoint, the iPhone is an amazingly small and delicately constructed device. The only thing really contributing to the structural integrity of the iPhone 6 Plus is the thin aluminum frame that covers the back and reaches around the sides.'),
  (2,1531257377,1531257377,2,2,'SQL Joins Diagram','For those about to SQL - we salute you :-)','<p>
 	For those about to SQL - we salute you :-)
 </p>
 
 <p>
 	Source: <a title="Data Visualisation at Google +" href="https://plus.google.com/111053008130113715119/about" target="_blank">Data Visualisation</a>
-</p>','db loin mysql sql syntax','For those about to SQL - we salute you :-)');
+</p>','db join MySQL SQL syntax','For those about to SQL - we salute you :-)');
 DROP TABLE IF EXISTS `ocms_block`;
 CREATE TABLE IF NOT EXISTS `ocms_block` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,

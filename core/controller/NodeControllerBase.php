@@ -14,4 +14,10 @@ abstract class NodeControllerBase extends ControllerBase implements ControllerIn
 	 */
 	protected function __construct() {}
 	
+	/**
+	 *
+	 * @param int $nodeId
+	 */
+	public static function viewAction ($nodeId) {}
+	
 }

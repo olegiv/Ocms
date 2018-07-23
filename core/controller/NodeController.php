@@ -4,6 +4,7 @@ namespace Ocms\core\controller;
 
 use Ocms\core\Kernel;
 use Ocms\core\exception\ExceptionRuntime;
+use Ocms\core\model\NodeModel;
 
 /**
  * Description of NodeController
@@ -38,7 +39,7 @@ class NodeController extends NodeControllerBase implements ControllerInterface {
 	protected function get (int $nodeId = 0) {
 		
 		try {
-			if (! ($node = Kernel::$modelObj->getNode ($nodeId))) {
+			if (! ($node = NodeModel::getNode ($nodeId))) {
 				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Cannot load page node: %s', $nodeId));
 			}
 		} catch (ExceptionRuntime $e) {
@@ -51,10 +52,10 @@ class NodeController extends NodeControllerBase implements ControllerInterface {
 	 *
 	 * @param int $nodeId
 	 */
-	public static function viewAction (int $nodeId = 0) {
+	public static function viewAction ($nodeId) {
 
 		echo Kernel::$viewObj->render ('extend/node',
-			array_merge ((array) Kernel::$nodeControllerObj->get ($nodeId),
+			array_merge ((array) $this->get ($nodeId),
 				['blocks' => Kernel::$blockObj->getBlocksForNode ($nodeId)],
 				['analytics' => Kernel::$analyticsObj->getTrackerHtmlCode()])
 		);

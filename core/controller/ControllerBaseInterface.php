@@ -11,7 +11,8 @@ interface ControllerBaseInterface {
 	
 	/**
 	 * 
+	 * @param int $nodeId
 	 */
-	//public function init (int $nodeId);
+	public static function viewAction ($nodeId);
 	
 }

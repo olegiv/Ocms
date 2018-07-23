@@ -2,7 +2,6 @@
 
 namespace Ocms\core\model;
 
-use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\exception\ExceptionFatal;
 use Ocms\core\Kernel;
 
@@ -30,19 +29,25 @@ class Model implements ModelInterface {
 	 * @var string
 	 */
 	private $dbPrefix;
+	
+	/**
+	 *
+	 * @var string
+	 */
+	private $error;
 
 	/**
 	 * 
 	 * @return Model
 	 */
-  public static function getInstance(): Model {
-  
-		if(!(self::$_instance instanceof self)) {
-      self::$_instance = new self();
+	public static function getInstance(): Model {
+
+		if (!(self::$_instance instanceof self)) {
+			self::$_instance = new self();
 		}
-    return self::$_instance;
-  }
-	
+		return self::$_instance;
+	}
+
 	/**
 	 * 
 	 */
@@ -68,113 +73,83 @@ class Model implements ModelInterface {
 				throw new ExceptionFatal (ExceptionFatal::E_FATAL, t ('Bad DB type: %s', $dbType));
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @param int $nodeId
-	 * @return \stdClass
+	 * @return \PDO
 	 */
-	public function getNode (int $nodeId) {
+	public function getDb(): \PDO {
 		
-		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'node WHERE id=?';
-		$stmt = $this->db->prepare($sql);
-		$stmt->execute([$nodeId]);
-		return $stmt->fetchObject ();
-	}
-
-	/**
-	 *
-	 * @param int $blogId
-	 * @return \stdClass
-	 */
-	public function getBlog (int $blogId) {
-
-		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'blog WHERE id=?';
-		$stmt = $this->db->prepare($sql);
-		$stmt->execute([$blogId]);
-		return $stmt->fetchObject();
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function getBlogs () {
-
-		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'blog';
-		$stmt = $this->db->prepare($sql);
-		$stmt->execute();
-		return $stmt->fetchAll(\PDO::FETCH_OBJ);
-	}
-
-	/**
-	 * 
-	 * @param int $blockId
-	 * @return \stdClass
-	 */
-	public function getBlock (int $blockId) {
-		
-		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'block WHERE id=?';
-		$stmt = $this->db->prepare($sql);
-		$stmt->execute([$blockId]);
-		return $stmt->fetchObject();
+		return $this->db;
 	}
 	
 	/**
 	 * 
-	 * @return array
+	 * @return string
 	 */
-	public function getBlocksForBlog () {
+	public function getDbPrefix(): string {
 	
-		if (($blocks = $this->getBlocks())) {
-			foreach ($blocks as $key => $block) {
-				if (! isset($block->display_in_blog) || ! $block->display_in_blog) {
-					unset ($blocks[$key]);
-				}
-			}
+		return $this->dbPrefix;
+	}
+	
+	private function normalizeArgs($args) {
+
+		if (count($args) === 0) {
+			$return = null;
+		} else if (count($args) === 1 && is_object($args[0])) {
+			$return = array_values((array) $args[0]);
+		} else if (count($args) === 1 && is_array($args[0])) {
+			$return = array_values($args[0]);
+		} else {
+			$return = $args;
 		}
-		return $blocks;
+		return $return;
 	}
 
-	/**
-	 * 
-	 * @return array
-	 */
-	public function getBlocks ($nodeId = 0) {
-		
-		$sql = 'SELECT * FROM ' . $this->dbPrefix . 'block';
+	private function prepare($args) {
+
+		$sql = array_shift($args);
+		$args = $this->normalizeArgs($args);
+		$sql = str_replace('#prefix#', $this->dbPrefix, $sql);
 		$stmt = $this->db->prepare($sql);
-		$stmt->execute();
-		$blocks = $stmt->fetchAll(\PDO::FETCH_OBJ);
-		if ($nodeId && $blocks) {
-			foreach ($blocks as $key => $block) {
-				if ($block->display_in_nodes) {
-					$displayInNodes = explode(',', $block->display_in_nodes);
-					if (! in_array($nodeId, $displayInNodes)) {
-						if ($block->display_in_nodes_logic) {
-							unset($blocks[$key]);
-						}
-					} else {
-						if (! $block->display_in_nodes_logic) {
-							unset($blocks[$key]);
-						}
-					}
-				}
-			}
-			
+		return [$stmt, $args];
+	}
+
+	public function single() {
+
+		try {
+			list($stmt, $args) = $this->prepare(func_get_args());
+			$stmt->execute($args);
+			return $stmt->fetchObject();
+		} catch (\PDOException $e) {
+			$this->error = $e->getMessage();
+			return false;
 		}
-		return $blocks;
 	}
 
-	/**
-	 *
-	 * @return array
-	 */
-	public function getBlocksForBlogIndex () {
-
-		/**
-		 * @todo
-		 */
-		return $this->getBlocks ();
+	public function fetch() {
+		
+		try {
+			list ($stmt, $args) = self::prepare(func_get_args());
+			$stmt->execute($args);
+			return $stmt->fetchAll(\PDO::FETCH_OBJ);
+		} catch (\PDOException $e) {
+			$this->error = $e->getMessage();
+			return false;
+		}
 	}
+	
+	public function shift() {
+
+		try {
+			list ($stmt, $args) = self::prepare(func_get_args());
+			$stmt->execute($args);
+			$res = $stmt->fetch(\PDO::FETCH_NUM);
+			return $res[0];
+		} catch (\PDOException $e) {
+			self::$error = $e->getMessage();
+			return false;
+		}
+	}
+
 }
