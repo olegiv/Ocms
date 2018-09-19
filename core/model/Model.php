@@ -11,25 +11,25 @@ use Ocms\core\Kernel;
  * @author olegiv
  */
 class Model implements ModelInterface {
-	
+
 	/**
 	 *
 	 * @var Model This class instance
 	 */
 	static $_instance;
-	
+
 	/**
 	 *
 	 * @var type \PDO
 	 */
 	private $db;
-	
+
 	/**
 	 *
 	 * @var string
 	 */
 	private $dbPrefix;
-	
+
 	/**
 	 *
 	 * @var string
@@ -37,7 +37,7 @@ class Model implements ModelInterface {
 	private $error;
 
 	/**
-	 * 
+	 *
 	 * @return Model
 	 */
 	public static function getInstance(): Model {
@@ -49,20 +49,20 @@ class Model implements ModelInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private function __construct() {
-		
+
 		$this->dbPrefix = Kernel::$configurationObj->getDbPrefix();
 		$this->initDb();
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
 	private function initDb() {
-		
+
 		switch (($dbType = Kernel::$configurationObj->getDbType())) {
 			case 'sqlite':
 				$this->db = ModelSQLite::getInstance()->init();
@@ -70,28 +70,28 @@ class Model implements ModelInterface {
 			case 'mysql':
 				break;
 			default:
-				throw new ExceptionFatal (ExceptionFatal::E_FATAL, t ('Bad DB type: %s', $dbType));
+				throw new ExceptionFatal (ExceptionFatal::E_FATAL, 'Bad DB type: ' . $dbType);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return \PDO
 	 */
 	public function getDb(): \PDO {
-		
+
 		return $this->db;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getDbPrefix(): string {
-	
+
 		return $this->dbPrefix;
 	}
-	
+
 	private function normalizeArgs($args) {
 
 		if (count($args) === 0) {
@@ -128,7 +128,7 @@ class Model implements ModelInterface {
 	}
 
 	public function fetch() {
-		
+
 		try {
 			list ($stmt, $args) = self::prepare(func_get_args());
 			$stmt->execute($args);
@@ -138,7 +138,7 @@ class Model implements ModelInterface {
 			return false;
 		}
 	}
-	
+
 	public function shift() {
 
 		try {

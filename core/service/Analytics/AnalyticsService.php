@@ -10,19 +10,19 @@ use Ocms\core\Kernel;
  * @author olegiv
  */
 class AnalyticsService implements AnalyticsServiceInterface {
-	
+
 	/**
 	 *
 	 * @var Ocms\core\service\Analytics\AnalyticsService This class instance
 	 */
 	static $_instance;
-	
+
 	/**
 	 *
 	 * @var string
 	 */
 	private $googleTrackerId;
-	
+
 	/**
 	 *
 	 * @var string
@@ -36,37 +36,37 @@ class AnalyticsService implements AnalyticsServiceInterface {
 
   gtag(\'config\', \'%s\');
 </script>';
-	
+
 	/**
-	 * 
+	 *
 	 * @return Ocms\core\service\Analytics\AnalyticsService
 	 */
   public static function getInstance(): AnalyticsService {
-  
+
 		if(!(self::$_instance instanceof self)) {
 			self::$_instance = new self();
 		}
     return self::$_instance;
   }
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private function __construct() {
-		
-		if (($this->googleTrackerId = Kernel::$configurationObj->getConfigurationGlobal('Analytics')->google)) {
+
+		if (($this->googleTrackerId = Kernel::$configurationObj->getConfigurationGlobal('Analytics')['google'])) {
 			$this->googleTrackerCode = sprintf ($this->googleTrackerCode, $this->googleTrackerId, $this->googleTrackerId);
 		} else {
 			$this->googleTrackerCode = '';
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getTrackerHtmlCode(): string {
-		
+
 		return $this->googleTrackerCode;
 	}
 }

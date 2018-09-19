@@ -26,31 +26,31 @@ require_once 'core/Helper.php';
  * @author olegiv
  */
 class Kernel implements KernelInterface {
-	
+
 	const NODE_BLOG = 'NODE_BLOG';
 	const NODE_PAGE = 'NODE_PAGE';
-	
+
 	/**
 	 *
 	 * @var Ocms\core\Kernel This class instance
 	 */
 	static $_instance;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\service\Router 
+	 * @var Ocms\core\service\Router
 	 */
 	public static $routerObj;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\service\Configuration\ConfigurationService 
+	 * @var Ocms\core\service\Configuration\ConfigurationService
 	 */
 	public static $configurationObj;
 
 	/**
 	 *
-	 * @var Ocms\core\service\Log\ 
+	 * @var Ocms\core\service\Log\
 	 */
 	public static $logObj;
 
@@ -62,75 +62,75 @@ class Kernel implements KernelInterface {
 
 	/**
 	 *
-	 * @var Ocms\core\view\View 
+	 * @var Ocms\core\view\View
 	 */
 	public static $viewObj;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\service\I18n 
+	 * @var Ocms\core\service\I18n
 	 */
 	public static $i18nObj;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\service\User 
+	 * @var Ocms\core\service\User
 	 */
 	public static $userObj;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\block\Block 
+	 * @var Ocms\core\block\Block
 	 */
 	public static $blockObj;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\controller\NodeController 
+	 * @var Ocms\core\controller\NodeController
 	 */
 	public static $nodeControllerObj;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\controller\FrontController 
+	 * @var Ocms\core\controller\FrontController
 	 */
 	public static $frontControllerObj;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\controller\BlogController 
+	 * @var Ocms\core\controller\BlogController
 	 */
 	public static $blogControllerObj;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\controller\BlockController 
+	 * @var Ocms\core\controller\BlockController
 	 */
 	public static $blockControllerObj;
-	
+
 	/**
 	 *
-	 * @var Ocms\core\service\Analytics\AnalyticsService 
+	 * @var Ocms\core\service\Analytics\AnalyticsService
 	 */
 	public static $analyticsObj;
 
 	/**
-	 * 
+	 *
 	 * @return Ocms\core\Kernel
 	 */
   public static function getInstance(): Kernel {
-  
+
 		if(!(self::$_instance instanceof self)) {
       self::$_instance = new self();
 		}
     return self::$_instance;
   }
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private function __construct() {
-				
+
 		self::$configurationObj = ConfigurationService::getInstance();
 		self::$logObj = LogService::getInstance();
 		$this->setEnv();
@@ -146,34 +146,34 @@ class Kernel implements KernelInterface {
 		self::$blockControllerObj = BlockController::getInstance();
 		self::$analyticsObj = AnalyticsService::getInstance();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public function run () {
-		
+
 		self::$routerObj->run();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private function setEnv () {
-		
-		if (($errorReporting = self::$configurationObj->getConfigurationGlobal('Server')->error_reporting)) {
+
+		if (($errorReporting = self::$configurationObj->getConfigurationGlobal('Server')['error_reporting'])) {
 			eval ('?><?php error_reporting (' . $errorReporting . '); ?>');
 		}
-		if (self::$configurationObj->getConfigurationGlobal('Server')->display_errors) {
+		if (self::$configurationObj->getConfigurationGlobal('Server')['display_errors']) {
 			ini_set ('display_errors', 1);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function inDebug (): bool {
-		
-		return (bool)self::$configurationObj->getConfigurationGlobal('Server')->debug;
+
+		return (bool)self::$configurationObj->getConfigurationGlobal('Server')['debug'];
 	}
 }

@@ -2,7 +2,8 @@
 
 namespace Ocms\core\model;
 
-use Ocms\core\exception\ExceptionRuntime;
+use Ocms\core\exception\ExceptionBase;
+use Ocms\core\exception\ExceptionFatal;
 use Ocms\core\Kernel;
 
 /**
@@ -20,10 +21,10 @@ class ModelSQLite implements ModelSQLiteInterface {
 	 * @var ModelSQLite This class instance
 	 */
 	static $_instance;
-	
+
 	/**
 	 *
-	 * @var type 
+	 * @var type
 	 */
 	private $conf;
 
@@ -34,7 +35,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 	private $db;
 
 	/**
-	 * 
+	 *
 	 * @return ModelSQLite
 	 */
 	public static function getInstance(): ModelSQLite {
@@ -46,15 +47,15 @@ class ModelSQLite implements ModelSQLiteInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private function __construct() {
-		
+
 		$this->conf = Kernel::$configurationObj->getConfigurationGlobal('DB');
 	}
 
 	/**
-	 * 
+	 *
 	 * @return \PDO
 	 */
 	public function init() {
@@ -68,7 +69,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function isDbInited(): bool {
@@ -77,7 +78,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private function initDb() {
 
@@ -86,7 +87,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 			$this->connect();
 			$this->db->exec($this->getInitSql());
 		} catch (\Exception $e) {
-			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, $e->getMessage());
+			throw new ExceptionFatal (ExceptionBase::E_FATAL, $e->getMessage());
 		}
 	}
 
@@ -96,7 +97,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
 	/*private function transaction (string $sql) {
-		
+
 		try {
 			$this->db->beginTransaction();
 			$this->db->exec($sql);
@@ -108,32 +109,35 @@ class ModelSQLite implements ModelSQLiteInterface {
 	}*/
 
 	/**
-	 * 
+	 *
 	 */
 	private function connect() {
-		
+
 		$this->db = new \PDO('sqlite:' . self::DBFile);
 		$this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 
 	/**
-	 * 
+	 *
+	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
-	private function createFile() {
+	private function createFile () {
 
-		$handle = fopen(self::DBFile, 'w');
+		if (! ($handle = @fopen (self::DBFile, 'w'))) {
+			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot create SQLite file: ' . self::INSTALLFile);
+		}
 		fclose($handle);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return string
 	 * @throws Ocms\core\exception\ExceptionRuntime
 	 */
 	private function getInitSql (): string {
-		
+
 		if (!($sql = file_get_contents (self::INSTALLFile))) {
-			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t('Cannot open file: %s', self::INSTALLFile));
+			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot open file: '  . self::INSTALLFile);
 		}
 		return str_replace ('#dbPrefix#', Kernel::$configurationObj->getDbPrefix(), $sql);
 	}
