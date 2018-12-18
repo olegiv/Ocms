@@ -1,0 +1,20 @@
+<!-- Blog Item -->
+<div class="blog-grid-image">
+	<a href="/blog/view/{{blog.id}}">
+		<span class="blog-grid-image-over"></span>
+		<img src="/data/pix/blog/{{blog.id}}/1280x853.png" alt="{{blog.image_alt}}"> </a>
+</div>
+
+<h3 class="blog-grid-title">
+	<a href="/blog/view/{{blog.id}}">{{ blog.title }}</a>
+</h3>
+<p class="blog-grid-abstract">{{ blog.abstract | raw }}</p>
+<div class="blog-grid-meta">
+	<span class="blog-grid-date">{{ blog.content_date }}</span>
+	<span class="blog-grid-author">by
+		<a href="#">{{ blog.username }}</a>
+	</span>
+</div>
+
+</div>
+<!-- End of Blog Item -->
