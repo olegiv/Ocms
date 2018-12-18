@@ -6,6 +6,6 @@
 	"require": {
 		"php": ">=7.0.0",
 		"twig/twig": "^2.0",
-		"symfony/yaml": "^4.1"
+		"symfony/yaml": "^3.4"
 	}
 }
