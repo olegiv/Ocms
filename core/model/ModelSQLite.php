@@ -7,9 +7,14 @@ use Ocms\core\exception\ExceptionFatal;
 use Ocms\core\Kernel;
 
 /**
- * Description of ModelSQLite
+ * ModelSQLite Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class ModelSQLite implements ModelSQLiteInterface {
 
@@ -24,7 +29,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 
 	/**
 	 *
-	 * @var type
+	 * @var array
 	 */
 	private $conf;
 
@@ -54,10 +59,10 @@ class ModelSQLite implements ModelSQLiteInterface {
 		$this->conf = Kernel::$configurationObj->getConfigurationGlobal('DB');
 	}
 
-	/**
-	 *
-	 * @return \PDO
-	 */
+  /**
+   * @return \PDO
+   * @throws ExceptionFatal
+   */
 	public function init() {
 
 		if (!$this->isDbInited()) {
@@ -77,9 +82,9 @@ class ModelSQLite implements ModelSQLiteInterface {
 		return (file_exists(self::DBFile) && filesize(self::DBFile) > 0);
 	}
 
-	/**
-	 *
-	 */
+  /**
+   * @throws ExceptionFatal
+   */
 	private function initDb() {
 
 		try {
@@ -94,7 +99,7 @@ class ModelSQLite implements ModelSQLiteInterface {
 	/**
 	 *
 	 * @param string $sql
-	 * @throws Ocms\core\exception\ExceptionRuntime
+	 * @throws ExceptionRuntime
 	 */
 	/*private function transaction (string $sql) {
 
@@ -117,10 +122,9 @@ class ModelSQLite implements ModelSQLiteInterface {
 		$this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 
-	/**
-	 *
-	 * @throws Ocms\core\exception\ExceptionRuntime
-	 */
+  /**
+   * @throws ExceptionFatal
+   */
 	private function createFile () {
 
 		if (! ($handle = @fopen (self::DBFile, 'w'))) {
@@ -129,11 +133,10 @@ class ModelSQLite implements ModelSQLiteInterface {
 		fclose($handle);
 	}
 
-	/**
-	 *
-	 * @return string
-	 * @throws Ocms\core\exception\ExceptionRuntime
-	 */
+  /**
+   * @return string
+   * @throws ExceptionFatal
+   */
 	private function getInitSql (): string {
 
 		if (!($sql = file_get_contents (self::INSTALLFile))) {
@@ -141,5 +144,4 @@ class ModelSQLite implements ModelSQLiteInterface {
 		}
 		return str_replace ('#dbPrefix#', Kernel::$configurationObj->getDbPrefix(), $sql);
 	}
-
 }

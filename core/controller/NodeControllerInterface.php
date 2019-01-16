@@ -3,7 +3,7 @@
 namespace Ocms\core\controller;
 
 /**
- * ControllerInterface Interface.
+ * NodeControllerInterface Interface.
  *
  * @package core
  * @access public
@@ -12,7 +12,13 @@ namespace Ocms\core\controller;
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018, OCMS
  */
-interface ControllerInterface {
+interface NodeControllerInterface {
+
+  /**
+   * @param int $nodeId
+   * @return bool
+   */
+	public function viewErrorPage (int $nodeId): bool;
 
   /**
    * @param int $nodeId

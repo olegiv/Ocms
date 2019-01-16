@@ -5,9 +5,14 @@ namespace Ocms\core\view;
 use Ocms\core\Kernel;
 
 /**
- * Description of View
+ * View Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class View extends ViewBase {
 
@@ -86,15 +91,15 @@ class View extends ViewBase {
 		return $twigOptions;
 	}
 
-	/**
-	 *
-	 * @param string $template
-	 * @param array $params
-	 * @return string
-	 */
+  /**
+   * @param string $template
+   * @param array $params
+   * @return string
+   */
 	public function render (string $template, array $params = []): string {
 
 		try {
+			$params['titleHead'] = self::getTitle ($params);
 			$params = array_merge($params,
 							['template_root' => '/templates/' . $this->conf['Layout']['template']['id'] . '/']);
 			$html = $this->twigObj->render($template . '.html.twig', $params);
@@ -105,4 +110,18 @@ class View extends ViewBase {
 		return $html;
 	}
 
+	/**
+	 *
+	 * @param array $params
+	 * @return string
+	 */
+	private static function getTitle (array $params): string {
+
+		if (isset ($params['title']) && isset($params['siteName'])) {
+			$titleFull = $params['title'] . ' | ' . $params['siteName'];
+		} else {
+			$titleFull = '';
+		}
+		return $titleFull;
+	}
 }

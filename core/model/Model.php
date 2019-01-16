@@ -6,9 +6,14 @@ use Ocms\core\exception\ExceptionFatal;
 use Ocms\core\Kernel;
 
 /**
- * Description of Model
+ * Model Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class Model implements ModelInterface {
 
@@ -20,7 +25,7 @@ class Model implements ModelInterface {
 
 	/**
 	 *
-	 * @var type \PDO
+	 * @var \PDO
 	 */
 	private $db;
 
@@ -36,10 +41,10 @@ class Model implements ModelInterface {
 	 */
 	private $error;
 
-	/**
-	 *
-	 * @return Model
-	 */
+  /**
+   * @return Model
+   * @throws ExceptionFatal
+   */
 	public static function getInstance(): Model {
 
 		if (!(self::$_instance instanceof self)) {
@@ -48,19 +53,19 @@ class Model implements ModelInterface {
 		return self::$_instance;
 	}
 
-	/**
-	 *
-	 */
+  /**
+   * Model constructor.
+   * @throws ExceptionFatal
+   */
 	private function __construct() {
 
 		$this->dbPrefix = Kernel::$configurationObj->getDbPrefix();
 		$this->initDb();
 	}
 
-	/**
-	 *
-	 * @throws Ocms\core\exception\ExceptionRuntime
-	 */
+  /**
+   * @throws ExceptionFatal
+   */
 	private function initDb() {
 
 		switch (($dbType = Kernel::$configurationObj->getDbType())) {
@@ -92,7 +97,11 @@ class Model implements ModelInterface {
 		return $this->dbPrefix;
 	}
 
-	private function normalizeArgs($args) {
+  /**
+   * @param array $args
+   * @return array|null
+   */
+	private function normalizeArgs(array $args) {
 
 		if (count($args) === 0) {
 			$return = null;
@@ -106,7 +115,11 @@ class Model implements ModelInterface {
 		return $return;
 	}
 
-	private function prepare($args) {
+  /**
+   * @param array $args
+   * @return array
+   */
+	private function prepare (array $args): array {
 
 		$sql = array_shift($args);
 		$args = $this->normalizeArgs($args);
@@ -115,6 +128,9 @@ class Model implements ModelInterface {
 		return [$stmt, $args];
 	}
 
+  /**
+   * @return bool|\PDO
+   */
 	public function single() {
 
 		try {
@@ -127,6 +143,9 @@ class Model implements ModelInterface {
 		}
 	}
 
+  /**
+   * @return bool|\PDO
+   */
 	public function fetch() {
 
 		try {
@@ -139,6 +158,9 @@ class Model implements ModelInterface {
 		}
 	}
 
+  /**
+   * @return bool|\PDO
+   */
 	public function shift() {
 
 		try {
@@ -147,9 +169,8 @@ class Model implements ModelInterface {
 			$res = $stmt->fetch(\PDO::FETCH_NUM);
 			return $res[0];
 		} catch (\PDOException $e) {
-			self::$error = $e->getMessage();
+			$this->error = $e->getMessage();
 			return false;
 		}
 	}
-
 }

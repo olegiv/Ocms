@@ -6,9 +6,14 @@ use Ocms\core\Kernel;
 use Ocms\core\model\BlockModel;
 
 /**
- * Description of NodeController
+ * Block Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class Block extends BlockBase implements BlockInterface {
 	
@@ -34,12 +39,12 @@ class Block extends BlockBase implements BlockInterface {
 	 * 
 	 */
 	private function __construct() {}
-	
-	/**
-	 * 
-	 * @param int $nodeId
-	 * @return array
-	 */
+
+  /**
+   * @param int $nodeId
+   * @return array
+   * @throws \Ocms\core\exception\ExceptionRuntime
+   */
 	public function getBlocksForNode (int $nodeId): array {
 	
 		if (($blocks = BlockModel::getBlocks($nodeId))) {
@@ -49,12 +54,11 @@ class Block extends BlockBase implements BlockInterface {
 		}
 		return $blocks;
 	}
-	
-	/**
-	 * 
-	 * @param int $nodeId
-	 * @return array
-	 */
+
+  /**
+   * @return array
+   * @throws \Ocms\core\exception\ExceptionRuntime
+   */
 	public function getBlocksForBlog (): array {
 	
 		if (($blocks = BlockModel::getBlocksForBlog())) {
@@ -64,12 +68,12 @@ class Block extends BlockBase implements BlockInterface {
 		}
 		return $blocks;
 	}
-	
-	/**
-	 * 
-	 * @param \stdClass $block
-	 * @return string
-	 */
+
+  /**
+   * @param $block
+   * @return string
+   * @throws \Ocms\core\exception\ExceptionRuntime
+   */
 	private function renderBlock ($block): string {
 		
 		if (isset($block->controller) && $block->controller) {

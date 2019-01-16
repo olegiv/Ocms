@@ -3,15 +3,20 @@
 namespace Ocms\core\service\Date;
 
 /**
- * Description of DateService
+ * DateService Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class DateService implements DateServiceInterface {
 
 	/**
 	 *
-	 * @var Ocms\core\service\Date\DateService This class instance
+	 * @var \Ocms\core\service\Date\DateService This class instance
 	 */
 	private static $_instance;
 	
@@ -21,10 +26,9 @@ class DateService implements DateServiceInterface {
 	 */
 	private static $formatDate = 'M j, Y';
 
-	/**
-	 * 
-	 * @return Ocms\core\service\Date\DateService
-	 */
+  /**
+   * @return DateService
+   */
   public static function getInstance(): DateService {
   
 		if(!(self::$_instance instanceof self)) {
@@ -49,5 +53,4 @@ class DateService implements DateServiceInterface {
 		
 		return date(self::$formatDate, $timestamp);
 	}
-
 }

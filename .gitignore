@@ -1,3 +1,5 @@
+.idea
+/conf/global.yaml
 /data
 /nbproject
 .DS_Store

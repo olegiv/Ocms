@@ -10,36 +10,40 @@ use Ocms\core\model\UserModel;
 use Ocms\core\service\Date\DateService;
 
 /**
- * Description of BlogController
+ * BlogController Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class BlogController extends NodeControllerBase implements ControllerInterface {
-	
+
 	/**
 	 *
-	 * @var Ocms\core\controller\BlogController This class instance
+	 * @var \Ocms\core\controller\BlogController This class instance
 	 */
 	private static $_instance;
 
 	/**
-	 * 
-	 * @return Ocms\core\controller\BlogController
+	 *
+	 * @return \Ocms\core\controller\BlogController
 	 */
   public static function getInstance(): BlogController {
-  
+
 		if(!(self::$_instance instanceof self)) {
 			self::$_instance = new self();
 		}
     return self::$_instance;
   }
-	
-	/**
-	 * 
-	 * @param int $nodeId
-	 * @return \stdClass
-	 * @throws Ocms\core\exception\ExceptionRuntime
-	 */
+
+  /**
+   * @param int $nodeId
+   * @return \stdClass
+   * @throws ExceptionRuntime
+   */
 	protected function get(int $nodeId) {
 
 		if (!($blog = BlogModel::getBlog($nodeId))) {
@@ -47,25 +51,24 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 		}
 		return $this->setProperties($blog);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param \stdClass $blog
 	 * @return \stdClass
 	 */
 	private function setProperties($blog) {
-		
+
 		$blog->username = UserModel::getUserName($blog->id2_author);
 		$blog->content_date = DateService::fromTimestamp($blog->content_date);
 		$blog->tagsArray = explode(' ', $blog->tags);
 		return $blog;
 	}
 
-	/**
-	 *
-	 * @return array
-	 * @throws Ocms\core\exception\ExceptionRuntime
-	 */
+  /**
+   * @return array
+   * @throws ExceptionRuntime
+   */
 	protected function getList() {
 
 		if (!($blogs = BlogModel::getBlogs())) {
@@ -77,9 +80,9 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 		return $blogs;
 	}
 
-	/**
-	 *
-	 */
+  /**
+   * @throws ExceptionRuntime
+   */
 	public static function indexAction () {
 
 		if (($blogs = Kernel::$blogControllerObj->getList ())) {
@@ -95,6 +98,7 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	/**
 	 * @todo
 	 * @return string
+   * @throws ExceptionRuntime
 	 */
 	public static function renderList() {
 
@@ -106,12 +110,12 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 		return $html;
 	}
 
-	/**
-	 * 
-	 * @param int $nodeId
-	 * @throws Ocms\core\exception\ExceptionRuntime
-	 */
-	public static function viewAction($nodeId) {
+  /**
+   * @param int $nodeId
+   * @return mixed|void
+   * @throws ExceptionRuntime
+   */
+	public function viewAction (int $nodeId) {
 
 		if (! $nodeIdSanitized = intval($nodeId)) {
 			throw new ExceptionRuntime(ExceptionRuntime::E_NOT_FOUND, t('Bad blog ID: %s', $nodeId));

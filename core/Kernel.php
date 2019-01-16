@@ -18,106 +18,113 @@ use Ocms\core\controller\BlockController;
 
 use Ocms\core\service\Analytics\AnalyticsService;
 
-require_once 'core/Helper.php';
+require_once 'Helper.php';
 
 /**
- * Description of Kernel
+ * Kernel Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class Kernel implements KernelInterface {
+
+	const VERSION = '0.0.1';
 
 	const NODE_BLOG = 'NODE_BLOG';
 	const NODE_PAGE = 'NODE_PAGE';
 
 	/**
 	 *
-	 * @var Ocms\core\Kernel This class instance
+	 * @var \Ocms\core\Kernel This class instance
 	 */
 	static $_instance;
 
 	/**
 	 *
-	 * @var Ocms\core\service\Router
+	 * @var \Ocms\core\service\Router\Router
 	 */
 	public static $routerObj;
 
 	/**
 	 *
-	 * @var Ocms\core\service\Configuration\ConfigurationService
+	 * @var \Ocms\core\service\Configuration\ConfigurationService
 	 */
 	public static $configurationObj;
 
 	/**
 	 *
-	 * @var Ocms\core\service\Log\
+	 * @var \Ocms\core\service\Log\
 	 */
 	public static $logObj;
 
 	/**
 	 *
-	 * @var Ocms\core\model\Model
+	 * @var \Ocms\core\model\Model
 	 */
 	public static $modelObj;
 
 	/**
 	 *
-	 * @var Ocms\core\view\View
+	 * @var \Ocms\core\view\View
 	 */
 	public static $viewObj;
 
 	/**
 	 *
-	 * @var Ocms\core\service\I18n
+	 * @var \Ocms\core\service\I18n\I18n
 	 */
 	public static $i18nObj;
 
 	/**
 	 *
-	 * @var Ocms\core\service\User
+	 * @var \Ocms\core\service\User\UserService
 	 */
 	public static $userObj;
 
 	/**
 	 *
-	 * @var Ocms\core\block\Block
+	 * @var \Ocms\core\block\Block
 	 */
 	public static $blockObj;
 
 	/**
 	 *
-	 * @var Ocms\core\controller\NodeController
+	 * @var \Ocms\core\controller\NodeController
 	 */
 	public static $nodeControllerObj;
 
 	/**
 	 *
-	 * @var Ocms\core\controller\FrontController
+	 * @var \Ocms\core\controller\FrontController
 	 */
 	public static $frontControllerObj;
 
 	/**
 	 *
-	 * @var Ocms\core\controller\BlogController
+	 * @var \Ocms\core\controller\BlogController
 	 */
 	public static $blogControllerObj;
 
 	/**
 	 *
-	 * @var Ocms\core\controller\BlockController
+	 * @var \Ocms\core\controller\BlockController
 	 */
 	public static $blockControllerObj;
 
 	/**
 	 *
-	 * @var Ocms\core\service\Analytics\AnalyticsService
+	 * @var \Ocms\core\service\Analytics\AnalyticsService
 	 */
 	public static $analyticsObj;
 
-	/**
-	 *
-	 * @return Ocms\core\Kernel
-	 */
+  /**
+   * @return Kernel
+   * @throws exception\ExceptionFatal
+   */
   public static function getInstance(): Kernel {
 
 		if(!(self::$_instance instanceof self)) {
@@ -126,9 +133,10 @@ class Kernel implements KernelInterface {
     return self::$_instance;
   }
 
-	/**
-	 *
-	 */
+  /**
+   * Kernel constructor.
+   * @throws exception\ExceptionFatal
+   */
 	private function __construct() {
 
 		self::$configurationObj = ConfigurationService::getInstance();
@@ -160,10 +168,10 @@ class Kernel implements KernelInterface {
 	 */
 	private function setEnv () {
 
-		if (($errorReporting = self::$configurationObj->getConfigurationGlobal('Server')['error_reporting'])) {
+		if (($errorReporting = self::$configurationObj->getConfigurationGlobalItem ('Server', 'errorReporting'))) {
 			eval ('?><?php error_reporting (' . $errorReporting . '); ?>');
 		}
-		if (self::$configurationObj->getConfigurationGlobal('Server')['display_errors']) {
+		if (self::$configurationObj->getConfigurationGlobalItem ('Server', 'displayErrors')) {
 			ini_set ('display_errors', 1);
 		}
 	}
@@ -174,6 +182,6 @@ class Kernel implements KernelInterface {
 	 */
 	public static function inDebug (): bool {
 
-		return (bool)self::$configurationObj->getConfigurationGlobal('Server')['debug'];
+		return (bool)self::$configurationObj->getConfigurationGlobalItem ('Server', 'debug');
 	}
 }

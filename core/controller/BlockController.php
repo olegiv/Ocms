@@ -5,9 +5,14 @@ namespace Ocms\core\controller;
 use Ocms\core\Kernel;
 
 /**
- * Description of BlockController
+ * BlockController Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class BlockController extends NodeControllerBase implements ControllerInterface {
 	
@@ -15,13 +20,13 @@ class BlockController extends NodeControllerBase implements ControllerInterface 
 
 	/**
 	 *
-	 * @var Ocms\core\controller\BlockController This class instance
+	 * @var \Ocms\core\controller\BlockController This class instance
 	 */
 	static $_instance;
 
 	/**
 	 * 
-	 * @return Ocms\core\controller\BlockController
+	 * @return \Ocms\core\controller\BlockController
 	 */
   public static function getInstance(): BlockController {
   
@@ -30,12 +35,12 @@ class BlockController extends NodeControllerBase implements ControllerInterface 
 		}
     return self::$_instance;
   }
-	
-	/**
-	 * 
-	 * @param string $controllerId
-	 * @return string
-	 */
+
+  /**
+   * @param string $controllerId
+   * @return string
+   * @throws \Ocms\core\exception\ExceptionRuntime
+   */
 	public function renderController (string $controllerId): string {
 		
 		switch ($controllerId) {

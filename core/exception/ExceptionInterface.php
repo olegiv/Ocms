@@ -2,6 +2,16 @@
 
 namespace Ocms\core\exception;
 
+/**
+ * ControllerBaseInterface Interface.
+ *
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
+ */
 interface ExceptionInterface {
 	
 	/* Protected methods inherited from Exception class */
@@ -16,18 +26,17 @@ interface ExceptionInterface {
 
 	public function getTrace();									 // An array of the backtrace()
 
-	public function getTraceAsString();					 // Formated string of trace
+	public function getTraceAsString();					 // Formatted string of trace
 
 	/* Overrideable methods inherited from Exception class */
 
-	public function __toString();								 // formated string for display
+	public function __toString();								 // formatted string for display
 
-	/**
-	 *
-	 * @param int $type
-	 * @param string $message
-	 * @param int $code
-	 * @throws \Exception
-	 */
+  /**
+   * ExceptionInterface constructor.
+   * @param int $type
+   * @param null $message
+   * @param int $code
+   */
 	public function __construct (int $type, $message = null, $code = 0);
 }

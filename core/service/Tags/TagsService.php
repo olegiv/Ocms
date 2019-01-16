@@ -3,22 +3,26 @@
 namespace Ocms\core\service\Tags;
 
 /**
- * Description of TagsService
+ * TagsService Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class TagsService implements TagsServiceInterface {
 
 	/**
 	 *
-	 * @var Ocms\core\service\Tags\TagsService This class instance
+	 * @var \Ocms\core\service\Tags\TagsService This class instance
 	 */
 	private static $_instance;
-	
-	/**
-	 * 
-	 * @return Ocms\core\service\Tags\TagsService
-	 */
+
+  /**
+   * @return TagsService
+   */
   public static function getInstance(): TagsService {
   
 		if(!(self::$_instance instanceof self)) {
@@ -34,9 +38,12 @@ class TagsService implements TagsServiceInterface {
 		
 	}
 
-	public function getTagsArray(string $tags) {
+  /**
+   * @param string $tags
+   * @return array
+   */
+	public function getTagsArray (string $tags): array {
 		
 		return explode(' ', $tags);
 	}
-
 }

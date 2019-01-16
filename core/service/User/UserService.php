@@ -5,22 +5,26 @@ namespace Ocms\core\service\User;
 use Ocms\core\model\UserModel;
 
 /**
- * Description of ConfigurationService
+ * UserService Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class UserService implements UserServiceInterface {
 
 	/**
 	 *
-	 * @var Ocms\core\service\User\UserService This class instance
+	 * @var \Ocms\core\service\User\UserService This class instance
 	 */
 	static $_instance;
-	
-	/**
-	 * 
-	 * @return Ocms\core\service\User\UserService
-	 */
+
+  /**
+   * @return UserService
+   */
   public static function getInstance(): UserService {
   
 		if(!(self::$_instance instanceof self)) {
@@ -36,9 +40,12 @@ class UserService implements UserServiceInterface {
 		
 	}
 
+  /**
+   * @param int $userId
+   * @return string
+   */
 	public static function getUserName(int $userId): string {
 		
 		return UserModel::getUserName($userId);
 	}
-
 }

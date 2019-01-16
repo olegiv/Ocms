@@ -2,6 +2,16 @@
 
 namespace Ocms\core\exception;
 
+/**
+ * ExceptionBase Class.
+ *
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
+ */
 abstract class ExceptionBase extends \Exception implements ExceptionInterface {
 
 	const E_CONTINUE = 100;
@@ -17,13 +27,13 @@ abstract class ExceptionBase extends \Exception implements ExceptionInterface {
 	protected $line;															// Source line of exception
 	private $trace;														 // Unknown
 
-	/**
-	 *
-	 * @param int $type
-	 * @param string $message
-	 * @param int $code
-	 * @throws \Exception
-	 */
+  /**
+   * ExceptionBase constructor.
+   * @param int $type
+   * @param null $message
+   * @param int $code
+   * @throws \Exception
+   */
 	public function __construct (int $type, $message = null, $code = 0) {
 
 		if (!$message) {
@@ -41,5 +51,4 @@ abstract class ExceptionBase extends \Exception implements ExceptionInterface {
 		return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
 						. "{$this->getTraceAsString()}";
 	}
-
 }

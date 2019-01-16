@@ -5,15 +5,20 @@ namespace Ocms\core\service\Analytics;
 use Ocms\core\Kernel;
 
 /**
- * Description of Analytics
+ * AnalyticsService Class.
  *
- * @author olegiv
+ * @package core
+ * @access public
+ * @since 10.06.2018
+ * @version 0.0.1 18.12.2018
+ * @author Oleg Ivanchenko <oiv@ry.ru>
+ * @copyright Copyright (C) 2018, OCMS
  */
 class AnalyticsService implements AnalyticsServiceInterface {
 
 	/**
 	 *
-	 * @var Ocms\core\service\Analytics\AnalyticsService This class instance
+	 * @var \Ocms\core\service\Analytics\AnalyticsService This class instance
 	 */
 	static $_instance;
 
@@ -37,10 +42,9 @@ class AnalyticsService implements AnalyticsServiceInterface {
   gtag(\'config\', \'%s\');
 </script>';
 
-	/**
-	 *
-	 * @return Ocms\core\service\Analytics\AnalyticsService
-	 */
+  /**
+   * @return AnalyticsService
+   */
   public static function getInstance(): AnalyticsService {
 
 		if(!(self::$_instance instanceof self)) {
@@ -54,8 +58,8 @@ class AnalyticsService implements AnalyticsServiceInterface {
 	 */
 	private function __construct() {
 
-		if (($this->googleTrackerId = Kernel::$configurationObj->getConfigurationGlobal('Analytics')['google'])) {
-			$this->googleTrackerCode = sprintf ($this->googleTrackerCode, $this->googleTrackerId, $this->googleTrackerId);
+		if (($this->googleTrackerId = Kernel::$configurationObj->getConfigurationGlobalItem ('Analytics', 'google'))) {
+			$this->googleTrackerCode = str_replace ('%s', $this->googleTrackerId, $this->googleTrackerCode);
 		} else {
 			$this->googleTrackerCode = '';
 		}
