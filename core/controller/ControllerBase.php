@@ -36,7 +36,7 @@ abstract class ControllerBase implements ControllerBaseInterface {
   /**
    * @param int $nodeId
    */
-	public function viewAction (int $nodeId) {
+	public static function viewAction (int $nodeId) {
 
 
 	}

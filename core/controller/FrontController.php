@@ -54,7 +54,7 @@ class FrontController extends NodeControllerBase implements FrontControllerInter
    * @return mixed|void
    * @throws ExceptionRuntime
    */
-	public function viewAction (int $nodeId) {
+	public static function viewAction (int $nodeId) {
 
 		if (! ($nodeId = Kernel::$configurationObj->getHomePageId ())) {
 			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Cannot get home page ID'));

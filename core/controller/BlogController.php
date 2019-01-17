@@ -115,7 +115,7 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
    * @return mixed|void
    * @throws ExceptionRuntime
    */
-	public function viewAction (int $nodeId) {
+	public static function viewAction (int $nodeId) {
 
 		if (! $nodeIdSanitized = intval($nodeId)) {
 			throw new ExceptionRuntime(ExceptionRuntime::E_NOT_FOUND, t('Bad blog ID: %s', $nodeId));

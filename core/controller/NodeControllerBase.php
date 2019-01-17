@@ -23,6 +23,6 @@ abstract class NodeControllerBase extends ControllerBase implements ControllerIn
 	 *
 	 * @param int $nodeId
 	 */
-	public function viewAction (int $nodeId) {}
+	public static function viewAction (int $nodeId) {}
 
 }

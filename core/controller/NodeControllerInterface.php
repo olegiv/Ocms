@@ -24,6 +24,6 @@ interface NodeControllerInterface {
    * @param int $nodeId
    * @return mixed
    */
-	public function viewAction (int $nodeId);
+	public static function viewAction (int $nodeId);
 
 }

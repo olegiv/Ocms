@@ -12,9 +12,9 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 17.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class ModelSQLite implements ModelSQLiteInterface {
 
@@ -143,5 +143,22 @@ class ModelSQLite implements ModelSQLiteInterface {
 			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot open file: '  . self::INSTALLFile);
 		}
 		return str_replace ('#dbPrefix#', Kernel::$configurationObj->getDbPrefix(), $sql);
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $needle
+	 * @return string
+	 */
+	public static function getSQLFindInSet (string $field, string $needle): string {
+
+		return str_replace (
+			['%field%', '%needle%'],
+			[$field, $needle],
+			'`%field%` like \'%needle%,%\' OR
+			`%field%` like \'%,%needle%\' OR
+			`%field%` like \'%,%needle%,%\'
+			OR `%field%` = \'%needle%\''
+		);
 	}
 }

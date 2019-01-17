@@ -10,25 +10,24 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 17.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 -2019, OCMS
  */
 class BlockModel {
-	
+
 	/**
-	 * 
 	 * @param int $blockId
-	 * @return \stdClass
+	 * @return bool
+	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getBlock (int $blockId) {
 		
 		return Kernel::$modelObj->single('SELECT * FROM #prefix#node WHERE id=?', $blockId);
 	}
-	
+
 	/**
-	 * 
-	 * @return array
+	 * @return bool|\PDO
 	 */
 	public static function getBlocksForBlog () {
 	
@@ -41,10 +40,9 @@ class BlockModel {
 		}
 		return $blocks;
 	}
-	
+
 	/**
-	 *
-	 * @return array
+	 * @return bool|\PDO
 	 */
 	public static function getBlocksForBlogIndex () {
 
@@ -53,16 +51,19 @@ class BlockModel {
 		 */
 		return self::getBlocks ();
 	}
-	
+
 	/**
-	 * 
-	 * @return array
+	 * @param $nodeId
+	 * @return bool
+	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
-	public static function getBlocks($nodeId = 0) {
+	public static function getBlocks($nodeId) {
 
-		$blocks = Kernel::$modelObj->fetch('SELECT * FROM #prefix#block');
+		$blocks = Kernel::$modelObj->fetch (
+			'SELECT * FROM #prefix#block WHERE ' . Kernel::$modelObj->getSQLFindInSet ('display_in_nodes', $nodeId)
+		);
 
-		if ($nodeId && $blocks) {
+		/*if ($nodeId && $blocks) {
 			foreach ($blocks as $key => $block) {
 				if ($block->display_in_nodes) {
 					$displayInNodes = explode(',', $block->display_in_nodes);
@@ -75,9 +76,11 @@ class BlockModel {
 							unset($blocks[$key]);
 						}
 					}
+				} else {
+					unset($blocks[$key]);
 				}
 			}
-		}
+		}*/
 		return $blocks;
 	}
 

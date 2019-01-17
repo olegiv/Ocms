@@ -36,12 +36,12 @@ class NodeController extends NodeControllerBase implements NodeControllerInterfa
     return self::$_instance;
   }
 
-  /**
-   * @param int $nodeId
-   * @return \stdClass
-   * @throws \Exception
-   */
-	protected function get (int $nodeId = 0) {
+	/**
+	 * @param int $nodeId
+	 * @return bool|\PDO
+	 * @throws \Exception
+	 */
+	protected static function get (int $nodeId = 0) {
 
 		try {
 			if (! ($node = NodeModel::getNode ($nodeId))) {
@@ -74,10 +74,10 @@ class NodeController extends NodeControllerBase implements NodeControllerInterfa
    * @return mixed|void
    * @throws \Exception
    */
-	public function viewAction (int $nodeId) {
+	public static function viewAction (int $nodeId) {
 
 		echo Kernel::$viewObj->render ('extend/node',
-			array_merge ((array) $this->get ($nodeId), [
+			array_merge ((array) self::get ($nodeId), [
 				'blocks' => Kernel::$blockObj->getBlocksForNode ($nodeId),
 				'analytics' => Kernel::$analyticsObj->getTrackerHtmlCode (),
 				'siteName' => Kernel::$configurationObj->getConfigurationGlobalItem ('Site', 'name')

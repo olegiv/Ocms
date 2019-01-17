@@ -11,9 +11,9 @@ use Ocms\core\controller\NodeController;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 17.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class ExceptionRuntime extends ExceptionBase implements ExceptionInterface {
 
@@ -34,12 +34,13 @@ class ExceptionRuntime extends ExceptionBase implements ExceptionInterface {
 			case self::E_NOT_FOUND:
 			case self::E_ACCESS_DENIED:
 			case self::E_METHOD_NOT_ALLOWED:
-			case self::E_FATAL:
 				http_response_code ($type);
 				if (! Kernel::$nodeControllerObj->viewErrorPage ($type)) {
 					echo Kernel::$viewObj->render ('extend/error/runtime',
 					['message' => $this->getMessage (), 'type' => $type]);
 				}
+				break;
+			case self::E_FATAL:
 				break;
 			default:
 				echo Kernel::$viewObj->render ('extend/error/runtime',

@@ -2,7 +2,9 @@
 
 namespace Ocms\core\model;
 
+use Ocms\core\exception\ExceptionBase;
 use Ocms\core\exception\ExceptionFatal;
+use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\Kernel;
 
 /**
@@ -11,11 +13,14 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 17.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class Model implements ModelInterface {
+
+	const DB_TYPE_MYSQL = 'mysql';
+	const DB_TYPE_SQLITE = 'sqlite';
 
 	/**
 	 *
@@ -28,6 +33,11 @@ class Model implements ModelInterface {
 	 * @var \PDO
 	 */
 	private $db;
+
+	/**
+	 * @var string
+	 */
+	private $dbType;
 
 	/**
 	 *
@@ -68,14 +78,14 @@ class Model implements ModelInterface {
    */
 	private function initDb() {
 
-		switch (($dbType = Kernel::$configurationObj->getDbType())) {
-			case 'sqlite':
+		switch (($this->dbType = Kernel::$configurationObj->getDbType())) {
+			case self::DB_TYPE_SQLITE:
 				$this->db = ModelSQLite::getInstance()->init();
 				break;
-			case 'mysql':
+			case self::DB_TYPE_MYSQL:
 				break;
 			default:
-				throw new ExceptionFatal (ExceptionFatal::E_FATAL, 'Bad DB type: ' . $dbType);
+				throw new ExceptionFatal (ExceptionFatal::E_FATAL, 'Bad DB type: ' . $this->dbType);
 		}
 	}
 
@@ -128,9 +138,10 @@ class Model implements ModelInterface {
 		return [$stmt, $args];
 	}
 
-  /**
-   * @return bool|\PDO
-   */
+	/**
+	 * @return bool
+	 * @throws ExceptionRuntime
+	 */
 	public function single() {
 
 		try {
@@ -139,13 +150,15 @@ class Model implements ModelInterface {
 			return $stmt->fetchObject();
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
+			throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
 			return false;
 		}
 	}
 
-  /**
-   * @return bool|\PDO
-   */
+	/**
+	 * @return bool
+	 * @throws ExceptionRuntime
+	 */
 	public function fetch() {
 
 		try {
@@ -154,13 +167,15 @@ class Model implements ModelInterface {
 			return $stmt->fetchAll(\PDO::FETCH_OBJ);
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
+			throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
 			return false;
 		}
 	}
 
-  /**
-   * @return bool|\PDO
-   */
+	/**
+	 * @return bool
+	 * @throws ExceptionRuntime
+	 */
 	public function shift() {
 
 		try {
@@ -170,7 +185,26 @@ class Model implements ModelInterface {
 			return $res[0];
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
+			throw new ExceptionRuntime(ExceptionBase::E_FATAL, $this->error);
 			return false;
 		}
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $needle
+	 * @return string
+	 */
+	public function getSQLFindInSet (string $field, string $needle): string {
+
+		switch ($this->dbType) {
+			case self::DB_TYPE_MYSQL:
+				$return = '';
+				break;
+			case self::DB_TYPE_SQLITE:
+				$return = ModelSQLite::getSQLFindInSet ($field, $needle);
+		}
+
+		return $return;
 	}
 }
