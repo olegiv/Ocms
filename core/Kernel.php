@@ -2,6 +2,7 @@
 
 namespace Ocms\core;
 
+use Ocms\core\service\Alias\AliasService;
 use Ocms\core\service\Configuration\ConfigurationService;
 use Ocms\core\service\Log\LogService;
 use Ocms\core\block\Block;
@@ -9,6 +10,7 @@ use Ocms\core\model\Model;
 use Ocms\core\view\View;
 use Ocms\core\service\Router\Router;
 use Ocms\core\service\I18n\I18n;
+use Ocms\core\service\Menu\MenuService;
 use Ocms\core\service\User\UserService;
 
 use Ocms\core\controller\NodeController;
@@ -26,9 +28,9 @@ require_once 'Helper.php';
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 18.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 2019, OCMS
  */
 class Kernel implements KernelInterface {
 
@@ -81,6 +83,12 @@ class Kernel implements KernelInterface {
 
 	/**
 	 *
+	 * @var \Ocms\core\service\Menu\MenuService
+	 */
+	public static $menuObj;
+
+	/**
+	 *
 	 * @var \Ocms\core\service\User\UserService
 	 */
 	public static $userObj;
@@ -90,6 +98,12 @@ class Kernel implements KernelInterface {
 	 * @var \Ocms\core\block\Block
 	 */
 	public static $blockObj;
+
+	/**
+	 *
+	 * @var \Ocms\core\service\Alias\AliasService
+	 */
+	public static $aliasObj;
 
 	/**
 	 *
@@ -145,9 +159,11 @@ class Kernel implements KernelInterface {
 		self::$viewObj = View::getInstance();
 		self::$modelObj = Model::getInstance();
 		self::$i18nObj = I18n::getInstance();
+		self::$menuObj = MenuService::getInstance();
 		self::$userObj = UserService::getInstance();
 		self::$routerObj = Router::getInstance();
 		self::$blockObj = Block::getInstance();
+		self::$aliasObj = AliasService::getInstance();
 		self::$nodeControllerObj = NodeController::getInstance();
 		self::$frontControllerObj = FrontController::getInstance();
 		self::$blogControllerObj = BlogController::getInstance();

@@ -10,7 +10,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 17.01.2019
+ * @version 0.0.3 18.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 -2019, OCMS
  */
@@ -27,7 +27,8 @@ class BlockModel {
 	}
 
 	/**
-	 * @return bool|\PDO
+	 * @return bool
+	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getBlocksForBlog () {
 	
@@ -42,7 +43,8 @@ class BlockModel {
 	}
 
 	/**
-	 * @return bool|\PDO
+	 * @return bool
+	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getBlocksForBlogIndex () {
 
@@ -59,29 +61,8 @@ class BlockModel {
 	 */
 	public static function getBlocks($nodeId) {
 
-		$blocks = Kernel::$modelObj->fetch (
+		return Kernel::$modelObj->fetch (
 			'SELECT * FROM #prefix#block WHERE ' . Kernel::$modelObj->getSQLFindInSet ('display_in_nodes', $nodeId)
 		);
-
-		/*if ($nodeId && $blocks) {
-			foreach ($blocks as $key => $block) {
-				if ($block->display_in_nodes) {
-					$displayInNodes = explode(',', $block->display_in_nodes);
-					if (!in_array($nodeId, $displayInNodes)) {
-						if ($block->display_in_nodes_logic) {
-							unset($blocks[$key]);
-						}
-					} else {
-						if (!$block->display_in_nodes_logic) {
-							unset($blocks[$key]);
-						}
-					}
-				} else {
-					unset($blocks[$key]);
-				}
-			}
-		}*/
-		return $blocks;
 	}
-
 }

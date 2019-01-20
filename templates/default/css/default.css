@@ -19,3 +19,7 @@
 .block .body {
 
 }
+
+.menu-current {
+	background-color: lightgray;
+}

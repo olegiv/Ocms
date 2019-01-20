@@ -3,6 +3,7 @@
 namespace Ocms\core\service\Router;
 
 use Ocms\core\exception\ExceptionRuntime;
+use Ocms\core\Kernel;
 
 /**
  * Router Class.
@@ -10,9 +11,9 @@ use Ocms\core\exception\ExceptionRuntime;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 18.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class Router implements RouterInterface {
 
@@ -76,8 +77,9 @@ class Router implements RouterInterface {
 	}
 
 	/**
-	 *
 	 * @return bool
+	 * @throws ExceptionRuntime
+	 * @throws \ReflectionException
 	 */
 	private function setController (): bool {
 
@@ -92,26 +94,43 @@ class Router implements RouterInterface {
 
 		$request = getenv ('REQUEST_URI');
 		$parts = explode('?', $request);
-    $splits = explode('/', trim($parts[0],'/'));
 
-    $this->controllerClass = !empty($splits[0]) ? ucfirst($splits[0]).'Controller' : self::DEFAULT_CONTROLLER;
-		$this->controllerClass = self::CONTROLLER_CLASS_PREFIX . $this->controllerClass;
-    $this->controllerMethod = !empty($splits[1]) ? $splits[1].'Action' : self::DEFAULT_ACTION;
+		if (($nodeId = Kernel::$aliasObj->getNode($parts[0]))) {
 
-    if (isset($splits[2]) && !empty(trim ($splits[2]))){
-      $this->parameter = trim($splits[2]);
+			$this->setClassForNode($nodeId);
+
 		} else {
-			$this->parameter = 0; // @todo
+
+			$splits = explode('/', trim($parts[0],'/'));
+
+			$this->controllerClass = !empty($splits[0]) ? ucfirst($splits[0]).'Controller' : self::DEFAULT_CONTROLLER;
+			$this->controllerClass = self::CONTROLLER_CLASS_PREFIX . $this->controllerClass;
+			$this->controllerMethod = !empty($splits[1]) ? $splits[1].'Action' : self::DEFAULT_ACTION;
+
+			if (isset($splits[2]) && !empty(trim ($splits[2]))){
+				$this->parameter = trim($splits[2]);
+			} else {
+				$this->parameter = 0; // @todo
+			}
 		}
 	}
 
-  /**
-   * @param string $controller
-   * @param string $method
-   * @return bool
-   * @throws ExceptionRuntime
-   * @throws \ReflectionException
-   */
+	/**
+	 * @param int $nodeId
+	 */
+	private function setClassForNode(int $nodeId) {
+
+		$this->controllerClass = 'Ocms\core\controller\NodeController';
+		$this->controllerMethod = self::DEFAULT_ACTION;
+		$this->parameter = $nodeId;
+	}
+
+	/**
+	 * @param string $controller
+	 * @param string $method
+	 * @return bool
+	 * @throws \ReflectionException
+	 */
 	private function validateController (string $controller, string $method): bool {
 
 		$return = TRUE;
@@ -136,29 +155,4 @@ class Router implements RouterInterface {
 		}
 		return $return;
 	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	/*public function getParams (): array {
-
-		return [];
-	}*/
-
-	/**
-	 *
-	 * @param string $key
-	 * @return string
-	 */
-	/*public function getParam (string $key): string {
-
-		$param = '';
-		if (($params = $this->getParams())) {
-			if (array_key_exists ($key, $params)) {
-				$param = $params[$key];
-			}
-		}
-		return $param;
-	}*/
 }
