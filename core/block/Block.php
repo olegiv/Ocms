@@ -86,9 +86,9 @@ class Block extends BlockBase implements BlockInterface {
 	 *
 	 * @return array
 	 */
-	public function getBlocksForBlogIndex (): array {
+	/*public function getBlocksForBlogIndex (): array {
 
 		return BlockModel::getBlocksForBlogIndex();
-	}
+	}*/
 
 }

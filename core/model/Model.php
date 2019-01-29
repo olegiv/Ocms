@@ -13,7 +13,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 17.01.2019
+ * @version 0.0.3 20.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -139,7 +139,7 @@ class Model implements ModelInterface {
 	}
 
 	/**
-	 * @return bool
+	 * @return object
 	 * @throws ExceptionRuntime
 	 */
 	public function single() {
@@ -151,12 +151,11 @@ class Model implements ModelInterface {
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
 			throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
-			return false;
 		}
 	}
 
 	/**
-	 * @return bool
+	 * @return array
 	 * @throws ExceptionRuntime
 	 */
 	public function fetch() {
@@ -168,14 +167,13 @@ class Model implements ModelInterface {
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
 			throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
-			return false;
 		}
 	}
 
-	/**
-	 * @return bool
-	 * @throws ExceptionRuntime
-	 */
+    /**
+     * @return array
+     * @throws ExceptionRuntime
+     */
 	public function shift() {
 
 		try {
@@ -186,7 +184,6 @@ class Model implements ModelInterface {
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
 			throw new ExceptionRuntime(ExceptionBase::E_FATAL, $this->error);
-			return false;
 		}
 	}
 

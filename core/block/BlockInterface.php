@@ -8,9 +8,9 @@ namespace Ocms\core\block;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 20.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 interface BlockInterface {
 
@@ -25,5 +25,5 @@ interface BlockInterface {
 	 *
 	 * @return array
 	 */
-	public function getBlocksForBlogIndex (): array;
+	//public function getBlocksForBlogIndex (): array;
 }

@@ -10,9 +10,9 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 30.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class View extends ViewBase {
 
@@ -117,11 +117,13 @@ class View extends ViewBase {
 	 */
 	private static function getTitle (array $params): string {
 
-		if (isset ($params['title']) && isset($params['siteName'])) {
-			$titleFull = $params['title'] . ' | ' . $params['siteName'];
+		if (isset($params['site']['name'])) {
+			$return = $params['title'] . ' | ' . $params['site']['name'];
+		} else if (isset($params['title'])) {
+			$return = $params['title'];
 		} else {
-			$titleFull = '';
+			$return = '';
 		}
-		return $titleFull;
+		return $return;
 	}
 }

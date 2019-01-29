@@ -28,9 +28,9 @@ require_once 'Helper.php';
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 18.01.2019
+ * @version 0.0.3 20.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018 2019, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class Kernel implements KernelInterface {
 
@@ -199,5 +199,13 @@ class Kernel implements KernelInterface {
 	public static function inDebug (): bool {
 
 		return (bool)self::$configurationObj->getConfigurationGlobalItem ('Server', 'debug');
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getSiteConfiguration(): array {
+
+		return self::$configurationObj->getConfigurationGlobal('Site');
 	}
 }

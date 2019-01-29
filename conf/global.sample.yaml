@@ -15,6 +15,9 @@ Site:
     403: 403
     404: 404
     500: 500
+  copyright:
+    url: https://ocms.tech
+    label: OCMS
 
 Layout:
   template:
