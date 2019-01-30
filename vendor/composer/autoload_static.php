@@ -22,6 +22,10 @@ class ComposerStaticInit57d66bfd8db8de2f0aa7045a6a01ecba
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
         ),
+        'K' => 
+        array (
+            'Kodus\\' => 6,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -40,6 +44,10 @@ class ComposerStaticInit57d66bfd8db8de2f0aa7045a6a01ecba
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Kodus\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kodus/sql-splitter/src',
         ),
     );
 

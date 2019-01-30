@@ -1,5 +1,53 @@
 [
     {
+        "name": "kodus/sql-splitter",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kodus/sql-splitter.git",
+            "reference": "5b6bc625b53166fc74d4372eefb0c55aad2ef700"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kodus/sql-splitter/zipball/5b6bc625b53166fc74d4372eefb0c55aad2ef700",
+            "reference": "5b6bc625b53166fc74d4372eefb0c55aad2ef700",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.0"
+        },
+        "require-dev": {
+            "mindplay/testies": "^0.3.0"
+        },
+        "time": "2017-05-19T10:28:13+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Kodus\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Can Abacigil",
+                "email": "abacigil@gmail.com",
+                "homepage": "https://teamsql.io/",
+                "role": "Developer of original NPM package"
+            },
+            {
+                "name": "Rasmus Schultz",
+                "email": "rasc@jfmedier.dk",
+                "role": "Developer of this PHP port"
+            }
+        ],
+        "description": "A simple facility to split SQL files into individual queries - supports MySQL, PostgreSQL and Microsoft SQL Server"
+    },
+    {
         "name": "symfony/polyfill-ctype",
         "version": "v1.10.0",
         "version_normalized": "1.10.0.0",

@@ -8,9 +8,9 @@ namespace Ocms\core\service\Date;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 30.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class DateService implements DateServiceInterface {
 
@@ -51,6 +51,15 @@ class DateService implements DateServiceInterface {
 	 */
 	public static function fromTimestamp(int $timestamp): string {
 		
-		return date(self::$formatDate, $timestamp);
+		return date (self::$formatDate, $timestamp);
+	}
+
+	/**
+	 * @param string $date
+	 * @return string
+	 */
+	public static function formatDateLong (string $date): string {
+
+		return date (self::$formatDate, strtotime ($date));
 	}
 }

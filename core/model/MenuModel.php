@@ -22,7 +22,7 @@ class MenuModel {
 
 		if ($menu) {
 			foreach ($menu as $key => $value) {
-				if ($nodeId == $value->nodeId) {
+				if ($nodeId == $value->id2_node) {
 					$menu[$key]->current = true;
 				} else {
 					$menu[$key]->current = false;

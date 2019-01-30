@@ -1,0 +1,30 @@
+{
+    "name": "kodus/sql-splitter",
+    "type": "library",
+    "description": "A simple facility to split SQL files into individual queries - supports MySQL, PostgreSQL and Microsoft SQL Server",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Can Abacigil",
+            "email": "abacigil@gmail.com",
+            "homepage": "https://teamsql.io/",
+            "role": "Developer of original NPM package"
+        },
+        {
+            "name": "Rasmus Schultz",
+            "email": "rasc@jfmedier.dk",
+            "role": "Developer of this PHP port"
+        }
+    ],
+    "require": {
+        "php": "^7.0"
+    },
+    "require-dev": {
+        "mindplay/testies": "^0.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kodus\\": "src/"
+        }
+    }
+}

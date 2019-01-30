@@ -7,6 +7,7 @@
 		"php": ">=7.0.0",
 		"ext-pdo": "*",
 		"twig/twig": "^2.0",
-		"symfony/yaml": "^3.4"
+		"symfony/yaml": "^3.4",
+		"kodus/sql-splitter": "^1.0"
 	}
 }

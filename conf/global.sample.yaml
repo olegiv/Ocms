@@ -1,7 +1,16 @@
 DB:
-  type: "sqlite"
   prefix: "ocms_"
-  file: "data/ocms.db"
+
+  # MySQL
+  type: "mysql"
+  host: "localhost"
+  dbname: "ocms"
+  username: "ocms"
+  password: "ocms"
+
+  # SQLite
+#  type: "sqlite"
+#  file: "data/ocms.db"
 
 Site:
   name: OCMS

@@ -13,7 +13,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.3 20.01.2019
+ * @version 0.0.4 30.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -83,6 +83,7 @@ class Model implements ModelInterface {
 				$this->db = ModelSQLite::getInstance()->init();
 				break;
 			case self::DB_TYPE_MYSQL:
+				$this->db = ModelMySQL::getInstance()->init();
 				break;
 			default:
 				throw new ExceptionFatal (ExceptionFatal::E_FATAL, 'Bad DB type: ' . $this->dbType);
@@ -196,10 +197,13 @@ class Model implements ModelInterface {
 
 		switch ($this->dbType) {
 			case self::DB_TYPE_MYSQL:
-				$return = '';
+				$return = ModelMySQL::getSQLFindInSet ($field, $needle);
 				break;
 			case self::DB_TYPE_SQLITE:
 				$return = ModelSQLite::getSQLFindInSet ($field, $needle);
+				break;
+			default:
+				$return = '';
 		}
 
 		return $return;

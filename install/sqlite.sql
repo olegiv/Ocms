@@ -24,9 +24,9 @@ CREATE TABLE `ocms_node` (
 	`keywords`	TEXT,
 	`description`	TEXT
 );
-INSERT INTO `ocms_node` VALUES (1,'Homepage','<h2>Welcome!</h2>','CMS','OCMS Homepage');
-INSERT INTO `ocms_node` VALUES (2,'Blogs','<h2>Blogs</h2>','blog,blogs','OCMS Blogs');
-INSERT INTO `ocms_node` VALUES (3,'About','<h2>About</h2>','about','About OCMS');
+INSERT INTO `ocms_node` VALUES (1,'Homepage','<h3>Welcome!</h3>','CMS','OCMS Homepage');
+INSERT INTO `ocms_node` VALUES (2,'Blogs','<h3>Weclome to Blogs!</h3>','blog,blogs','OCMS Blogs');
+INSERT INTO `ocms_node` VALUES (3,'About','<h3>Welcome to About page!</h3>','about','About OCMS');
 INSERT INTO `ocms_node` VALUES (404,'404 - Page not found','Page not found',NULL,NULL);
 CREATE TABLE "ocms_menu" (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -90,7 +90,7 @@ CREATE TABLE `ocms_block` (
 INSERT INTO `ocms_block` VALUES (1,'right','Right block','This is my right block','',0,'',1);
 INSERT INTO `ocms_block` VALUES (2,'right','Facebook','Facebook widget','',0,'',1);
 INSERT INTO `ocms_block` VALUES (3,'left','Left block','This is my left block','',0,'',1);
-INSERT INTO `ocms_block` VALUES (4,'middle','Blogs','','BLOG_LIST',1,'2,3',0);
+INSERT INTO `ocms_block` VALUES (4,'middle','Blogs','','BLOG_LIST',1,'2',0);
 CREATE TABLE "ocms_alias" (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`alias`	TEXT NOT NULL UNIQUE,

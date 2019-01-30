@@ -15,9 +15,9 @@ use Ocms\core\service\Date\DateService;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 30.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class BlogController extends NodeControllerBase implements ControllerInterface {
 
@@ -59,9 +59,9 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 	 */
 	private function setProperties($blog) {
 
-		$blog->username = UserModel::getUserName($blog->id2_author);
-		$blog->content_date = DateService::fromTimestamp($blog->content_date);
-		$blog->tagsArray = explode(' ', $blog->tags);
+		$blog->username = UserModel::getUserName ($blog->id2_author);
+		$blog->content_date = DateService::formatDateLong ($blog->content_date);
+		$blog->tagsArray = explode (' ', $blog->tags);
 		return $blog;
 	}
 
@@ -117,14 +117,17 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
    */
 	public static function viewAction (int $nodeId) {
 
-		if (! $nodeIdSanitized = intval($nodeId)) {
-			throw new ExceptionRuntime(ExceptionRuntime::E_NOT_FOUND, t('Bad blog ID: %s', $nodeId));
+		if (! $nodeIdSanitized = intval ($nodeId)) {
+			throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t('Bad blog ID: %s', $nodeId));
 		}
-		if (($node = self::$_instance->get($nodeIdSanitized))) {
+		if (($node = self::$_instance->get ($nodeIdSanitized))) {
 			echo Kernel::$viewObj->render('extend/blog',
-				array_merge((array)$node,
-					['blocks' => Kernel::$blockObj->getBlocksForBlog()],
-					['analytics' => Kernel::$analyticsObj->getTrackerHtmlCode()])
+				array_merge ((array)$node, [
+					'blocks' => Kernel::$blockObj->getBlocksForBlog (),
+					'menu' => Kernel::$menuObj->getMenuForNode ($nodeId),
+					'analytics' => Kernel::$analyticsObj->getTrackerHtmlCode (),
+					'site' => Kernel::getSiteConfiguration ()
+				])
 			);
 		}
 	}

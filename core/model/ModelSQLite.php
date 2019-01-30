@@ -12,14 +12,13 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 17.01.2019
+ * @version 0.0.3 30.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
-class ModelSQLite implements ModelSQLiteInterface {
+class ModelSQLite extends ModelAbstract implements ModelSQLiteInterface {
 
 	const DBFile = 'data/ocms.db';
-	const INSTALLFile = 'install/sqlite.sql';
 
 	/**
 	 *
@@ -28,22 +27,15 @@ class ModelSQLite implements ModelSQLiteInterface {
 	static $_instance;
 
 	/**
-	 *
-	 * @var array
+	 * @var string
 	 */
-	private $conf;
-
-	/**
-	 *
-	 * @var \PDO
-	 */
-	private $db;
+	protected $initialSqlFile = 'install/sqlite.sql';
 
 	/**
 	 *
 	 * @return ModelSQLite
 	 */
-	public static function getInstance(): ModelSQLite {
+	public static function getInstance (): ModelSQLite {
 
 		if (!(self::$_instance instanceof self)) {
 			self::$_instance = new self();
@@ -53,70 +45,17 @@ class ModelSQLite implements ModelSQLiteInterface {
 
 	/**
 	 *
-	 */
-	private function __construct() {
-
-		$this->conf = Kernel::$configurationObj->getConfigurationGlobal('DB');
-	}
-
-  /**
-   * @return \PDO
-   * @throws ExceptionFatal
-   */
-	public function init() {
-
-		if (!$this->isDbInited()) {
-			$this->initDb();
-		} else {
-			$this->connect();
-		}
-		return $this->db;
-	}
-
-	/**
-	 *
 	 * @return bool
 	 */
-	private function isDbInited(): bool {
+	protected function isDbInited (): bool {
 
 		return (file_exists(self::DBFile) && filesize(self::DBFile) > 0);
 	}
 
-  /**
-   * @throws ExceptionFatal
-   */
-	private function initDb() {
-
-		try {
-			$this->createFile();
-			$this->connect();
-			$this->db->exec($this->getInitSql());
-		} catch (\Exception $e) {
-			throw new ExceptionFatal (ExceptionBase::E_FATAL, $e->getMessage());
-		}
-	}
-
-	/**
-	 *
-	 * @param string $sql
-	 * @throws ExceptionRuntime
-	 */
-	/*private function transaction (string $sql) {
-
-		try {
-			$this->db->beginTransaction();
-			$this->db->exec($sql);
-			$this->db->commit();
-		} catch (\PDOException $e) {
-			$this->db->rollBack();
-			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, $e->getMessage());
-		}
-	}*/
-
 	/**
 	 *
 	 */
-	private function connect() {
+	protected function connect () {
 
 		$this->db = new \PDO('sqlite:' . self::DBFile);
 		$this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
@@ -125,24 +64,26 @@ class ModelSQLite implements ModelSQLiteInterface {
   /**
    * @throws ExceptionFatal
    */
-	private function createFile () {
+	protected function createDb () {
 
 		if (! ($handle = @fopen (self::DBFile, 'w'))) {
-			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot create SQLite file: ' . self::INSTALLFile);
+			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot create SQLite file: ' . self::DBFile);
 		}
 		fclose($handle);
 	}
 
-  /**
-   * @return string
-   * @throws ExceptionFatal
-   */
-	private function getInitSql (): string {
+	/**
+	 * @throws ExceptionFatal
+	 */
+	protected function initDb () {
 
-		if (!($sql = file_get_contents (self::INSTALLFile))) {
-			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot open file: '  . self::INSTALLFile);
+		try {
+			$this->createDb ();
+			$this->connect ();
+			$this->db->exec ($this->getInitSql ($this->initialSqlFile));
+		} catch (\Exception $e) {
+			throw new ExceptionFatal (ExceptionBase::E_FATAL, $e->getMessage());
 		}
-		return str_replace ('#dbPrefix#', Kernel::$configurationObj->getDbPrefix(), $sql);
 	}
 
 	/**
@@ -155,9 +96,9 @@ class ModelSQLite implements ModelSQLiteInterface {
 		return str_replace (
 			['%field%', '%needle%'],
 			[$field, $needle],
-			'`%field%` like \'%needle%,%\' OR
-			`%field%` like \'%,%needle%\' OR
-			`%field%` like \'%,%needle%,%\'
+			'`%field%` LIKE \'%needle%,%\' OR
+			`%field%` LIKE \'%,%needle%\' OR
+			`%field%` LIKE \'%,%needle%,%\'
 			OR `%field%` = \'%needle%\''
 		);
 	}
