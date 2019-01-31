@@ -2,6 +2,8 @@
 
 use Ocms\core\Kernel;
 
+define ('NEW_LINE', "\n");
+
 /**
  * 
  * @return string

@@ -10,7 +10,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 30.01.2019
+ * @version 0.0.3 31.01.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -51,13 +51,16 @@ class View extends ViewBase {
 	}
 
 	/**
-	 *
+	 * View constructor.
 	 */
 	private function __construct() {
 
 		$this->conf = Kernel::$configurationObj->getConfigurationGlobal();
 		$loader = new \Twig_Loader_Filesystem ($this->getTwigPath());
 		$this->twigObj = new \Twig_Environment ($loader, $this->getTwigOptions());
+		if (Kernel::inDebug ()) {
+			$this->twigObj->addExtension(new \Twig_Extension_Debug ());
+		}
 	}
 
 	/**
@@ -88,6 +91,9 @@ class View extends ViewBase {
 				$twigOptions['cache'] = self::CACHE_DEFAULT_PATH; // 'cache' => 'data/cache',
 			}
 		}
+		if (Kernel::inDebug ()) {
+			$twigOptions['debug'] = true;
+		}
 		return $twigOptions;
 	}
 
@@ -100,6 +106,9 @@ class View extends ViewBase {
 
 		try {
 			$params['titleHead'] = self::getTitle ($params);
+			if (Kernel::inDebug ()) {
+				$params['twigFile'] = $template;
+			}
 			$params = array_merge($params,
 							['template_root' => '/templates/' . $this->conf['Layout']['template']['id'] . '/']);
 			$html = $this->twigObj->render($template . '.html.twig', $params);
@@ -107,8 +116,16 @@ class View extends ViewBase {
 			Kernel::$logObj->log($e->getMessage ());
 			$html = '';
 		}
+
+		if (Kernel::inDebug ()) {
+			$html = '<!-- Template start: ' . $template . '-->' . NEW_LINE .
+				$html . '<!-- Template end: ' . $template . '-->' . NEW_LINE;
+		}
+
 		return $html;
 	}
+
+
 
 	/**
 	 *
