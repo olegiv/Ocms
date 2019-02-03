@@ -10,15 +10,11 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.3 31.01.2019
+ * @version 0.0.4 01.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class View extends ViewBase {
-
-	const CACHE_DEFAULT_PATH = 'data/cache';
-
-	const TWIG_DEFAULT_PATH = 'templates/default';
 
 	/**
 	 *
@@ -56,45 +52,7 @@ class View extends ViewBase {
 	private function __construct() {
 
 		$this->conf = Kernel::$configurationObj->getConfigurationGlobal();
-		$loader = new \Twig_Loader_Filesystem ($this->getTwigPath());
-		$this->twigObj = new \Twig_Environment ($loader, $this->getTwigOptions());
-		if (Kernel::inDebug ()) {
-			$this->twigObj->addExtension(new \Twig_Extension_Debug ());
-		}
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	private function getTwigPath (): string {
-
-		if (isset($this->conf['Layout']['template']['id'])) {
-			$twigPath = 'templates/' . $this->conf['Layout']['template']['id'];
-		} else {
-			$twigPath = self::TWIG_DEFAULT_PATH;
-		}
-		return $twigPath;
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	private function getTwigOptions (): array {
-
-		$twigOptions = [];
-		if (isset ($this->conf['Site']['cache']['enabled']) && $this->conf['Site']['cache']['enabled']) {
-			if (isset ($this->conf['Site']['cache']['path'])) {
-				$twigOptions['cache'] = $this->conf['Site']['cache']['path'];
-			} else {
-				$twigOptions['cache'] = self::CACHE_DEFAULT_PATH; // 'cache' => 'data/cache',
-			}
-		}
-		if (Kernel::inDebug ()) {
-			$twigOptions['debug'] = true;
-		}
-		return $twigOptions;
+		$this->twigObj = Twig::init();
 	}
 
   /**
@@ -125,8 +83,6 @@ class View extends ViewBase {
 		return $html;
 	}
 
-
-
 	/**
 	 *
 	 * @param array $params
@@ -142,5 +98,13 @@ class View extends ViewBase {
 			$return = '';
 		}
 		return $return;
+	}
+
+	/**
+	 * @return \Twig_Environment
+	 */
+	public function getTwigObj (): \Twig_Environment {
+
+		return $this->twigObj;
 	}
 }

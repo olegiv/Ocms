@@ -2,6 +2,8 @@
 
 namespace Ocms\core\controller;
 
+use Ocms\core\service\Parser\ParserService;
+
 /**
  * NodeControllerBase Class.
  *
@@ -25,4 +27,15 @@ abstract class NodeControllerBase extends ControllerBase implements ControllerIn
 	 */
 	public static function viewAction (int $nodeId) {}
 
+	/**
+	 * @param \stdClass $node
+	 * @return \stdClass
+	 */
+	protected static function preProcess (\stdClass $node): \stdClass {
+
+		if (isset($node->body) && ! empty($node->body)) {
+			$node->body = ParserService::parseHtml($node->body);
+		}
+		return $node;
+	}
 }

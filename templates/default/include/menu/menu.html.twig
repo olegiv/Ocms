@@ -1,7 +1,5 @@
-<!-- Menu -->
 <nav>
 	{% for menu in menus %}
 		<a href="{{ menu.url }}"{% if menu.current %} class="menu-current"{% endif %}>{{ menu.label }}</a>
 	{% endfor %}
 </nav>
-<!-- End of Menu -->

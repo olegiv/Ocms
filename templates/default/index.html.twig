@@ -19,5 +19,6 @@
 				{{- include ('include/footer/footer.html.twig') }}
 			{% endblock %}
 		</div>
+		{{ renderController('\\Ocms\\app\\example\\controller\\ExampleController::view', '<pre>ExampleController::view</pre>') }}
 	</body>
 </html>

@@ -28,7 +28,7 @@ CREATE TABLE `ocms_alias` (
   `alias` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `ocms_alias` (
 
 LOCK TABLES `ocms_alias` WRITE;
 /*!40000 ALTER TABLE `ocms_alias` DISABLE KEYS */;
-INSERT INTO `ocms_alias` VALUES (1,2,'/blogs'),(2,3,'/about');
+INSERT INTO `ocms_alias` VALUES (1,2,'/blogs'),(2,3,'/about'),(3,4,'/example');
 /*!40000 ALTER TABLE `ocms_alias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +69,7 @@ CREATE TABLE `ocms_block` (
 
 LOCK TABLES `ocms_block` WRITE;
 /*!40000 ALTER TABLE `ocms_block` DISABLE KEYS */;
-INSERT INTO `ocms_block` VALUES (1,'right','Right block','This is my right block','',0,'',1),(2,'right','Facebook','Facebook widget','',0,'',1),(3,'left','Left block','This is my left block','',0,'',1),(4,'middle','Blogs','','BLOG_LIST',1,'2',0);
+INSERT INTO `ocms_block` VALUES (1,'right','Right block','This is my right block','',0,'',0),(2,'right','Facebook','Facebook widget','',0,'',0),(3,'left','Left block','This is my left block','',0,'',0),(4,'middle','Blogs','','BLOG_LIST',1,'2',0);
 /*!40000 ALTER TABLE `ocms_block` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +151,7 @@ CREATE TABLE `ocms_menu` (
   PRIMARY KEY (`id`),
   KEY `fk_ocms_menu_node_idx` (`id2_node`),
   CONSTRAINT `fk_ocms_menu_node` FOREIGN KEY (`id2_node`) REFERENCES `ocms_node` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +160,7 @@ CREATE TABLE `ocms_menu` (
 
 LOCK TABLES `ocms_menu` WRITE;
 /*!40000 ALTER TABLE `ocms_menu` DISABLE KEYS */;
-INSERT INTO `ocms_menu` VALUES (1,2,2,0,'/blogs','Blogs'),(2,3,3,0,'/about','About'),(3,1,1,0,'/','Homepage');
+INSERT INTO `ocms_menu` VALUES (1,2,2,0,'/blogs','Blogs'),(2,3,3,0,'/about','About'),(3,1,1,0,'/','Homepage'),(4,4,4,0,'/example','Application Example');
 /*!40000 ALTER TABLE `ocms_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,7 +187,7 @@ CREATE TABLE `ocms_node` (
 
 LOCK TABLES `ocms_node` WRITE;
 /*!40000 ALTER TABLE `ocms_node` DISABLE KEYS */;
-INSERT INTO `ocms_node` VALUES (1,'Homepage','<h3>Welcome!</h3>','CMS','OCMS Homepage'),(2,'Blogs','<h3>Weclome to Blogs!</h3>','blog,blogs','OCMS Blogs'),(3,'About','<h3>Welcome to About page!</h3>','about','About OCMS'),(404,'404 - Page not found','Page not found','','');
+INSERT INTO `ocms_node` VALUES (1,'Homepage','<h3>Welcome!</h3>','CMS','OCMS Homepage'),(2,'Blogs','<h3>Weclome to Blogs!</h3>','blog,blogs','OCMS Blogs'),(3,'About','<h3>Welcome to About page!</h3>','about','About OCMS'),(4,'Application Example','<p>This is application controller HTML output example</p><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div>','',''),(404,'404 - Page not found','Page not found','','');
 /*!40000 ALTER TABLE `ocms_node` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,4 +249,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-30 16:08:24
+-- Dump completed on 2019-01-01 23:04:04

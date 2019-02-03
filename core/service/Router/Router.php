@@ -2,7 +2,7 @@
 
 namespace Ocms\core\service\Router;
 
-use Ocms\core\exception\ExceptionRuntime;
+use Ocms\core\controller\ControllerBase;
 use Ocms\core\Kernel;
 
 /**
@@ -11,7 +11,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 18.01.2019
+ * @version 0.0.3 01.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -19,8 +19,6 @@ class Router implements RouterInterface {
 
 	const DEFAULT_CONTROLLER = 'FrontController';
 	const DEFAULT_ACTION = 'viewAction';
-
-	const CONTROLLER_CLASS_PREFIX = 'Ocms\core\controller\\';
 
 	/**
 	 *
@@ -63,32 +61,36 @@ class Router implements RouterInterface {
 	private function __construct() {}
 
 	/**
-	 *
+	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 * @throws \ReflectionException
 	 */
 	public function run () {
 
-		//try {
-			if ($this->setController()) {
-				call_user_func ($this->controllerClass . '::' . $this->controllerMethod, $this->parameter);
+		if ($this->setController()) {
+			$controllerWithMethod = $this->controllerClass . '::' . $this->controllerMethod;
+			if (Kernel::inDebug()) {
+				echo NEW_LINE . '<!-- Controller begin: ' . $controllerWithMethod . ' -->' . NEW_LINE;
 			}
-		/*} catch (\Exception $e) {
-			echo $e->getMessage();
-		}*/
+			call_user_func ($controllerWithMethod, $this->parameter);
+			if (Kernel::inDebug()) {
+				echo NEW_LINE . '<!-- Controller end: ' . $controllerWithMethod . '-->' . NEW_LINE;
+			}
+		}
 	}
 
 	/**
 	 * @return bool
-	 * @throws ExceptionRuntime
+	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 * @throws \ReflectionException
 	 */
 	private function setController (): bool {
 
 		$this->getControllerFromRequest();
-		return $this->validateController($this->controllerClass, $this->controllerMethod);
+		return ControllerBase::validateController($this->controllerClass, $this->controllerMethod);
 	}
 
 	/**
-	 *
+	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	private function getControllerFromRequest (){
 
@@ -104,7 +106,7 @@ class Router implements RouterInterface {
 			$splits = explode('/', trim($parts[0],'/'));
 
 			$this->controllerClass = !empty($splits[0]) ? ucfirst($splits[0]).'Controller' : self::DEFAULT_CONTROLLER;
-			$this->controllerClass = self::CONTROLLER_CLASS_PREFIX . $this->controllerClass;
+			$this->controllerClass = ControllerBase::CONTROLLER_CLASS_PREFIX . $this->controllerClass;
 			$this->controllerMethod = !empty($splits[1]) ? $splits[1].'Action' : self::DEFAULT_ACTION;
 
 			if (isset($splits[2]) && !empty(trim ($splits[2]))){
@@ -123,36 +125,5 @@ class Router implements RouterInterface {
 		$this->controllerClass = 'Ocms\core\controller\NodeController';
 		$this->controllerMethod = self::DEFAULT_ACTION;
 		$this->parameter = $nodeId;
-	}
-
-	/**
-	 * @param string $controller
-	 * @param string $method
-	 * @return bool
-	 * @throws \ReflectionException
-	 */
-	private function validateController (string $controller, string $method): bool {
-
-		$return = TRUE;
-		try {
-			if (class_exists ($controller)) {
-				$rc = new \ReflectionClass($controller);
-				if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerInterface')) {
-					if(! $rc->hasMethod ($method)) {
-						throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
-							t('Controller "%s" does not have method %s', $controller, $method));
-					}
-				} else {
-					throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
-						t('Controller "%s" does not implement ControllerInterface', $controller));
-				}
-			} else {
-				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND,
-					t('Controller "%s" does not exist', $controller));
-			}
-		} catch (ExceptionRuntime $e) {
-			$return = FALSE;
-		}
-		return $return;
 	}
 }
