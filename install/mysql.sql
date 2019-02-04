@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.1.37-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for macos10.14 (x86_64)
 --
 -- Host: localhost    Database: ocms
 -- ------------------------------------------------------
--- Server version	10.1.37-MariaDB-0+deb9u1
+-- Server version	8.0.14
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `ocms_alias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ocms_alias` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `node` int(11) unsigned NOT NULL,
@@ -47,7 +47,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_block`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ocms_block` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id2_sidebar` varchar(100) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE `ocms_block` (
   PRIMARY KEY (`id`),
   KEY `fk_ocms_block_sidebar_idx` (`id2_sidebar`),
   CONSTRAINT `fk_ocms_block_sidebar` FOREIGN KEY (`id2_sidebar`) REFERENCES `ocms_sidebar` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `ocms_block` (
 
 LOCK TABLES `ocms_block` WRITE;
 /*!40000 ALTER TABLE `ocms_block` DISABLE KEYS */;
-INSERT INTO `ocms_block` VALUES (1,'right','Right block','This is my right block','',0,'',0),(2,'right','Facebook','Facebook widget','',0,'',0),(3,'left','Left block','This is my left block','',0,'',0),(4,'middle','Blogs','','BLOG_LIST',1,'2',0);
+INSERT INTO `ocms_block` VALUES (1,'right','Right block','This is my right block','',0,'',0),(2,'right','Facebook','Facebook widget','',0,'',0),(3,'left','Left block','This is my left block','',0,'',0),(4,'middle','Blogs','','BLOG_LIST',1,'2',0),(6,'none','Embedded Block Example','<h4>This is an embedded block example<h4>','',0,'',0);
 /*!40000 ALTER TABLE `ocms_block` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +79,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_blog`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ocms_blog` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id2_author` int(11) unsigned NOT NULL,
@@ -115,7 +115,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ocms_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `label` varchar(255) NOT NULL,
@@ -140,11 +140,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ocms_menu` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id2_node` int(11) unsigned NOT NULL,
-  `rank` int(11) unsigned NOT NULL,
+  `ranking` int(11) unsigned NOT NULL,
   `parentNodeId` int(11) unsigned NOT NULL,
   `url` varchar(255) NOT NULL,
   `label` varchar(255) NOT NULL,
@@ -170,7 +170,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_node`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ocms_node` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
@@ -197,7 +197,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_sidebar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ocms_sidebar` (
   `id` varchar(100) NOT NULL,
   `title` varchar(100) NOT NULL,
@@ -211,7 +211,7 @@ CREATE TABLE `ocms_sidebar` (
 
 LOCK TABLES `ocms_sidebar` WRITE;
 /*!40000 ALTER TABLE `ocms_sidebar` DISABLE KEYS */;
-INSERT INTO `ocms_sidebar` VALUES ('bottom','Bottom'),('left','Left'),('middle','Middle'),('right','Right'),('top','Top');
+INSERT INTO `ocms_sidebar` VALUES ('bottom','Bottom'),('left','Left'),('middle','Middle'),('none','None'),('right','Right'),('top','Top');
 /*!40000 ALTER TABLE `ocms_sidebar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,7 +221,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ocms_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
@@ -249,4 +249,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-01 23:04:04
+-- Dump completed on 2019-02-05  0:30:32

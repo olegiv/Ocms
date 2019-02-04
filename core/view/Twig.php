@@ -11,7 +11,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.0 01.02.2019
+ * @version 0.0.1 04.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -43,10 +43,22 @@ class Twig {
 			if (Kernel::inDebug()) {
 				echo NEW_LINE . '<!-- Controller begin: ' . $controllerWithMethod . ' -->' . NEW_LINE;
 			}
-			if (ControllerBase::validateControllerWithMethod($controllerWithMethod))
-			call_user_func ($controllerWithMethod, $param);
+			if (ControllerBase::validateControllerWithMethod($controllerWithMethod)) {
+				call_user_func ($controllerWithMethod, $param);
+			}
 			if (Kernel::inDebug()) {
 				echo NEW_LINE . '<!-- Controller end: ' . $controllerWithMethod . ' -->' . NEW_LINE;
+			}
+		});
+		$twigObj->addFunction($function);
+
+		$function = new \Twig_Function('renderBlockById', function ($blockId) {
+			if (Kernel::inDebug()) {
+				echo NEW_LINE . '<!-- Block begin: ' . $blockId . ' -->' . NEW_LINE;
+			}
+			echo Kernel::$blockObj->renderBlockById($blockId);
+			if (Kernel::inDebug()) {
+				echo NEW_LINE . '<!-- Block end: ' . $blockId . ' -->' . NEW_LINE;
 			}
 		});
 		$twigObj->addFunction($function);

@@ -31,7 +31,7 @@ INSERT INTO `ocms_node` VALUES (404,'404 - Page not found','Page not found',NULL
 CREATE TABLE "ocms_menu" (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`nodeId`	INTEGER NOT NULL,
-	`rank`	INTEGER,
+	`ranking`	INTEGER,
 	`parentNodeId`	INTEGER,
 	`url`	TEXT NOT NULL,
 	`label`	TEXT NOT NULL

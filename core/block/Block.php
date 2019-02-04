@@ -11,9 +11,9 @@ use Ocms\core\model\BlockModel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 04.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class Block extends BlockBase implements BlockInterface {
 	
@@ -39,6 +39,30 @@ class Block extends BlockBase implements BlockInterface {
 	 * 
 	 */
 	private function __construct() {}
+
+	/**
+	 * @param int $blockId
+	 * @return bool|object
+	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 */
+	protected function getById(int $blockId) {
+
+		return BlockModel::getById($blockId);
+	}
+
+	/**
+	 * @param int $blockId
+	 * @return string
+	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 */
+	public function renderBlockById(int $blockId): string {
+
+		$return = '';
+		if ($block = $this->getById($blockId)) {
+			$return = $this->renderBlock($block);
+		}
+		return $return;
+	}
 
   /**
    * @param int $nodeId
