@@ -5,6 +5,7 @@ namespace Ocms\core\controller;
 use Ocms\core\Kernel;
 use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\model\NodeModel;
+use Ocms\core\view\View;
 
 /**
  * NodeController Class.
@@ -69,6 +70,23 @@ class NodeController extends NodeControllerBase implements NodeControllerInterfa
 		return $return;
 	}
 
+	/**
+	 * @param $node
+	 * @return string
+	 */
+	private static function getTemplate ($node): string {
+
+		$template = 'extend/node';
+
+		if (isset ($node->template) && ! empty ($node->template)) {
+			if (View::isTemplateValid ($node->template)) {
+				$template = $node->template;
+			}
+		}
+
+		return $template;
+	}
+
   /**
    * @param int $nodeId
    * @return mixed|void
@@ -76,13 +94,15 @@ class NodeController extends NodeControllerBase implements NodeControllerInterfa
    */
 	public static function viewAction (int $nodeId) {
 
-		echo Kernel::$viewObj->render ('extend/node',
-			array_merge ((array) self::get ($nodeId), [
-				'blocks' => Kernel::$blockObj->getBlocksForNode ($nodeId),
-				'menu' => Kernel::$menuObj->getMenuForNode($nodeId),
-				'analytics' => Kernel::$analyticsObj->getTrackerHtmlCode (),
-				'site' => Kernel::getSiteConfiguration ()
-			])
-		);
+		if (($node = self::get ($nodeId))) {
+			echo Kernel::$viewObj->render(self::getTemplate ($node),
+				array_merge((array)$node, [
+					'blocks' => Kernel::$blockObj->getBlocksForNode($nodeId),
+					'menu' => Kernel::$menuObj->getMenuForNode($nodeId),
+					'analytics' => Kernel::$analyticsObj->getTrackerHtmlCode(),
+					'site' => Kernel::getSiteConfiguration()
+				])
+			);
+		}
 	}
 }

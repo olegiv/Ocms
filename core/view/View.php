@@ -10,11 +10,13 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.4 01.02.2019
+ * @version 0.0.5 12.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class View extends ViewBase {
+
+	const TEMPLATES_DIR = 'templates/';
 
 	/**
 	 *
@@ -24,15 +26,14 @@ class View extends ViewBase {
 
 	/**
 	 *
-	 * @var array
-	 */
-	private $conf;
-
-	/**
-	 *
 	 * @var \Twig_Environment
 	 */
 	private $twigObj;
+
+	/**
+	 * @var string
+	 */
+	private static $templatesRoot;
 
 	/**
 	 *
@@ -51,8 +52,8 @@ class View extends ViewBase {
 	 */
 	private function __construct() {
 
-		$this->conf = Kernel::$configurationObj->getConfigurationGlobal();
 		$this->twigObj = Twig::init();
+		self::$templatesRoot = self::TEMPLATES_DIR . self::getTemplateId () . '/';
 	}
 
   /**
@@ -68,7 +69,7 @@ class View extends ViewBase {
 				$params['twigFile'] = $template;
 			}
 			$params = array_merge($params,
-							['template_root' => '/templates/' . $this->conf['Layout']['template']['id'] . '/']);
+							['template_root' => self::$templatesRoot]);
 			$html = $this->twigObj->render($template . '.html.twig', $params);
 		} catch (\Exception $e) {
 			Kernel::$logObj->log($e->getMessage ());
@@ -81,6 +82,14 @@ class View extends ViewBase {
 		}
 
 		return $html;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getTemplateId (): string {
+
+		return Kernel::$configurationObj->getConfigurationGlobalItem ('Layout', 'template', 'id');
 	}
 
 	/**
@@ -106,5 +115,14 @@ class View extends ViewBase {
 	public function getTwigObj (): \Twig_Environment {
 
 		return $this->twigObj;
+	}
+
+	/**
+	 * @param string $template
+	 * @return bool
+	 */
+	public static function isTemplateValid (string $template): bool {
+
+		return file_exists (__DIR__ . '/../../' . self::$templatesRoot . $template . '.html.twig');
 	}
 }

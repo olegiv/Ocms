@@ -11,7 +11,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.1 04.02.2019
+ * @version 0.0.2 12.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -70,7 +70,7 @@ class Twig {
 	 */
 	private static function getTwigPath (): string {
 
-		if (($template_id = Kernel::$configurationObj->getConfigurationGlobalItem ('Layout', 'template', 'id'))) {
+		if (($template_id = View::getTemplateId ())) {
 			$twigPath = 'templates/' . $template_id;
 		} else {
 			$twigPath = self::TWIG_DEFAULT_PATH;

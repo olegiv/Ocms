@@ -8,9 +8,9 @@ namespace Ocms\core\view;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 12.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 interface ViewBaseInterface {
 
@@ -20,4 +20,15 @@ interface ViewBaseInterface {
    * @return string
    */
 	public function render(string $template, array $params = []): string;
+
+	/**
+	 * @param string $template
+	 * @return bool
+	 */
+	public static function isTemplateValid (string $template): bool;
+
+	/**
+	 * @return string
+	 */
+	public static function getTemplateId (): string;
 }

@@ -173,6 +173,7 @@ DROP TABLE IF EXISTS `ocms_node`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `ocms_node` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `template` varchar(45) NOT NULL,
   `title` varchar(255) NOT NULL,
   `body` text NOT NULL,
   `keywords` text NOT NULL,
@@ -187,7 +188,7 @@ CREATE TABLE `ocms_node` (
 
 LOCK TABLES `ocms_node` WRITE;
 /*!40000 ALTER TABLE `ocms_node` DISABLE KEYS */;
-INSERT INTO `ocms_node` VALUES (1,'Homepage','<h3>Welcome!</h3>','CMS','OCMS Homepage'),(2,'Blogs','<h3>Weclome to Blogs!</h3>','blog,blogs','OCMS Blogs'),(3,'About','<h3>Welcome to About page!</h3>','about','About OCMS'),(4,'Application Example','<p>This is application controller HTML output example</p><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div>','',''),(404,'404 - Page not found','Page not found','','');
+INSERT INTO `ocms_node` VALUES (1,'','Homepage','<h3>Welcome!</h3>','CMS','OCMS Homepage'),(2,'','Blogs','<h3>Weclome to Blogs!</h3>','blog,blogs','OCMS Blogs'),(3,'','About','<h3>Welcome to About page!</h3>','about','About OCMS'),(4,'single','Application Example','<p>This is application controller HTML output example</p><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div>','',''),(404,'','404 - Page not found','Page not found','','');
 /*!40000 ALTER TABLE `ocms_node` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-05  0:30:32
+-- Dump completed on 2019-02-12 21:40:55
