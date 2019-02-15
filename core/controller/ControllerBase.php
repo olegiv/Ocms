@@ -10,7 +10,7 @@ use Ocms\core\exception\ExceptionRuntime;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 01.02.2019
+ * @version 0.0.3 15.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -33,13 +33,13 @@ abstract class ControllerBase implements ControllerBaseInterface {
 	/**
 	 *
 	 */
-	protected function getConfig () {
+	protected function getConfig () {}
 
-	}
-
-	public static function run () {
-
-	}
+	/**
+	 * @param array $properties
+	 * @return string
+	 */
+	public static function run (array $properties): string {}
 
   /**
    * @param int $nodeId
@@ -85,14 +85,14 @@ abstract class ControllerBase implements ControllerBaseInterface {
 		try {
 			if (class_exists ($controller)) {
 				$rc = new \ReflectionClass($controller);
-				if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerInterface')) {
+				if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerBaseInterface')) {
 					if(! $rc->hasMethod ($method)) {
 						throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
 							t('Controller "%s" does not have method %s', $controller, $method));
 					}
 				} else {
 					throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
-						t('Controller "%s" does not implement ControllerInterface', $controller));
+						t('Controller "%s" does not implement ControllerBaseInterface', $controller));
 				}
 			} else {
 				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND,

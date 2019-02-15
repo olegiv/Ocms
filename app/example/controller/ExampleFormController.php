@@ -2,9 +2,10 @@
 
 namespace Ocms\app\example\controller;
 
-use Ocms\core\app\form\controller\FormController;
-use Ocms\core\app\form\controller\FormControllerInterface;
-use Ocms\core\Kernel;
+use Ocms\core\app\form\service\field\FieldsService;
+use Ocms\core\app\form\service\FormService;
+use Ocms\core\controller\ControllerBase;
+use Ocms\core\controller\ControllerBaseInterface;
 
 /**
  * ExampleFormController Class.
@@ -12,41 +13,35 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 14.02.2019
- * @version 0.0.0 14.02.2019
+ * @version 0.0.1 15.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
-class ExampleFormController extends FormController implements FormControllerInterface {
-
-	/**
-	 * @var string
-	 */
-	private static $body;
+class ExampleFormController extends ControllerBase implements ControllerBaseInterface {
 
 	/**
 	 * @var array
 	 */
 	private static $formProperties = [
-		'title' => 'My Forms'
+		'title' => 'My Form #1',
+		'fields' => [
+			['name' => 'field1', 'type' => FieldsService::FIELD_TEXT, 'label' => 'Field1'],
+			['name' => 'OK', 'type' => FieldsService::FIELD_BUTTON, 'label' => 'OK']
+		]
 	];
 
+	/**
+	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 * @throws \Throwable
+	 * @throws \Twig_Error_Loader
+	 * @throws \Twig_Error_Syntax
+	 */
 	public static function display () {
 
-		$html = FormController::getHtml(self::$formProperties);
-
-		self::render($html);
-	}
-
-	/**
-	 * @param string $html
-	 */
-	public static function render (string $html) {
-
-			echo Kernel::$viewObj->render('extend/node', [
-				'body' => $html,
-				'blocks' => Kernel::$blockObj->getBlocksForForm (),
-				'menu' => Kernel::$menuObj->getDefaultMenuHtml (),
-				'site' => Kernel::getSiteConfiguration()
-			]);
+		$formObj = new FormService(self::$formProperties);
+		$result = $formObj->run();
+		if ($result) {
+			$formObj->displayFinalMessage('Thank you! You entered: ' . print_r($result, true));
+		}
 	}
 }

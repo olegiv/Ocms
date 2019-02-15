@@ -1,4 +1,11 @@
-<form>
+<form method="post">
 	<h1 class="node-title">{{ title }}</h1>
-	<button>OK</button>
+	{% if message -%}
+		<div class="form-message">
+			{{ message }}
+		</div>
+	{%- endif %}
+	<div class="form-fields">
+		{{ fieldsHtml | raw }}
+	</div>
 </form>

@@ -3,7 +3,7 @@
 namespace Ocms\app\example\controller;
 
 use Ocms\core\controller\ControllerBase;
-use Ocms\core\controller\ControllerInterface;
+use Ocms\core\controller\ControllerBaseInterface;
 use Ocms\core\view\Twig;
 
 /**
@@ -12,18 +12,17 @@ use Ocms\core\view\Twig;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.1 14.02.2019
+ * @version 0.0.2 15.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
-class ExampleController extends ControllerBase implements ControllerInterface {
+class ExampleController extends ControllerBase implements ControllerBaseInterface {
 
 	/**
 	 * @param string $data
 	 */
 	public static function view(string $data) {
 
-		//parent::view($data);
 		echo $data;
 	}
 
