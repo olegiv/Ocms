@@ -11,7 +11,7 @@ use Ocms\core\model\BlockModel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 04.02.2019
+ * @version 0.0.3 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -79,6 +79,21 @@ class Block extends BlockBase implements BlockInterface {
 		return $blocks;
 	}
 
+	/**
+	 * @return array
+	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 * @todo: get blocks for a form, now gets blocks for the homepage
+	 */
+	public function getBlocksForForm (): array {
+
+		if (($blocks = BlockModel::getBlocks (Kernel::$configurationObj->getHomePageId ()))) {
+			foreach ($blocks as $key => $block) {
+				$blocks[$key]->html = $this->renderBlock($block);
+			}
+		}
+		return $blocks;
+	}
+
   /**
    * @return array
    * @throws \Ocms\core\exception\ExceptionRuntime
@@ -99,20 +114,17 @@ class Block extends BlockBase implements BlockInterface {
    * @throws \Ocms\core\exception\ExceptionRuntime
    */
 	private function renderBlock ($block): string {
-		
+
 		if (isset($block->controller) && $block->controller) {
 			$block->body = Kernel::$blockControllerObj->renderController($block->controller);
 		}
-		return $block->body;
+		if (Kernel::inDebug ()) {
+			$return = '<!-- Block begin: ' . $block->id . '-->' . NEW_LINE .
+				$block->body . '<!-- Block end: ' . $block->id . '-->' . NEW_LINE;
+		} else {
+			$return = $block->body;
+		}
+
+		return $return;
 	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	/*public function getBlocksForBlogIndex (): array {
-
-		return BlockModel::getBlocksForBlogIndex();
-	}*/
-
 }

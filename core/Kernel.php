@@ -18,8 +18,6 @@ use Ocms\core\controller\FrontController;
 use Ocms\core\controller\BlogController;
 use Ocms\core\controller\BlockController;
 
-use Ocms\core\service\Analytics\AnalyticsService;
-
 require_once 'Helper.php';
 
 /**
@@ -28,7 +26,7 @@ require_once 'Helper.php';
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.3 20.01.2019
+ * @version 0.0.4 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -130,28 +128,31 @@ class Kernel implements KernelInterface {
 	public static $blockControllerObj;
 
 	/**
-	 *
-	 * @var \Ocms\core\service\Analytics\AnalyticsService
+	 * @var string
 	 */
-	public static $analyticsObj;
+	public static $siteRoot;
 
-  /**
-   * @return Kernel
-   * @throws exception\ExceptionFatal
-   */
-  public static function getInstance(): Kernel {
+	/**
+	 * @param string $siteRoot
+	 * @return Kernel
+	 * @throws exception\ExceptionFatal
+	 */
+  public static function getInstance(string $siteRoot): Kernel {
 
 		if(!(self::$_instance instanceof self)) {
-      self::$_instance = new self();
+      self::$_instance = new self($siteRoot);
 		}
     return self::$_instance;
   }
 
-  /**
-   * Kernel constructor.
-   * @throws exception\ExceptionFatal
-   */
-	private function __construct() {
+	/**
+	 * Kernel constructor.
+	 * @param string $siteRoot
+	 * @throws exception\ExceptionFatal
+	 */
+	private function __construct(string $siteRoot) {
+
+		self::$siteRoot = $siteRoot;
 
 		self::$configurationObj = ConfigurationService::getInstance();
 		self::$logObj = LogService::getInstance();
@@ -168,7 +169,6 @@ class Kernel implements KernelInterface {
 		self::$frontControllerObj = FrontController::getInstance();
 		self::$blogControllerObj = BlogController::getInstance();
 		self::$blockControllerObj = BlockController::getInstance();
-		self::$analyticsObj = AnalyticsService::getInstance();
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ocms\core\service\Analytics;
+namespace Ocms\core\app\analytics\service;
 
 /**
  * AnalyticsServiceInterface Interface.
@@ -8,9 +8,9 @@ namespace Ocms\core\service\Analytics;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 interface AnalyticsServiceInterface {
 
@@ -23,5 +23,5 @@ interface AnalyticsServiceInterface {
 	 * 
 	 * @return string
 	 */
-	public function getTrackerHtmlCode(): string;
+	public static function getTrackerHtmlCode(): string;
 }

@@ -62,6 +62,4 @@
 <!-- Javascripts -->
 <script src="{{template_root}}js/default.js"></script>
 
-{% if analytics -%}
-{{analytics | raw}}
-{%- endif %}
+{{ renderController('\\Ocms\\core\\app\\analytics\\controller\\AnalyticsController::getTrackerHtmlCode', '') | raw }}

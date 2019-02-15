@@ -11,7 +11,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.3 01.02.2019
+ * @version 0.0.4 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -90,6 +90,8 @@ class Router implements RouterInterface {
 	}
 
 	/**
+	 *
+	 *
 	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	private function getControllerFromRequest (){
@@ -100,6 +102,16 @@ class Router implements RouterInterface {
 		if (($nodeId = Kernel::$aliasObj->getNode($parts[0]))) {
 
 			$this->setClassForNode($nodeId);
+
+		} else if (($controller = Kernel::$aliasObj->getController($parts[0]))) {
+
+			list ($class, $method) = explode('::', $controller);
+			if (isset ($class) && isset ($method)) {
+				$this->controllerClass = $class;
+				$this->controllerMethod = $method;
+			} else {
+				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, 'Controller not found: %s', $controller);
+			}
 
 		} else {
 

@@ -15,7 +15,7 @@ use Ocms\core\service\Date\DateService;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 30.01.2019
+ * @version 0.0.3 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -124,8 +124,7 @@ class BlogController extends NodeControllerBase implements ControllerInterface {
 			echo Kernel::$viewObj->render('extend/blog',
 				array_merge ((array)$node, [
 					'blocks' => Kernel::$blockObj->getBlocksForBlog (),
-					'menu' => Kernel::$menuObj->getMenuForNode ($nodeId),
-					'analytics' => Kernel::$analyticsObj->getTrackerHtmlCode (),
+					'menu' => Kernel::$menuObj->getMenuForNodeHtml ($nodeId),
 					'site' => Kernel::getSiteConfiguration ()
 				])
 			);

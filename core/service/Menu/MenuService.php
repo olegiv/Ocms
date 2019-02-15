@@ -11,7 +11,7 @@ use Ocms\core\model\MenuModel;
  * @package core
  * @access public
  * @since 18.01.2019
- * @version 0.0.0 18.01.2019
+ * @version 0.0.1 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -41,27 +41,45 @@ class MenuService implements MenuServiceInterface {
 		
 	}
 
-	/**
-	 * @param int $nodeId
-	 * @return array
-	 */
-	/*private function getMenuForNode(int $nodeId): array {
+	private function getMenu () {
 
-		return [
-			['url' => '/', 'label' => 'Homepage', 'current' => true],
-			['url' => '/node/2', 'label' => 'Blogs'],
-			['url' => '/node/3', 'label' => 'About']
-		];
-	}*/
+
+	}
 
 	/**
 	 * @param int $nodeId
 	 * @return string
 	 */
-	public function getMenuForNode(int $nodeId): string {
+	public function getMenuForNodeHtml (int $nodeId): string {
+
+		if (($menu = MenuModel::getMenuForNode($nodeId))) {
+			foreach ($menu as $key => $value) {
+				if ($nodeId == $value->id2_node) {
+					$menu[$key]->current = true;
+				} else {
+					$menu[$key]->current = false;
+				}
+			}
+		} else {
+			$menu = [];
+		}
 
 		return Kernel::$viewObj->render ('include/menu/menu',
-			['menus' => MenuModel::getMenuForNode($nodeId)]
+			['menus' => $menu]
+		);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDefaultMenuHtml (): string {
+
+		if (! ($menu = MenuModel::getMenuForNode (Kernel::$configurationObj->getHomePageId ()))) {
+			$menu = [];
+		}
+
+		return Kernel::$viewObj->render ('include/menu/menu',
+			['menus' => $menu]
 		);
 	}
 }

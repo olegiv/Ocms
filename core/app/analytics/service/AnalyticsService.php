@@ -1,6 +1,6 @@
 <?php
 
-namespace Ocms\core\service\Analytics;
+namespace Ocms\core\app\analytics\service;
 
 use Ocms\core\Kernel;
 
@@ -10,15 +10,15 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class AnalyticsService implements AnalyticsServiceInterface {
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Analytics\AnalyticsService This class instance
+	 * @var AnalyticsService This class instance
 	 */
 	static $_instance;
 
@@ -26,13 +26,7 @@ class AnalyticsService implements AnalyticsServiceInterface {
 	 *
 	 * @var string
 	 */
-	private $googleTrackerId;
-
-	/**
-	 *
-	 * @var string
-	 */
-	private $googleTrackerCode = '<!-- Global site tag (gtag.js) - Google Analytics -->
+	private static $googleTrackerCode = '<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -56,21 +50,20 @@ class AnalyticsService implements AnalyticsServiceInterface {
 	/**
 	 *
 	 */
-	private function __construct() {
-
-		if (($this->googleTrackerId = Kernel::$configurationObj->getConfigurationGlobalItem ('Analytics', 'google'))) {
-			$this->googleTrackerCode = str_replace ('%s', $this->googleTrackerId, $this->googleTrackerCode);
-		} else {
-			$this->googleTrackerCode = '';
-		}
-	}
+	private function __construct() {}
 
 	/**
 	 *
 	 * @return string
 	 */
-	public function getTrackerHtmlCode(): string {
+	public static function getTrackerHtmlCode(): string {
 
-		return $this->googleTrackerCode;
+		if (($googleTrackerId = Kernel::$configurationObj->getConfigurationGlobalItem ('Analytics', 'google'))) {
+			$googleTrackerCode = str_replace ('%s', $googleTrackerId, self::$googleTrackerCode);
+		} else {
+			$googleTrackerCode = '';
+		}
+
+		return $googleTrackerCode;
 	}
 }

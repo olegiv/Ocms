@@ -10,13 +10,13 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.5 12.02.2019
+ * @version 0.0.6 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class View extends ViewBase {
 
-	const TEMPLATES_DIR = 'templates/';
+	const TEMPLATES_DIR = '/templates/';
 
 	/**
 	 *
@@ -77,7 +77,7 @@ class View extends ViewBase {
 		}
 
 		if (Kernel::inDebug ()) {
-			$html = '<!-- Template start: ' . $template . '-->' . NEW_LINE .
+			$html = '<!-- Template begin: ' . $template . '-->' . NEW_LINE .
 				$html . '<!-- Template end: ' . $template . '-->' . NEW_LINE;
 		}
 
@@ -99,7 +99,7 @@ class View extends ViewBase {
 	 */
 	private static function getTitle (array $params): string {
 
-		if (isset($params['site']['name'])) {
+		if (isset($params['site']['name']) && isset($params['title'])) {
 			$return = $params['title'] . ' | ' . $params['site']['name'];
 		} else if (isset($params['title'])) {
 			$return = $params['title'];
@@ -123,6 +123,6 @@ class View extends ViewBase {
 	 */
 	public static function isTemplateValid (string $template): bool {
 
-		return file_exists (__DIR__ . '/../../' . self::$templatesRoot . $template . '.html.twig');
+		return file_exists (Kernel::$siteRoot . self::$templatesRoot . $template . '.html.twig');
 	}
 }

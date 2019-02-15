@@ -37,6 +37,10 @@ abstract class ControllerBase implements ControllerBaseInterface {
 
 	}
 
+	public static function run () {
+
+	}
+
   /**
    * @param int $nodeId
    */

@@ -10,7 +10,7 @@ use Ocms\core\model\AliasModel;
  * @package core
  * @access public
  * @since 18.01.2019
- * @version 0.0.0 18.01.2019
+ * @version 0.0.1 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -48,5 +48,15 @@ class AliasService implements AliasServiceInterface {
 	public function getNode(string $alias):int {
 
 		return AliasModel::getNode($alias);
+	}
+
+	/**
+	 * @param string $alias
+	 * @return string
+	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 */
+	public function getController (string $alias): string {
+
+		return AliasModel::getController($alias);
 	}
 }

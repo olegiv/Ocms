@@ -1,6 +1,6 @@
 ###### Twig
 
-`{{ renderController('\\Ocms\\app\\example\\controller\\ExampleController::view', '<pre>ExampleController::view</pre>') }}`
+`{{ renderController('\\Ocms\\app\\example\\controller\\ExampleController::view', '<pre>ExampleController::view</pre>') | raw }}`
 
 `{{ renderBlockById(6) }}`
 

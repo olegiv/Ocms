@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.15, for macos10.14 (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.37-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ocms
 -- ------------------------------------------------------
--- Server version	8.0.14
+-- Server version	10.1.37-MariaDB-0+deb9u1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8 ;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,14 +21,17 @@
 
 DROP TABLE IF EXISTS `ocms_alias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ocms_alias` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `node` int(11) unsigned NOT NULL,
   `alias` varchar(255) NOT NULL,
+  `node` int(11) unsigned DEFAULT NULL,
+  `controller` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `alias` (`alias`),
+  KEY `fk_ocms_alias_node_idx` (`node`),
+  CONSTRAINT `fk_ocms_alias_node` FOREIGN KEY (`node`) REFERENCES `ocms_node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +40,7 @@ CREATE TABLE `ocms_alias` (
 
 LOCK TABLES `ocms_alias` WRITE;
 /*!40000 ALTER TABLE `ocms_alias` DISABLE KEYS */;
-INSERT INTO `ocms_alias` VALUES (1,2,'/blogs'),(2,3,'/about'),(3,4,'/example');
+INSERT INTO `ocms_alias` VALUES (1,'/blogs',2,NULL),(2,'/about',3,NULL),(3,'/example',4,NULL),(4,'/example/form',NULL,'\\Ocms\\app\\example\\controller\\ExampleFormController::display');
 /*!40000 ALTER TABLE `ocms_alias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -47,7 +50,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_block`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ocms_block` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id2_sidebar` varchar(100) NOT NULL,
@@ -79,7 +82,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_blog`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ocms_blog` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id2_author` int(11) unsigned NOT NULL,
@@ -115,7 +118,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ocms_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `label` varchar(255) NOT NULL,
@@ -140,10 +143,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ocms_menu` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `id2_node` int(11) unsigned NOT NULL,
+  `id2_node` int(11) unsigned DEFAULT NULL,
   `ranking` int(11) unsigned NOT NULL,
   `parentNodeId` int(11) unsigned NOT NULL,
   `url` varchar(255) NOT NULL,
@@ -151,7 +154,7 @@ CREATE TABLE `ocms_menu` (
   PRIMARY KEY (`id`),
   KEY `fk_ocms_menu_node_idx` (`id2_node`),
   CONSTRAINT `fk_ocms_menu_node` FOREIGN KEY (`id2_node`) REFERENCES `ocms_node` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +163,7 @@ CREATE TABLE `ocms_menu` (
 
 LOCK TABLES `ocms_menu` WRITE;
 /*!40000 ALTER TABLE `ocms_menu` DISABLE KEYS */;
-INSERT INTO `ocms_menu` VALUES (1,2,2,0,'/blogs','Blogs'),(2,3,3,0,'/about','About'),(3,1,1,0,'/','Homepage'),(4,4,4,0,'/example','Application Example');
+INSERT INTO `ocms_menu` VALUES (1,2,2,0,'/blogs','Blogs'),(2,3,3,0,'/about','About'),(3,1,1,0,'/','Homepage'),(4,4,4,0,'/example','Application Example'),(6,NULL,5,0,'/example/form','Form Example');
 /*!40000 ALTER TABLE `ocms_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +173,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_node`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ocms_node` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `template` varchar(45) NOT NULL,
@@ -198,7 +201,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_sidebar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ocms_sidebar` (
   `id` varchar(100) NOT NULL,
   `title` varchar(100) NOT NULL,
@@ -222,7 +225,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ocms_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ocms_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
@@ -250,4 +253,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-12 21:40:55
+-- Dump completed on 2019-02-14 17:04:06

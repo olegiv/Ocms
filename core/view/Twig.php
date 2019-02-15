@@ -3,6 +3,7 @@
 namespace Ocms\core\view;
 
 use Ocms\core\controller\ControllerBase;
+use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\Kernel;
 
 /**
@@ -11,7 +12,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.2 12.02.2019
+ * @version 0.0.3 14.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -40,27 +41,33 @@ class Twig {
 	private static function addFunctions (\Twig_Environment $twigObj) {
 
 		$function = new \Twig_Function('renderController', function ($controllerWithMethod, $param) {
-			if (Kernel::inDebug()) {
-				echo NEW_LINE . '<!-- Controller begin: ' . $controllerWithMethod . ' -->' . NEW_LINE;
-			}
+
 			if (ControllerBase::validateControllerWithMethod($controllerWithMethod)) {
-				call_user_func ($controllerWithMethod, $param);
+				$return = call_user_func ($controllerWithMethod, $param);
+			} else {
+				$return = '';
 			}
 			if (Kernel::inDebug()) {
-				echo NEW_LINE . '<!-- Controller end: ' . $controllerWithMethod . ' -->' . NEW_LINE;
+				$return .= NEW_LINE . '<!-- Controller begin: ' . $controllerWithMethod . ' -->' . NEW_LINE .
+					$return . NEW_LINE . '<!-- Controller end: ' . $controllerWithMethod . ' -->' . NEW_LINE;
 			}
+
+			return $return;
 		});
+
 		$twigObj->addFunction($function);
 
 		$function = new \Twig_Function('renderBlockById', function ($blockId) {
+
+			$return = Kernel::$blockObj->renderBlockById($blockId);
 			if (Kernel::inDebug()) {
-				echo NEW_LINE . '<!-- Block begin: ' . $blockId . ' -->' . NEW_LINE;
+				$return = NEW_LINE . '<!-- Block begin: ' . $blockId . ' -->' . NEW_LINE .
+					$return . NEW_LINE . '<!-- Block end: ' . $blockId . ' -->' . NEW_LINE;
 			}
-			echo Kernel::$blockObj->renderBlockById($blockId);
-			if (Kernel::inDebug()) {
-				echo NEW_LINE . '<!-- Block end: ' . $blockId . ' -->' . NEW_LINE;
-			}
+
+			return $return;
 		});
+
 		$twigObj->addFunction($function);
 	}
 
@@ -112,5 +119,35 @@ class Twig {
 		$twigObj = Kernel::$viewObj->getTwigObj();
 		$template = $twigObj->createTemplate($template);
 		return $template->render($params);
+	}
+
+	/**
+	 * @param string $app
+	 * @param string $templateFile
+	 * @param array $params
+	 * @return string
+	 * @throws ExceptionRuntime
+	 * @throws \Throwable
+	 * @throws \Twig_Error_Loader
+	 * @throws \Twig_Error_Syntax
+	 */
+	public static function renderCoreAppTemplate (string $app, string $templateFile, array $params): string {
+
+		$templatePath = Kernel::$siteRoot . '/core/app/' . $app . '/template/' . $templateFile . '.html.twig';
+		if (file_exists($templatePath)) {
+			if (false !== ($template = file_get_contents($templatePath))) {
+				$return = self::renderStringTemplate($template, $params);
+			} else {
+				throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Cannot load template: %s', $templatePath));
+			}
+		} else {
+			throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Template %s does not exist', $templatePath));
+		}
+
+		if (Kernel::inDebug()) {
+			$return = NEW_LINE . '<!-- Template begin: ' . $templatePath . ' -->' . NEW_LINE .
+				$return . NEW_LINE . '<!-- Template end: ' . $templatePath . ' -->' . NEW_LINE;
+		}
+		return $return;
 	}
 }
