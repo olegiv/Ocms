@@ -12,7 +12,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.3 14.02.2019
+ * @version 0.0.4 16.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -48,7 +48,7 @@ class Twig {
 				$return = '';
 			}
 			if (Kernel::inDebug()) {
-				$return .= NEW_LINE . '<!-- Controller begin: ' . $controllerWithMethod . ' -->' . NEW_LINE .
+				$return = NEW_LINE . '<!-- Controller begin: ' . $controllerWithMethod . ' -->' . NEW_LINE .
 					$return . NEW_LINE . '<!-- Controller end: ' . $controllerWithMethod . ' -->' . NEW_LINE;
 			}
 

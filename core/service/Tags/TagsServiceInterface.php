@@ -3,7 +3,7 @@
 namespace Ocms\core\service\Tags;
 
 /**
- * RouterInterface Interface.
+ * TagsServiceInterface Interface.
  *
  * @package core
  * @access public
