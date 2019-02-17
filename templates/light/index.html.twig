@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block head %}
+			{{- include ('include/head.html.twig') }}
+		{% endblock %}
+	</head>
+	<body>
+		<div class="page js-page">
+			{% block header %}
+				{{- include ('include/header/header.html.twig') }}
+			{% endblock %}
+			{% block body %}
+				<div id="content">
+					{% block content %}
+						<h1 class="node-title">{{ title }}</h1>
+						{{ body | raw }}
+					{% endblock %}
+				</div>
+			{% endblock %}
+			<div id="footer">
+				{% block footer %}
+					{{- include ('include/footer/footer.html.twig') }}
+				{% endblock %}
+			</div>
+		</div>
+		<script src="{{ template_root }}js/all.js"></script>
+		<script src="{{ template_root }}js/custom.js"></script>
+	</body>
+</html>

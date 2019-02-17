@@ -1,0 +1,45 @@
+{{ renderController('\\Ocms\\core\\app\\meta\\controller\\MetaController::getGlobalHtml', '') | raw }}
+
+{% if titleHead -%}
+	<title>{{ titleHead }}</title>
+	<meta property="og:title" content="{{ titleHead }}">
+	<meta name="twitter:title" content="{{ titleHead }}" />
+{%- endif %}
+
+{% if keywords -%}
+	<meta name="keywords" content="{{ keywords }}"/>
+{%- endif %}
+
+{% if description -%}
+	<meta name="description" content="{{ description }}">
+	<meta property="og:description" content="{{ description }}" />
+	<meta name="twitter:description" content="{{ description }}">
+{%- endif %}
+
+{% if ogImage -%}
+	<meta property="og:image" content="{{ ogImage }}">
+{%- endif %}
+
+{% if twitterImage -%}
+	<meta name="twitter:image" content="">
+	<meta name="twitter:card" content="summary_large_image">
+{%- endif %}
+
+{% if ogUrl -%}
+	<meta property="og:image" content="{{ ogUrl }}">
+{%- endif %}
+
+{% if twitterSite -%}
+	<meta property="og:image" content="{{ twitterSite }}">
+{%- endif %}
+
+{% if twitterCreator -%}
+	<meta property="og:image" content="{{ twitterCreator }}">
+{%- endif %}
+
+<link rel="stylesheet" href="{{ template_root }}css/style.min.css">
+<link rel="stylesheet" href="{{ template_root }}css/custom.css">
+
+<script src="{{ template_root }}js/modernizr.js"></script>
+
+{{ renderController('\\Ocms\\core\\app\\analytics\\controller\\AnalyticsController::getTrackerHtmlCode', '') | raw }}

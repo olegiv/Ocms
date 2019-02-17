@@ -6,6 +6,9 @@
 		{% endblock %}
 	</head>
 	<body>
+		{% block header %}
+			{{- include ('include/header/header.html.twig') }}
+		{% endblock %}
 		{% block body %}
 			<div id="content">
 				{% block content %}
