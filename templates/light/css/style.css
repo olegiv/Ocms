@@ -1,101 +1,7 @@
 @charset "UTF-8";
 @import url(http://fonts.googleapis.com/css?family=Roboto:500,900,100,300,700,400&subset=latin,cyrillic-ext,cyrillic,latin-ext);
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700&subset=latin,cyrillic-ext,cyrillic,latin-ext);
-/**
- * Description: VSDocs - Documentation Framework
- * Version: 1.0.0
- * Author: VSArt - http://www.vsart.me
- *
- * Summary:
- *
- *	0. GLOBALS
- *		- 0.1. MIXINS
- *		- 0.2. CONFIG
- *		- 0.3. NORMALIZE
- *    - 0.4. GRID
- *		- 0.5. BACKGROUNDS
- *    - 0.6. GENERAL
- *		- 0.7. LAYOUT
- *		- 0.8. TRANSITIONS
- *    - 0.9. TEXT
- *		- 0.10. IMAGE
- *    - 0.11. LIST
- *    - 0.12. FONT-AWESOME
- *    - 0.13. PE-ICON-7-STROKE
- *		- 0.14. ANIMATE
- * 1. LIBS
- *		- 1.1. LOGO
- * 2. MODULES
- *    - 2.1. LOGO
- *    - 2.2. HEADER
- *    - 2.3. HEADER-BACK
- *    - 2.4. FOOTER
- *    - 2.5. BUTTON
- *    - 2.6. TABLE
- *    - 2.7. FORMS
- *    - 2.8. SEARCH
- *    - 2.9. TAGS
- *    - 2.10. MENU
- *    - 2.11. MENU-VERTICAL
- *    - 2.12. MENU-SIDE
- *    - 2.13. LANGUAGES
- *    - 2.14. PAGE-INFO
- *    - 2.15. ROTATOR
- *    - 2.16. PANELS
- *    - 2.17. CATEGORY-INFO
- *    - 2.18. PROMO-TITLE
- *    - 2.19. BOX
- *    - 2.20. NUMBER
- *    - 2.21. BROWSERS
- *    - 2.22. NOTE
- *    - 2.23. MODAL
- *    - 2.24. CODE-HIGHLIGHT
- *    - 2.25. FILE-TREE
- *    - 2.26. SKILL
- *    - 2.27. STEPS
- *    - 2.28. STEPS-INTERACTIVE
- *    - 2.29. STEPS-SLIDER
- *    - 2.30. COLUMN-FILL
- *    - 2.31. BEFORE-AND-AFTER
- *    - 2.32. FAQ
- *    - 2.33. INFO
- *    - 2.34. INFO-DELIMITER
- *    - 2.35. CATEGORY-LIST
- *    - 2.36. TABS
- *    - 2.37. NAVIGATION
- *    - 2.38. GIF-PLAYER
- *    - 2.39. VIDEO
- *    - 2.40. VIDEO-ADVANCED
- *    - 2.41. VIDEO-CUSTOM
- *    - 2.42. VIDEO-PLAYLIST-CUSTOM
- *    - 2.43. LIST-VIEW
- *    - 2.44. GRID-VIEW
- *    - 2.45. BOOK
- *    - 2.46. BOOK-GRID
- *    - 2.47. SOCIAL
- *    - 2.48. NOTIFICATION
- *    - 2.49. LOGIN
- *    - 2.50. CONTACTS
- *    - 2.51. CONTACTS-INFO
- *    - 2.52. CHANGELOG
- *    - 2.53. BLOG
- *    - 2.54. ARTICLE
- *    - 2.55. ARTICLE-COMMENT
- *    - 2.56. PRICE-LIST
- *    - 2.57. BRANDS
- *    - 2.58. CALL-TO-ACTION
- *    - 2.59. ONE-PAGE
- *		- 2.60. ONE-PAGE-NAV
- */
-/* ==========================================================================
-   0. ELEMENT
-   ========================================================================== */
-/* ==========================================================================
-   Colors configuration
-   ========================================================================== */
-/* ==========================================================================
-   Fonts configuration
-   ========================================================================== */
+
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -7590,6 +7496,9 @@ Copyright (c) 2015 Daniel Eden
   opacity: 0.8;
   margin-right: 5px;
 }
+.header .logo-image {
+  margin-right: 2px;
+}
 .one-page-logo .logo-image img {
   height: 50px;
 }
@@ -7743,11 +7652,11 @@ Copyright (c) 2015 Daniel Eden
   padding-bottom: 40px;
 }
 .header-back-default {
-  background-image: url(../img/backgrounds/6.jpg);
+  background-image: url(../img/backgrounds/back-default.jpg);
   background-position: bottom;
 }
 .header-back-simple {
-  background-image: url(../img/backgrounds/2.jpg);
+  background-image: url(../img/backgrounds/header-back-simple.jpg);
 }
 .header-back-bg {
   background-image: url(../img/backgrounds/1.jpg);
@@ -15987,7 +15896,7 @@ input.changelog-input {
 .call-to-action {
   padding: 80px 0;
   background-size: cover;
-  background-image: url('../img/backgrounds/7.jpg');
+  background-image: url('../img/backgrounds/call-to-action.jpg');
   text-align: center;
 }
 .call-to-action-title {
@@ -17116,7 +17025,7 @@ input.changelog-input {
 .video-section {
   border-top: 1px solid #e9eaec;
   border-bottom: 1px solid #e9eaec;
-  background-image: url(../img/backgrounds/13.jpg);
+  background-image: url(../img/backgrounds/video-section.jpg);
   background-position: center;
   background-size: cover;
   padding: 20% 0;
@@ -18316,4 +18225,9 @@ input.changelog-input {
   .mobile-app-features-image {
     max-width: 250%;
   }
+}
+
+a.menu-current {
+  color: #fff;
+  background-color: #28c;
 }
