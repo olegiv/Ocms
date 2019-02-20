@@ -1,8 +1,18 @@
 {
-	"name": "opossum/cms",
-	"description": "The Opossum CMS",
-	"keywords": ["cms", "content management", "wysiwyg", "opossum"],
+	"name": "ocms/core",
+	"description": "The Opossum CMS Core",
+	"keywords": ["CMS", "PHP", "PHP7", "HTML5", "CSS3", "Twig", "MySQL", "SQLite", "content", "wysiwyg", "opossum", "MVP"],
 	"homepage": "https://ocms.tech/",
+	"type": "project",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Oleg Ivanchenko",
+			"email": "oiv@ry.ru",
+			"homepage": "https://it-digest.info",
+			"role": "Developer"
+		}
+	],
 	"require": {
 		"php": ">=7.0.0",
 		"ext-pdo": "*",

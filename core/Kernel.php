@@ -26,13 +26,13 @@ require_once 'Helper.php';
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.4 14.02.2019
+ * @version 0.0.5 20.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class Kernel implements KernelInterface {
 
-	const VERSION = '0.0.1';
+	const VERSION = '0.0.2';
 
 	const NODE_BLOG = 'NODE_BLOG';
 	const NODE_PAGE = 'NODE_PAGE';
@@ -133,6 +133,11 @@ class Kernel implements KernelInterface {
 	public static $siteRoot;
 
 	/**
+	 * @var string
+	 */
+	public static $libRoot;
+
+	/**
 	 * @param string $siteRoot
 	 * @return Kernel
 	 * @throws exception\ExceptionFatal
@@ -153,6 +158,7 @@ class Kernel implements KernelInterface {
 	private function __construct(string $siteRoot) {
 
 		self::$siteRoot = $siteRoot;
+		self::$libRoot = $siteRoot . '/../';
 
 		self::$configurationObj = ConfigurationService::getInstance();
 		self::$logObj = LogService::getInstance();

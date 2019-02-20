@@ -12,7 +12,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.4 16.02.2019
+ * @version 0.0.5 20.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -133,7 +133,7 @@ class Twig {
 	 */
 	public static function renderCoreAppTemplate (string $app, string $templateFile, array $params): string {
 
-		$templatePath = Kernel::$siteRoot . '/core/app/' . $app . '/template/' . $templateFile . '.html.twig';
+		$templatePath = Kernel::$libRoot . '/core/app/' . $app . '/template/' . $templateFile . '.html.twig';
 		if (file_exists($templatePath)) {
 			if (false !== ($template = file_get_contents($templatePath))) {
 				$return = self::renderStringTemplate($template, $params);
