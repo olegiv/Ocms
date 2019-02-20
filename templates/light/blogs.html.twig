@@ -2,8 +2,6 @@
 	{{ include ('sidebar/top.html.twig') }}
 	<div id="content">
 		{% block content %}
-			<h1 class="node-title">{{ title }}</h1>
-			{{ body | raw }}
 			{% for blog in blogs %}
 				{% include "blog-list-item.html.twig" %}
 			{% endfor %}

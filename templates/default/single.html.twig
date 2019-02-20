@@ -53,6 +53,13 @@
 
 	<body>
 
+		<header>
+			<a href="/" title="Homepage">
+				<img src="{{ template_root }}img/logo/logo.svg" alt="OCMS logo" class="logo-image">
+			</a>
+			{{ menu | raw }}
+		</header>
+
 		{% set sidebar_id = 'top' %}
 		{% for block in blocks %}
 			{% if block.id2_sidebar == sidebar_id %}
@@ -62,8 +69,6 @@
 				</div>
 			{% endif %}
 		{% endfor %}
-
-		{{ menu | raw }}
 
 		<div id="content">
 			{% block content %}
