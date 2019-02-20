@@ -1,5 +1,5 @@
 {
-	"name": "ocms/core",
+	"name": "ocms/ocms-core",
 	"description": "The Opossum CMS Core",
 	"keywords": ["CMS", "PHP", "PHP7", "HTML5", "CSS3", "Twig", "MySQL", "SQLite", "content", "wysiwyg", "opossum", "MVP"],
 	"homepage": "https://ocms.tech/",
