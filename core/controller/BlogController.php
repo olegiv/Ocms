@@ -4,8 +4,7 @@ namespace Ocms\core\controller;
 
 use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\Kernel;
-use Ocms\core\model\BlogModel;
-use Ocms\core\model\BlockModel;
+use Ocms\core\app\blog\model\BlogModel;
 use Ocms\core\model\UserModel;
 use Ocms\core\service\Date\DateService;
 
@@ -15,7 +14,7 @@ use Ocms\core\service\Date\DateService;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.4 15.02.2019
+ * @version 0.0.5 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -44,34 +43,36 @@ class BlogController extends NodeControllerBase implements ControllerBaseInterfa
    * @return \stdClass
    * @throws ExceptionRuntime
    */
-	protected function get(int $nodeId) {
+	protected function get (int $nodeId) {
 
-		if (!($blog = BlogModel::getBlog($nodeId))) {
+		if (!($blog = BlogModel::get ($nodeId))) {
 			throw new ExceptionRuntime(ExceptionRuntime::E_NOT_FOUND, t('Cannot load blog: %s', $nodeId));
 		}
 		return $this->setProperties($blog);
 	}
 
 	/**
-	 *
-	 * @param \stdClass $blog
-	 * @return \stdClass
+	 * @param $blog
+	 * @return mixed
 	 */
 	private function setProperties($blog) {
 
-		$blog->username = UserModel::getUserName ($blog->id2_author);
+		//$blog->username = UserModel::getUserName ($blog->id2_author);
 		$blog->content_date = DateService::formatDateLong ($blog->content_date);
-		$blog->tagsArray = explode (' ', $blog->tags);
+		//$blog->tagsArray = explode (' ', $blog->tags);
+		if (! $blog->thumbnail) {
+			$blog->thumbnail = '/templates/default/img/logo/logo.svg';
+		}
 		return $blog;
 	}
 
-  /**
-   * @return array
-   * @throws ExceptionRuntime
-   */
+	/**
+	 * @return array
+	 * @throws ExceptionRuntime
+	 */
 	protected function getList() {
 
-		if (!($blogs = BlogModel::getBlogs())) {
+		if (!($blogs = BlogModel::getList())) {
 			throw new ExceptionRuntime(ExceptionRuntime::E_NOT_FOUND, t('Cannot load blogs'));
 		}
 		foreach ($blogs as $key => $blog) {
@@ -83,7 +84,7 @@ class BlogController extends NodeControllerBase implements ControllerBaseInterfa
   /**
    * @throws ExceptionRuntime
    */
-	public static function indexAction () {
+	/*public static function indexAction () {
 
 		if (($blogs = Kernel::$blogControllerObj->getList ())) {
 			echo Kernel::$viewObj->render ('blogs',
@@ -93,7 +94,7 @@ class BlogController extends NodeControllerBase implements ControllerBaseInterfa
 					['analytics' => Kernel::$analyticsObj->getTrackerHtmlCode()])
 			);
 		}
-	}
+	}*/
 
 	/**
 	 * @todo

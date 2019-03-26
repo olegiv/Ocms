@@ -26,13 +26,13 @@ require_once 'Helper.php';
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.5 20.02.2019
+ * @version 0.0.6 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class Kernel implements KernelInterface {
 
-	const VERSION = '0.0.2';
+	const VERSION = '0.0.3';
 
 	const NODE_BLOG = 'NODE_BLOG';
 	const NODE_PAGE = 'NODE_PAGE';
@@ -178,7 +178,8 @@ class Kernel implements KernelInterface {
 	}
 
 	/**
-	 *
+	 * @throws \ReflectionException
+	 * @throws exception\ExceptionRuntime
 	 */
 	public function run () {
 

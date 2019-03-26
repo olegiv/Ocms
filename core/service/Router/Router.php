@@ -4,6 +4,7 @@ namespace Ocms\core\service\Router;
 
 use Ocms\core\controller\ControllerBase;
 use Ocms\core\Kernel;
+use Ocms\core\service\Alias\AliasService;
 
 /**
  * Router Class.
@@ -11,7 +12,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.4 14.02.2019
+ * @version 0.0.5 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -44,14 +45,21 @@ class Router implements RouterInterface {
 	 */
 	private $parameter;
 
-  /**
-   * @return Router
-   */
+	/**
+	 * @var array
+	 */
+	//private $routes = [];
+
+	/**
+	 * @return Router
+	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 */
   public static function getInstance(): Router {
 
 		if(!(self::$_instance instanceof self)) {
 			self::$_instance = new self();
 		}
+		//self::load ();
     return self::$_instance;
   }
 
@@ -59,6 +67,18 @@ class Router implements RouterInterface {
 	 *
 	 */
 	private function __construct() {}
+
+	/**
+	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 */
+	/*private function load () {
+
+		// 1. Load aliased from DB
+		$this->routes = Kernel::$aliasObj->getAliases();
+
+		// 2. Load routes from static configuration
+
+	}*/
 
 	/**
 	 * @throws \Ocms\core\exception\ExceptionRuntime

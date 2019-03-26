@@ -11,7 +11,7 @@ use Ocms\core\controller\NodeController;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 17.01.2019
+ * @version 0.0.3 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -26,14 +26,15 @@ class ExceptionRuntime extends ExceptionBase implements ExceptionInterface {
    */
 	public function __construct (int $type, $message = null, $code = 0) {
 
-		parent::__construct ($type, $message, $code);
-
 		Kernel::$logObj->log ($this->getMessage ());
 
 		switch ($type) {
+			case self::E_CONTINUE:
+				break;
 			case self::E_NOT_FOUND:
 			case self::E_ACCESS_DENIED:
 			case self::E_METHOD_NOT_ALLOWED:
+				parent::__construct ($type, $message, $code);
 				http_response_code ($type);
 				if (! Kernel::$nodeControllerObj->viewErrorPage ($type)) {
 					echo Kernel::$viewObj->render ('extend/error/runtime',
@@ -41,8 +42,10 @@ class ExceptionRuntime extends ExceptionBase implements ExceptionInterface {
 				}
 				break;
 			case self::E_FATAL:
+				parent::__construct ($type, $message, $code);
 				break;
 			default:
+				parent::__construct ($type, $message, $code);
 				echo Kernel::$viewObj->render ('extend/error/runtime',
 					['message' => $this->getMessage (), 'type' => $type]);
 				throw new \Exception ('Bad exception type: ' . $type);

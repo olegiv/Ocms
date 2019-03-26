@@ -1,5 +1,5 @@
 DB:
-  prefix: "ocms_"
+  prefix: ""
 
   # MySQL
   type: "mysql"

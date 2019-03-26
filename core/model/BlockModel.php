@@ -10,7 +10,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.5 04.02.2019
+ * @version 0.0.6 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 -2019, OCMS
  */
@@ -23,7 +23,7 @@ class BlockModel {
 	 */
 	public static function getById (int $blockId) {
 		
-		return Kernel::$modelObj->single('SELECT * FROM #prefix#block WHERE id=?', $blockId);
+		return Kernel::$modelObj->single('SELECT * FROM /*prefix*/block WHERE id=?', $blockId);
 	}
 
 	/**
@@ -32,27 +32,18 @@ class BlockModel {
 	 */
 	public static function getBlocksForBlog () {
 
-		return Kernel::$modelObj->fetch ('SELECT * FROM #prefix#block WHERE display_in_blog=1');
+		return Kernel::$modelObj->fetch ('SELECT * FROM /*prefix*/block WHERE display_in_blog=1');
 	}
 
 	/**
-	 * @return bool
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 */
-	/*public static function getBlocksForBlogIndex () {
-
-		return self::getBlocks ();
-	}*/
-
-	/**
 	 * @param $nodeId
-	 * @return bool
+	 * @return array
 	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getBlocks($nodeId) {
 
 		return Kernel::$modelObj->fetch (
-			'SELECT * FROM #prefix#block WHERE ' . Kernel::$modelObj->getSQLFindInSet ('display_in_nodes', $nodeId)
+			'SELECT * FROM /*prefix*/block WHERE ' . Kernel::$modelObj->getSQLFindInSet ('display_in_nodes', $nodeId)
 		);
 	}
 }

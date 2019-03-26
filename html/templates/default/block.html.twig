@@ -1,6 +1,8 @@
 {% if block.id2_sidebar == sidebar_id %}
 	<div class="block">
-		<h3 class="title">{{ block.title }}</h3>
+		{% if block.display_title %}
+			<h3 class="title">{{ block.title }}</h3>
+		{% endif %}
 		<div class="body">{{ block.body | raw }}</div>
 	</div>
 {% endif %}

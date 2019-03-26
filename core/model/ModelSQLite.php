@@ -12,13 +12,16 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.3 30.01.2019
+ * @version 0.0.4 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class ModelSQLite extends ModelAbstract implements ModelSQLiteInterface {
 
-	const DBFile = 'data/ocms.db';
+	/**
+	 * @var string
+	 */
+	protected $dbFile;
 
 	/**
 	 *
@@ -27,9 +30,14 @@ class ModelSQLite extends ModelAbstract implements ModelSQLiteInterface {
 	static $_instance;
 
 	/**
-	 * @var string
+	 * ModelSQLite constructor.
 	 */
-	protected $initialSqlFile = 'install/sqlite.sql';
+	protected function __construct() {
+
+		parent::__construct ();
+		$this->dbFile = Kernel::$libRoot . 'data/ocms.db';
+		$this->initialSqlFile = Kernel::$libRoot . 'install/sqlite.sql';
+	}
 
 	/**
 	 *
@@ -49,7 +57,7 @@ class ModelSQLite extends ModelAbstract implements ModelSQLiteInterface {
 	 */
 	protected function isDbInited (): bool {
 
-		return (file_exists(self::DBFile) && filesize(self::DBFile) > 0);
+		return (file_exists($this->dbFile) && filesize($this->dbFile) > 0);
 	}
 
 	/**
@@ -57,7 +65,7 @@ class ModelSQLite extends ModelAbstract implements ModelSQLiteInterface {
 	 */
 	protected function connect () {
 
-		$this->db = new \PDO('sqlite:' . self::DBFile);
+		$this->db = new \PDO('sqlite:' . $this->dbFile);
 		$this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 
@@ -66,8 +74,8 @@ class ModelSQLite extends ModelAbstract implements ModelSQLiteInterface {
    */
 	protected function createDb () {
 
-		if (! ($handle = @fopen (self::DBFile, 'w'))) {
-			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot create SQLite file: ' . self::DBFile);
+		if (! ($handle = @fopen ($this->dbFile, 'w'))) {
+			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot create SQLite file: ' . $this->dbFile);
 		}
 		fclose($handle);
 	}

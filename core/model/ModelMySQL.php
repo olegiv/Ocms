@@ -14,7 +14,7 @@ use Ocms\core\exception\ExceptionFatal;
  * @package core
  * @access public
  * @since 30.01.2019
- * @version 0.0.0 30.01.2019
+ * @version 0.0.1 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -30,6 +30,15 @@ class ModelMySQL extends ModelAbstract implements ModelMySQLInterface {
 	 * @var string
 	 */
 	protected $initialSqlFile = 'install/mysql.sql';
+
+	/**
+	 * ModelMySQL constructor.
+	 */
+	protected function __construct() {
+
+		parent::__construct ();
+		$this->initialSqlFile = Kernel::$libRoot . 'install/mysql.sql';
+	}
 
 	/**
 	 *
@@ -53,23 +62,6 @@ class ModelMySQL extends ModelAbstract implements ModelMySQLInterface {
 	}
 
 	/**
-	 *
-	 * @param string $sql
-	 * @throws ExceptionRuntime
-	 */
-	/*private function transaction (string $sql) {
-
-		try {
-			$this->db->beginTransaction();
-			$this->db->exec($sql);
-			$this->db->commit();
-		} catch (\PDOException $e) {
-			$this->db->rollBack();
-			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, $e->getMessage());
-		}
-	}*/
-
-	/**
 	 * @throws ExceptionFatal
 	 */
 	protected function connect() {
@@ -84,9 +76,9 @@ class ModelMySQL extends ModelAbstract implements ModelMySQLInterface {
 		}		
 	}
 
-  /**
-   * @throws ExceptionFatal
-   */
+	/**
+	 *
+	 */
 	protected function createDb () {
 
 	}

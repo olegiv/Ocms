@@ -1,29 +1,29 @@
 <?php
 
-namespace Ocms\core\service\Tags;
+namespace Ocms\core\app\tag\service;
 
 /**
- * TagsService Class.
+ * TagService Class.
  *
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
-class TagsService implements TagsServiceInterface {
+class TagService implements TagServiceInterface {
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Tags\TagsService This class instance
+	 * @var TagService This class instance
 	 */
 	private static $_instance;
 
   /**
-   * @return TagsService
+   * @return TagService
    */
-  public static function getInstance(): TagsService {
+  public static function getInstance(): TagService {
   
 		if(!(self::$_instance instanceof self)) {
 			self::$_instance = new self();
@@ -34,9 +34,7 @@ class TagsService implements TagsServiceInterface {
 	/**
 	 * 
 	 */
-	private function __construct() {
-		
-	}
+	private function __construct() {}
 
   /**
    * @param string $tags

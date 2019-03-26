@@ -12,7 +12,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.5 20.02.2019
+ * @version 0.0.6 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -95,9 +95,9 @@ class Twig {
 		$cacheOptions = Kernel::$configurationObj->getConfigurationGlobalItem('Site', 'cache');
 		if (isset ($cacheOptions['enabled']) && $cacheOptions['enabled']) {
 			if (isset ($cacheOptions['path'])) {
-				$twigOptions['cache'] = $cacheOptions['path'];
+				$twigOptions['cache'] = Kernel::$libRoot . $cacheOptions['path'];
 			} else {
-				$twigOptions['cache'] = self::CACHE_DEFAULT_PATH; // 'cache' => 'data/cache',
+				$twigOptions['cache'] = Kernel::$libRoot . self::CACHE_DEFAULT_PATH; // 'cache' => 'data/cache',
 			}
 		}
 		if (Kernel::inDebug ()) {

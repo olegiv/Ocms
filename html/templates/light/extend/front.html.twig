@@ -77,16 +77,19 @@
 						<div class="col-md-2"></div>
 						<div class="col-md-8 col-sm-12">
 							<div class="code-highlight ">
-								<span class="js-copy-to-clipboard copy-code">copy</span> <pre><code class="language-php php-code">&lt;?php
+								<span class="js-copy-to-clipboard copy-code">copy</span>
+								<pre><code class="language-php php-code">
+&lt;?php
 
-require __DIR__ . '/autoload.php';
-require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Ocms\core\Kernel;
 
 $kernel = Kernel::getInstance(__DIR__);
 $kernel->run();
-</code></pre></div>
+								</code></pre>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -99,7 +102,7 @@ $kernel->run();
 						<!-- Promo Title -->
 						<div class="promo-title-wrapper ">
 							<h3 class="promo-title" data-icon="&#xe6c9">Give it a try</h3>
-							<p class="promo-description">Pick up source code from GitHub:</p>
+							<p class="promo-description">Download Opossum CMS</p>
 						</div>
 						<!-- End of Promo Title -->
 					</div>
@@ -109,7 +112,7 @@ $kernel->run();
 				<div class="row">
 					<div class="col-md-12">
 						<div class="helper center mb60">
-							<a href="https://github.com/olegiv/Ocms" target="_blank" class="reguest-demo-button button blue stroke rounded button-icon button-icon-right">Download
+							<a href="/download" class="reguest-demo-button button blue stroke rounded button-icon button-icon-right">Download
 								<i class="fa fa-angle-right"></i>
 							</a>
 						</div>
@@ -174,15 +177,12 @@ $kernel->run();
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<!-- Promo Title -->
-					<div class="promo-title-wrapper ">
+					<!--<div class="promo-title-wrapper ">
 						<h3 class="promo-title" data-icon="&#xe6b3"> Our Plans </h3>
 						<p class="promo-description">Quisque pellentesque tempor tortor. Morbi quis turpis eget tellus dapibus vestibulum sed sit amet lectus.</p>
 					</div>
-					<!-- End of Promo Title -->
 					<div class="row">
 						<div class="col-md-4 col-sm-6">
-							<!-- Price List -->
 							<div class="price-list">
 								<h3 class="price-list-title">Free</h3>
 								<p class="price-list-price">$0
@@ -200,10 +200,8 @@ $kernel->run();
 								</ul>
 								<a href="#" class="price-list-button">Select Plan</a>
 							</div>
-							<!-- End of Price List -->
 						</div>
 						<div class="col-md-4 col-sm-6">
-							<!-- Price List -->
 							<div class="price-list">
 								<h3 class="price-list-title">Standard</h3>
 								<p class="price-list-price">$10
@@ -221,10 +219,8 @@ $kernel->run();
 								</ul>
 								<a href="#" class="price-list-button">Select Plan</a>
 							</div>
-							<!-- End of Price List -->
 						</div>
 						<div class="col-md-4 col-sm-6 col-sm-offset-3 col-md-offset-0">
-							<!-- Price List -->
 							<div class="price-list">
 								<h3 class="price-list-title">Pro</h3>
 								<p class="price-list-price">$29
@@ -242,9 +238,8 @@ $kernel->run();
 								</ul>
 								<a href="#" class="price-list-button">Select Plan</a>
 							</div>
-							<!-- End of Price List -->
 						</div>
-					</div>
+					</div>-->
 					<!-- Promo Title -->
 					<div class="promo-title-wrapper ">
 						<h3 class="promo-title" data-icon="&#xe661">Sites using Opossum CMS</h3>
@@ -263,56 +258,46 @@ $kernel->run();
 						</li>
 					</ul>
 					<!-- End of Brands -->
-					<!-- Promo Title -->
-					<div class="promo-title-wrapper ">
+					<!--<div class="promo-title-wrapper ">
 						<h3 class="promo-title" data-icon="&#xe668"> Testimonials </h3>
 						<p class="promo-description">Quisque pellentesque tempor tortor. Morbi quis turpis eget tellus dapibus vestibulum sed sit amet lectus.</p>
 					</div>
-					<!-- End of Promo Title -->
 					<div class="row">
 						<div class="col-md-6 col-sm-6">
-							<!-- Testimonials -->
 							<div class="testimonial">
 								<div class="testimonial-photo-wrapper">
 									<img src="{{ template_root }}img/front/128-kylie.jpg" class="testimonial-photo" alt="Kylie the Opossum&#39;s Photo"> </div>
 								<h4 class="testimonial-name">Kylie the Opossum</h4>
 								<p class="testimonial-text">Quisque pellentesque tempor tortor. Morbi quis turpis eget tellus dapibus vestibulum sed sit amet lectus.</p>
 							</div>
-							<!-- End of Testimonials -->
 						</div>
 						<div class="col-md-6 col-sm-6">
-							<!-- Testimonials -->
 							<div class="testimonial">
 								<div class="testimonial-photo-wrapper">
 									<img src="{{ template_root }}img/front/128-fox.jpg" class="testimonial-photo" alt="Mr. Fox&#39;s Photo"> </div>
 								<h4 class="testimonial-name">Mr. Fox</h4>
 								<p class="testimonial-text">Quisque pellentesque tempor tortor. Morbi quis turpis eget tellus dapibus vestibulum sed sit amet lectus.</p>
 							</div>
-							<!-- End of Testimonials -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6 col-sm-6">
-							<!-- Testimonials -->
 							<div class="testimonial">
 								<div class="testimonial-photo-wrapper">
 									<img src="{{ template_root }}img/front/128-bean.jpg" class="testimonial-photo" alt="Franklin Bean&#39;s Photo"> </div>
 								<h4 class="testimonial-name">Franklin Bean</h4>
 								<p class="testimonial-text">Quisque pellentesque tempor tortor. Morbi quis turpis eget tellus dapibus vestibulum sed sit amet lectus.</p>
 							</div>
-							<!-- End of Testimonials -->
 						</div>
 						<div class="col-md-6 col-sm-6">
-							<!-- Testimonials -->
 							<div class="testimonial">
 								<div class="testimonial-photo-wrapper">
 									<img src="{{ template_root }}img/front/128-boggis.jpg" class="testimonial-photo" alt="Walter Boggis&#39;s Photo"> </div>
 								<h4 class="testimonial-name">Walter Boggis</h4>
 								<p class="testimonial-text">Quisque pellentesque tempor tortor. Morbi quis turpis eget tellus dapibus vestibulum sed sit amet lectus.</p>
 							</div>
-							<!-- End of Testimonials -->
 						</div>
-					</div>
+					</div>-->
 				</div>
 			</div>
 		</div>

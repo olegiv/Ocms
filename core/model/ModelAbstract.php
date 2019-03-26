@@ -12,7 +12,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 30.01.2019
- * @version 0.0.0 30.01.2019
+ * @version 0.0.1 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -49,10 +49,9 @@ abstract class ModelAbstract {
 		$this->conf = Kernel::$configurationObj->getConfigurationGlobal('DB');
 	}
 
-  /**
-   * @return \PDO
-   * @throws ExceptionFatal
-   */
+	/**
+	 * @return \PDO
+	 */
 	public function init () {
 
 		if (!$this->isDbInited ()) {
@@ -69,9 +68,9 @@ abstract class ModelAbstract {
 	 */
 	protected function isDbInited (): bool {}
 
-  /**
-   * @throws ExceptionFatal
-   */
+	/**
+	 *
+	 */
 	protected function initDb() {}
 
 	/**
@@ -96,9 +95,9 @@ abstract class ModelAbstract {
 	 */
 	protected function connect () {}
 
-  /**
-   * @throws ExceptionFatal
-   */
+	/**
+	 *
+	 */
 	protected function createDb () {}
 
 	/**

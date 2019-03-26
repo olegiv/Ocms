@@ -13,7 +13,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.4 30.01.2019
+ * @version 0.0.5 21.02.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -134,9 +134,24 @@ class Model implements ModelInterface {
 
 		$sql = array_shift($args);
 		$args = $this->normalizeArgs($args);
-		$sql = str_replace('#prefix#', $this->dbPrefix, $sql);
+		$sql = str_replace('/*prefix*/', $this->dbPrefix, $sql);
 		$stmt = $this->db->prepare($sql);
 		return [$stmt, $args];
+	}
+
+	/**
+	 * @return bool
+	 * @throws ExceptionRuntime
+	 */
+	public function execute (): bool {
+
+		try {
+			list ($stmt, $args) = self::prepare (func_get_args (), 1);
+			return $stmt->execute ($args);
+		} catch (\PDOException $e) {
+			$this->error = $e->getMessage ();
+			throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
+		}
 	}
 
 	/**
@@ -171,21 +186,30 @@ class Model implements ModelInterface {
 		}
 	}
 
-    /**
-     * @return array
-     * @throws ExceptionRuntime
-     */
-	public function shift() {
+	/**
+	 * @return string
+	 * @throws ExceptionRuntime
+	 */
+	public function shift(): string {
 
 		try {
 			list ($stmt, $args) = self::prepare(func_get_args());
 			$stmt->execute($args);
 			$res = $stmt->fetch(\PDO::FETCH_NUM);
-			return $res[0];
+			return (string)$res[0];
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
 			throw new ExceptionRuntime(ExceptionBase::E_FATAL, $this->error);
 		}
+	}
+
+	/**
+	 * @param string|null $name
+	 * @return int
+	 */
+	public function getLastId (string $name=null): int {
+
+		return $this->db->lastInsertId ($name);
 	}
 
 	/**
