@@ -8,15 +8,15 @@ namespace Ocms\core\service\Router;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 interface RouterInterface {
 
 	/**
 	 * 
-	 * @return \Ocms\core\service\Router\Router
+	 * @return Router
 	 */
   public static function getInstance(): Router;
 
@@ -24,17 +24,4 @@ interface RouterInterface {
 	 * 
 	 */
 	public function run ();
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	//public function getParams (): array;
-	
-	/**
-	 * 
-	 * @param string $key
-	 * @return string
-	 */
-	//public function getParam (string $key): string;
 }

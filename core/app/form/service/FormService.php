@@ -12,7 +12,7 @@ use Ocms\core\view\Twig;
  * @package core
  * @access public
  * @since 14.02.2019
- * @version 0.0.1 15.02.2019
+ * @version 0.0.2 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -60,10 +60,6 @@ class FormService implements FormServiceInterface {
 
 	/**
 	 * @return string
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
 	 */
 	private function getFieldsHtml (): string {
 
@@ -77,10 +73,6 @@ class FormService implements FormServiceInterface {
 
 	/**
 	 * @return string
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
 	 */
 	private function getHtml (): string {
 
@@ -149,10 +141,6 @@ class FormService implements FormServiceInterface {
 
 	/**
 	 * @param string $message
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
 	 */
 	public function displayFinalMessage(string $message) {
 
@@ -163,10 +151,6 @@ class FormService implements FormServiceInterface {
 
 	/**
 	 * @return array
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
 	 */
 	public function run(): array {
 
@@ -189,7 +173,6 @@ class FormService implements FormServiceInterface {
 	/**
 	 * @param string $html
 	 * @return string
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	private function render (string $html): string {
 

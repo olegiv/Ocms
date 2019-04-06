@@ -14,14 +14,14 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 21.02.2019
- * @version 0.0.0 21.02.2019
+ * @version 0.0.1 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
 class MigrationController extends ControllerBase implements ControllerBaseInterface {
 
 	/**
-	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 *
 	 */
 	public static function migrate() {
 

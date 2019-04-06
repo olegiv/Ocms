@@ -8,9 +8,9 @@ namespace Ocms\core\service\I18n;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class I18n implements I18nInterface {
 
@@ -62,13 +62,13 @@ class I18n implements I18nInterface {
 
 		$args = func_get_args ();
 
-		$return = '';
-
 		if (($original = array_shift ($args))) {
 
 			if (isset ($args[0]) && is_array ($args[0])) {
 				$args = $args[0];
 			}
+
+			$return = vsprintf ($original, $args);
 
 			foreach (array_keys ($this->lang_hash) as $lang) {
 				if (! empty ($this->lang_hash[$lang][$original])) {
@@ -77,7 +77,8 @@ class I18n implements I18nInterface {
 				}
 			}
 
-			return vsprintf ($original, $args);
+		} else {
+			$return = '';
 		}
 
 		return $return;

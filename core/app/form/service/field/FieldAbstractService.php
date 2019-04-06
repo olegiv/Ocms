@@ -11,7 +11,7 @@ use Ocms\core\view\Twig;
  * @package core
  * @access public
  * @since 15.02.2019
- * @version 0.0.0 15.02.2019
+ * @version 0.0.1 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -38,10 +38,6 @@ abstract class FieldAbstractService implements FieldAbstractServiceInterface {
 
 	/**
 	 * @return string
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
 	 */
 	public function getHtml (): string {
 

@@ -12,7 +12,7 @@ use Ocms\core\model\NodeModel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.4 14.02.2019
+ * @version 0.0.5 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -20,13 +20,13 @@ class FrontController extends NodeControllerBase implements FrontControllerInter
 
 	/**
 	 *
-	 * @var \Ocms\core\controller\FrontController This class instance
+	 * @var FrontController This class instance
 	 */
 	static $_instance;
 
 	/**
 	 *
-	 * @return \Ocms\core\controller\FrontController
+	 * @return FrontController
 	 */
   public static function getInstance(): FrontController {
 
@@ -38,33 +38,36 @@ class FrontController extends NodeControllerBase implements FrontControllerInter
 
   /**
    * @param $nodeId
-   * @return \stdClass
-   * @throws ExceptionRuntime
+   * @return \stdClass|bool
    */
 	protected function get ($nodeId) {
 
-		if (!($node = NodeModel::getNode($nodeId))) {
-			throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, 'Cannot load Home page node: %s', $nodeId);
+		try {
+			if (!($node = NodeModel::getNode($nodeId))) {
+				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Cannot load Home page node: %s', $nodeId));
+			}
+		} catch (ExceptionRuntime $e) {
+			$node = false;
 		}
 		return $node;
 	}
 
   /**
    * @param int $nodeId
-   * @return mixed|void
-   * @throws ExceptionRuntime
    */
 	public static function viewAction (int $nodeId) {
 
-		if (! ($nodeId = Kernel::$configurationObj->getHomePageId ())) {
-			throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Cannot get home page ID'));
-		}
-		echo Kernel::$viewObj->render ('extend/front',
-			array_merge ((array) Kernel::$frontControllerObj->get($nodeId), [
-				'blocks' => Kernel::$blockObj->getBlocksForNode($nodeId),
-				'menu' => Kernel::$menuObj->getMenuForNodeHtml($nodeId),
-				'site' => Kernel::getSiteConfiguration()
-			])
-		);
+		try {
+			if (!($nodeId = Kernel::$configurationObj->getHomePageId())) {
+				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t('Cannot get home page ID'));
+			}
+			echo Kernel::$viewObj->render('extend/front',
+				array_merge((array)Kernel::$frontControllerObj->get($nodeId), [
+					'blocks' => Kernel::$blockObj->getBlocksForNode($nodeId),
+					'menu' => Kernel::$menuObj->getMenuForNodeHtml($nodeId),
+					'site' => Kernel::getSiteConfiguration()
+				])
+			);
+		} catch (ExceptionRuntime $e) {}
 	}
 }

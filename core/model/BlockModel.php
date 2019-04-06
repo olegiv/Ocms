@@ -10,7 +10,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.6 21.02.2019
+ * @version 0.0.7 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 -2019, OCMS
  */
@@ -19,7 +19,6 @@ class BlockModel {
 	/**
 	 * @param int $blockId
 	 * @return object|bool
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getById (int $blockId) {
 		
@@ -28,7 +27,6 @@ class BlockModel {
 
 	/**
 	 * @return array|bool
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getBlocksForBlog () {
 
@@ -38,7 +36,6 @@ class BlockModel {
 	/**
 	 * @param $nodeId
 	 * @return array
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getBlocks($nodeId) {
 

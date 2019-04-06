@@ -10,7 +10,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 18.01.2019
- * @version 0.0.2 21.02.2019
+ * @version 0.0.3 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -19,7 +19,6 @@ class AliasModel {
 	/**
 	 * @param string $alias
 	 * @return int
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getNode(string $alias): int {
 
@@ -29,7 +28,6 @@ class AliasModel {
 	/**
 	 * @param string $alias
 	 * @return string
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getController (string $alias): string {
 
@@ -38,7 +36,6 @@ class AliasModel {
 
 	/**
 	 * @return array
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getAliases (): array {
 

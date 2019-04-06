@@ -71,7 +71,7 @@ class View extends ViewBase {
 			$params = array_merge($params,
 							['template_root' => self::$templatesRoot]);
 			$html = $this->twigObj->render($template . '.html.twig', $params);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) { // Twin render throws multiple types of Exceptions, just catch all
 			Kernel::$logObj->log($e->getMessage ());
 			$html = '';
 		}

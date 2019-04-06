@@ -11,7 +11,7 @@ use Ocms\core\exception\ExceptionRuntime;
  * @package core
  * @access public
  * @since 15.02.2019
- * @version 0.0.0 15.02.2019
+ * @version 0.0.1 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -29,7 +29,6 @@ class FieldsService implements FieldsServiceInterface {
 	/**
 	 * FieldsService constructor.
 	 * @param array $fields
-	 * @throws ExceptionRuntime
 	 */
 	public function __construct(array $fields) {
 
@@ -38,59 +37,61 @@ class FieldsService implements FieldsServiceInterface {
 	}
 
 	/**
-	 * @throws ExceptionRuntime
+	 *
 	 */
 	private function prepareFields () {
 
-		if ($this->fields) {
-			foreach ($this->fields as $key => $field) {
-				if (! isset($field['id'])) {
-					if (isset($field['name'])) {
-						$this->fields[$key]['id'] = $field['name'];
-					} else {
-						throw new ExceptionRuntime (ExceptionBase::E_FATAL, t('Field ID and name empty'));
+		try {
+			if ($this->fields) {
+				foreach ($this->fields as $key => $field) {
+					if (!isset($field['id'])) {
+						if (isset($field['name'])) {
+							$this->fields[$key]['id'] = $field['name'];
+						} else {
+							throw new ExceptionRuntime (ExceptionBase::E_WARNING, t('Field ID and name empty'));
+						}
 					}
 				}
 			}
-		}
+		} catch (ExceptionRuntime $e) {}
 	}
 
 	/**
 	 * @return string
-	 * @throws ExceptionRuntime
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
 	 */
 	public function getHtml (): string {
 
 		$return = '';
-		if ($this->fields) {
-			foreach ($this->fields as $field) {
-				if (! isset($field['type']) || ! $field['type']) {
-					throw new ExceptionRuntime (ExceptionBase::E_FATAL,
-						t('Empty field type for field: %s', $field['id']));
-				}
-				switch ($field['type']) {
-					case self::FIELD_TEXT:
-						$fieldObj = new FieldTextService($field);
-						$return .= $fieldObj->getHtml();
-						break;
-					case self::FIELD_HIDDEN:
-						$fieldObj = new FieldHiddenService($field);
-						$return .= $fieldObj->getHtml();
-						break;
-					case self::FIELD_BUTTON:
-						$fieldObj = new FieldButtonService($field);
-						$return .= $fieldObj->getHtml();
-						break;
 
-					default:
+		try {
+			if ($this->fields) {
+				foreach ($this->fields as $field) {
+					if (!isset($field['type']) || !$field['type']) {
 						throw new ExceptionRuntime (ExceptionBase::E_FATAL,
-							t('Bad field type %s for field %s', $field['type'], $field['id']));
+							t('Empty field type for field: %s', $field['id']));
+					}
+					switch ($field['type']) {
+						case self::FIELD_TEXT:
+							$fieldObj = new FieldTextService($field);
+							$return .= $fieldObj->getHtml();
+							break;
+						case self::FIELD_HIDDEN:
+							$fieldObj = new FieldHiddenService($field);
+							$return .= $fieldObj->getHtml();
+							break;
+						case self::FIELD_BUTTON:
+							$fieldObj = new FieldButtonService($field);
+							$return .= $fieldObj->getHtml();
+							break;
+
+						default:
+							throw new ExceptionRuntime (ExceptionBase::E_FATAL,
+								t('Bad field type %s for field %s', $field['type'], $field['id']));
+					}
 				}
 			}
-		}
+		} catch (ExceptionRuntime $e) {}
+
 		return $return;
 	}
 }

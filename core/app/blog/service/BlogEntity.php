@@ -10,7 +10,7 @@ use Ocms\core\app\blog\model\BlogModel;
  * @package core
  * @access public
  * @since 21.02.2019
- * @version 0.0.0 26.03.2019
+ * @version 0.0.1 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -24,7 +24,6 @@ class BlogEntity implements BlogEntityInterface {
 	/**
 	 * @param int $id
 	 * @return \stdClass
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public function get (int $id): \stdClass {
 
@@ -34,7 +33,6 @@ class BlogEntity implements BlogEntityInterface {
 	/**
 	 * @param \stdClass $item
 	 * @return int
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public function add (\stdClass $item): int {
 

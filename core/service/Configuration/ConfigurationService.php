@@ -2,6 +2,7 @@
 
 namespace Ocms\core\service\Configuration;
 
+use Ocms\core\exception\ExceptionRuntime;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
@@ -13,7 +14,7 @@ use Ocms\core\exception\ExceptionFatal;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.3 20.02.2019
+ * @version 0.0.4 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -21,9 +22,11 @@ class ConfigurationService implements ConfigurationServiceInterface {
 
 	const GLOBAL_CONF_FILE = '../conf/global.yaml';
 
+	const MAX_ITEM_COUNT = 10000;
+
 	/**
 	 *
-	 * @var \Ocms\core\service\Configuration\ConfigurationService This class instance
+	 * @var ConfigurationService This class instance
 	 */
 	static $_instance;
 
@@ -35,7 +38,6 @@ class ConfigurationService implements ConfigurationServiceInterface {
 
   /**
    * @return ConfigurationService
-   * @throws ExceptionFatal
    */
   public static function getInstance(): ConfigurationService {
 
@@ -47,7 +49,6 @@ class ConfigurationService implements ConfigurationServiceInterface {
 
   /**
    * ConfigurationService constructor.
-   * @throws ExceptionFatal
    */
 	private function __construct() {
 
@@ -55,19 +56,21 @@ class ConfigurationService implements ConfigurationServiceInterface {
 	}
 
   /**
-   * @throws ExceptionFatal
+	 *
    */
 	private function loadConfigurationGlobal() {
 
 		try {
-			if (! ($this->configurationGlobal = Yaml::parseFile (self::GLOBAL_CONF_FILE))) {
+			try {
+				if (!($this->configurationGlobal = Yaml::parseFile(self::GLOBAL_CONF_FILE))) {
+					throw new ExceptionFatal (ExceptionFatal::E_FATAL,
+						'Cannot parse global configuration');
+				}
+			} catch (ParseException $e) {
 				throw new ExceptionFatal (ExceptionFatal::E_FATAL,
-					'Cannot parse global configuration');
+					'Cannot parse global configuration, error: ' . $e->getMessage());
 			}
-		} catch (ParseException $e) {
-			throw new ExceptionFatal (ExceptionFatal::E_FATAL,
-				'Cannot parse global configuration, error: ' . $e->getMessage ());
-		}
+		} catch (ExceptionFatal $e) {}
 	}
 
 	/**
@@ -149,23 +152,30 @@ class ConfigurationService implements ConfigurationServiceInterface {
 
 		list ($section, $ids) = self::prepare (func_get_args ());
 
-		if (isset ($this->configurationGlobal[$section])) {
-			if ($ids) {
-				$maxId = count ($ids);
-				$level = 0;
-				$base = $this->configurationGlobal[$section];
-				foreach ($ids as $id) {
-					if (isset ($base[$id])) {
-						$base = $base[$id];
-						$level ++;
-					} else {
-						break;
+		try {
+			if (isset ($this->configurationGlobal[$section])) {
+				if ($ids) {
+					if (self::MAX_ITEM_COUNT < ($maxId = count($ids))) {
+						throw new ExceptionRuntime (
+							ExceptionRuntime::E_WARNING, t ('Too many global configuration items'));
+					}
+					$level = 0;
+					$base = $this->configurationGlobal[$section];
+					foreach ($ids as $id) {
+						if (isset ($base[$id])) {
+							$base = $base[$id];
+							$level++;
+						} else {
+							break;
+						}
+					}
+					if (count($ids) === $level) {
+						$configurationItem = $base;
 					}
 				}
-				if (count ($ids) === $level) {
-					$configurationItem = $base;
-				}
 			}
+		} catch (ExceptionRuntime $e) {
+
 		}
 
 		return $configurationItem;

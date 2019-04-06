@@ -11,7 +11,7 @@ use Ocms\core\model\BlockModel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.3 14.02.2019
+ * @version 0.0.4 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -43,7 +43,6 @@ class Block extends BlockBase implements BlockInterface {
 	/**
 	 * @param int $blockId
 	 * @return bool|object
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	protected function getById(int $blockId) {
 
@@ -53,7 +52,6 @@ class Block extends BlockBase implements BlockInterface {
 	/**
 	 * @param int $blockId
 	 * @return string
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public function renderBlockById(int $blockId): string {
 
@@ -67,7 +65,6 @@ class Block extends BlockBase implements BlockInterface {
   /**
    * @param int $nodeId
    * @return array
-   * @throws \Ocms\core\exception\ExceptionRuntime
    */
 	public function getBlocksForNode (int $nodeId): array {
 	
@@ -81,7 +78,6 @@ class Block extends BlockBase implements BlockInterface {
 
 	/**
 	 * @return array
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 * @todo: get blocks for a form, now gets blocks for the homepage
 	 */
 	public function getBlocksForForm (): array {
@@ -96,7 +92,6 @@ class Block extends BlockBase implements BlockInterface {
 
   /**
    * @return array
-   * @throws \Ocms\core\exception\ExceptionRuntime
    */
 	public function getBlocksForBlog (): array {
 	
@@ -111,7 +106,6 @@ class Block extends BlockBase implements BlockInterface {
   /**
    * @param $block
    * @return string
-   * @throws \Ocms\core\exception\ExceptionRuntime
    */
 	private function renderBlock ($block): string {
 

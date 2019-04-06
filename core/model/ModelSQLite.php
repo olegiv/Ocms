@@ -12,7 +12,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.4 21.02.2019
+ * @version 0.0.5 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -81,7 +81,7 @@ class ModelSQLite extends ModelAbstract implements ModelSQLiteInterface {
 	}
 
 	/**
-	 * @throws ExceptionFatal
+	 *
 	 */
 	protected function initDb () {
 
@@ -90,7 +90,9 @@ class ModelSQLite extends ModelAbstract implements ModelSQLiteInterface {
 			$this->connect ();
 			$this->db->exec ($this->getInitSql ($this->initialSqlFile));
 		} catch (\Exception $e) {
-			throw new ExceptionFatal (ExceptionBase::E_FATAL, $e->getMessage());
+			try {
+				throw new ExceptionFatal (ExceptionBase::E_FATAL, $e->getMessage());
+			} catch (ExceptionFatal $e) {}
 		}
 	}
 

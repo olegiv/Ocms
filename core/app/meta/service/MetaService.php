@@ -10,9 +10,9 @@ use Ocms\core\view\Twig;
  * @package core
  * @access public
  * @since 16.02.2019
- * @version 0.0.0 16.02.2019
+ * @version 0.0.1 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 201, OCMS
+ * @copyright Copyright (C) 2019, OCMS
  */
 class MetaService implements MetaServiceInterface {
 
@@ -20,16 +20,19 @@ class MetaService implements MetaServiceInterface {
 
 	/**
 	 * @return string
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
+	 * @throws \Twig\Error\LoaderError
+	 * @throws \Twig\Error\SyntaxError
 	 */
 	public static function getGlobalHtml (): string {
 
 		return Twig::renderCoreAppTemplate(self::APP,'global', ['favicon' => self::getFaviconHtml()]);
 	}
 
+	/**
+	 * @return string
+	 * @throws \Twig\Error\LoaderError
+	 * @throws \Twig\Error\SyntaxError
+	 */
 	private static function getFaviconHtml (): string {
 
 		return Twig::renderCoreAppTemplate(self::APP,'favicon', []);

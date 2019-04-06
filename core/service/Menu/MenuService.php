@@ -11,7 +11,7 @@ use Ocms\core\model\MenuModel;
  * @package core
  * @access public
  * @since 18.01.2019
- * @version 0.0.1 14.02.2019
+ * @version 0.0.2 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -19,7 +19,7 @@ class MenuService implements MenuServiceInterface {
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Menu\MenuService This class instance
+	 * @var MenuService This class instance
 	 */
 	static $_instance;
 
@@ -39,11 +39,6 @@ class MenuService implements MenuServiceInterface {
 	 */
 	private function __construct() {
 		
-	}
-
-	private function getMenu () {
-
-
 	}
 
 	/**

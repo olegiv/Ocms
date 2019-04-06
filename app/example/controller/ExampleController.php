@@ -12,7 +12,7 @@ use Ocms\core\view\Twig;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.2 15.02.2019
+ * @version 0.0.3 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -28,9 +28,6 @@ class ExampleController extends ControllerBase implements ControllerBaseInterfac
 
 	/**
 	 * @return string
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
 	 */
 	public static function withoutParams():string {
 

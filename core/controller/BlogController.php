@@ -5,7 +5,6 @@ namespace Ocms\core\controller;
 use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\Kernel;
 use Ocms\core\app\blog\model\BlogModel;
-use Ocms\core\model\UserModel;
 use Ocms\core\service\Date\DateService;
 
 /**
@@ -14,7 +13,7 @@ use Ocms\core\service\Date\DateService;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.5 21.02.2019
+ * @version 0.0.6 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -22,13 +21,13 @@ class BlogController extends NodeControllerBase implements ControllerBaseInterfa
 
 	/**
 	 *
-	 * @var \Ocms\core\controller\BlogController This class instance
+	 * @var BlogController This class instance
 	 */
 	private static $_instance;
 
 	/**
 	 *
-	 * @return \Ocms\core\controller\BlogController
+	 * @return BlogController
 	 */
   public static function getInstance(): BlogController {
 
@@ -41,14 +40,20 @@ class BlogController extends NodeControllerBase implements ControllerBaseInterfa
   /**
    * @param int $nodeId
    * @return \stdClass
-   * @throws ExceptionRuntime
    */
 	protected function get (int $nodeId) {
 
-		if (!($blog = BlogModel::get ($nodeId))) {
-			throw new ExceptionRuntime(ExceptionRuntime::E_NOT_FOUND, t('Cannot load blog: %s', $nodeId));
+		try {
+			if (($blog = BlogModel::get ($nodeId))) {
+				$return = $this->setProperties($blog);
+			} else {
+				throw new ExceptionRuntime(ExceptionRuntime::E_NOT_FOUND, t('Cannot load blog: %s', $nodeId));
+			}
+		} catch (ExceptionRuntime $e) {
+			$return = false;
 		}
-		return $this->setProperties($blog);
+
+		return $return;
 	}
 
 	/**
@@ -68,15 +73,18 @@ class BlogController extends NodeControllerBase implements ControllerBaseInterfa
 
 	/**
 	 * @return array
-	 * @throws ExceptionRuntime
 	 */
 	protected function getList() {
 
-		if (!($blogs = BlogModel::getList())) {
-			throw new ExceptionRuntime(ExceptionRuntime::E_NOT_FOUND, t('Cannot load blogs'));
-		}
-		foreach ($blogs as $key => $blog) {
-			$blogs[$key] = $this->setProperties($blog);
+		try {
+			if (!($blogs = BlogModel::getList())) {
+				throw new ExceptionRuntime(ExceptionRuntime::E_WARNING, t('No blogs loaded'));
+			}
+			foreach ($blogs as $key => $blog) {
+				$blogs[$key] = $this->setProperties($blog);
+			}
+		} catch (ExceptionRuntime $e) {
+			$blogs = [];
 		}
 		return $blogs;
 	}
@@ -99,12 +107,11 @@ class BlogController extends NodeControllerBase implements ControllerBaseInterfa
 	/**
 	 * @todo
 	 * @return string
-   * @throws ExceptionRuntime
 	 */
 	public static function renderList() {
 
 		if (($blogs = self::$_instance->getList ())) {
-			$html = Kernel::$viewObj->render('blogs',	['blogs' => $blogs]);
+			$html = Kernel::$viewObj->render('blogs', ['blogs' => $blogs]);
 		} else {
 			$html = '';
 		}
@@ -113,22 +120,22 @@ class BlogController extends NodeControllerBase implements ControllerBaseInterfa
 
   /**
    * @param int $nodeId
-   * @return mixed|void
-   * @throws ExceptionRuntime
    */
 	public static function viewAction (int $nodeId) {
 
-		if (! $nodeIdSanitized = intval ($nodeId)) {
-			throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t('Bad blog ID: %s', $nodeId));
-		}
-		if (($node = self::$_instance->get ($nodeIdSanitized))) {
-			echo Kernel::$viewObj->render('extend/blog',
-				array_merge ((array)$node, [
-					'blocks' => Kernel::$blockObj->getBlocksForBlog (),
-					'menu' => Kernel::$menuObj->getMenuForNodeHtml ($nodeId),
-					'site' => Kernel::getSiteConfiguration ()
-				])
-			);
-		}
+		try {
+			if (!$nodeIdSanitized = intval($nodeId)) {
+				throw new ExceptionRuntime (ExceptionRuntime::E_BAD_PARAMETER, t('Bad blog ID: %s', $nodeId));
+			}
+			if (($node = self::$_instance->get($nodeIdSanitized))) {
+				echo Kernel::$viewObj->render('extend/blog',
+					array_merge((array)$node, [
+						'blocks' => Kernel::$blockObj->getBlocksForBlog(),
+						'menu' => Kernel::$menuObj->getMenuForNodeHtml($nodeId),
+						'site' => Kernel::getSiteConfiguration()
+					])
+				);
+			}
+		} catch (ExceptionRuntime $e) {}
 	}
 }

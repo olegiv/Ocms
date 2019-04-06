@@ -10,7 +10,7 @@ use Ocms\core\model\AliasModel;
  * @package core
  * @access public
  * @since 18.01.2019
- * @version 0.0.2 21.02.2019
+ * @version 0.0.3 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -18,7 +18,7 @@ class AliasService implements AliasServiceInterface {
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Alias\AliasService This class instance
+	 * @var AliasService This class instance
 	 */
 	static $_instance;
 
@@ -43,7 +43,6 @@ class AliasService implements AliasServiceInterface {
 	/**
 	 * @param string $alias
 	 * @return int
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public function getNode(string $alias):int {
 
@@ -53,7 +52,6 @@ class AliasService implements AliasServiceInterface {
 	/**
 	 * @param string $alias
 	 * @return string
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public function getController (string $alias): string {
 
@@ -62,7 +60,6 @@ class AliasService implements AliasServiceInterface {
 
 	/**
 	 * @return array
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public function getAliases (): array {
 

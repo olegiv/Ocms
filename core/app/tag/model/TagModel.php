@@ -10,7 +10,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 21.02.2019
- * @version 0.0.0 21.02.2019
+ * @version 0.0.1 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -19,7 +19,6 @@ class TagModel {
 	/**
 	 * @param int $id
 	 * @return array
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function get (int $id): array {
 
@@ -29,7 +28,6 @@ class TagModel {
 	/**
 	 * @param string $label
 	 * @return \stdClass
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function getByLabel (string $label) {
 
@@ -39,7 +37,6 @@ class TagModel {
 	/**
 	 * @param string $label
 	 * @return int
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	public static function add (string $label): int {
 

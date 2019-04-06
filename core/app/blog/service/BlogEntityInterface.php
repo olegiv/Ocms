@@ -8,7 +8,7 @@ namespace Ocms\core\app\blog\service;
  * @package core
  * @access public
  * @since 21.02.2019
- * @version 0.0.0 21.02.2019
+ * @version 0.0.1 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -16,13 +16,12 @@ interface BlogEntityInterface {
 
 	/**
 	 * @param int $id
-	 * @return array
-	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 * @return \stdClass
 	 */
 	public function get (int $id): \stdClass;
 
 	/**
-	 * @param string $label
+	 * @param \stdClass $item
 	 * @return int
 	 */
 	public function add (\stdClass $item): int;

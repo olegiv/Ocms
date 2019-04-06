@@ -26,104 +26,104 @@ require_once 'Helper.php';
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.6 21.02.2019
+ * @version 0.0.7 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class Kernel implements KernelInterface {
 
-	const VERSION = '0.0.3';
+	const VERSION = '0.0.4';
 
 	const NODE_BLOG = 'NODE_BLOG';
 	const NODE_PAGE = 'NODE_PAGE';
 
 	/**
 	 *
-	 * @var \Ocms\core\Kernel This class instance
+	 * @var Kernel This class instance
 	 */
 	static $_instance;
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Router\Router
+	 * @var Router
 	 */
 	public static $routerObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Configuration\ConfigurationService
+	 * @var ConfigurationService
 	 */
 	public static $configurationObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Log\
+	 * @var LogService
 	 */
 	public static $logObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\model\Model
+	 * @var Model
 	 */
 	public static $modelObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\view\View
+	 * @var View
 	 */
 	public static $viewObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\service\I18n\I18n
+	 * @var I18n
 	 */
 	public static $i18nObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Menu\MenuService
+	 * @var MenuService
 	 */
 	public static $menuObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\service\User\UserService
+	 * @var UserService
 	 */
 	public static $userObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\block\Block
+	 * @var Block
 	 */
 	public static $blockObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Alias\AliasService
+	 * @var AliasService
 	 */
 	public static $aliasObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\controller\NodeController
+	 * @var NodeController
 	 */
 	public static $nodeControllerObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\controller\FrontController
+	 * @var FrontController
 	 */
 	public static $frontControllerObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\controller\BlogController
+	 * @var BlogController
 	 */
 	public static $blogControllerObj;
 
 	/**
 	 *
-	 * @var \Ocms\core\controller\BlockController
+	 * @var BlockController
 	 */
 	public static $blockControllerObj;
 
@@ -140,7 +140,6 @@ class Kernel implements KernelInterface {
 	/**
 	 * @param string $siteRoot
 	 * @return Kernel
-	 * @throws exception\ExceptionFatal
 	 */
   public static function getInstance(string $siteRoot): Kernel {
 
@@ -153,7 +152,6 @@ class Kernel implements KernelInterface {
 	/**
 	 * Kernel constructor.
 	 * @param string $siteRoot
-	 * @throws exception\ExceptionFatal
 	 */
 	private function __construct(string $siteRoot) {
 
@@ -178,8 +176,7 @@ class Kernel implements KernelInterface {
 	}
 
 	/**
-	 * @throws \ReflectionException
-	 * @throws exception\ExceptionRuntime
+	 *
 	 */
 	public function run () {
 

@@ -12,7 +12,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 30.01.2019
- * @version 0.0.1 21.02.2019
+ * @version 0.0.2 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -76,7 +76,6 @@ abstract class ModelAbstract {
 	/**
 	 *
 	 * @param string $sql
-	 * @throws ExceptionRuntime
 	 */
 	/*private function transaction (string $sql) {
 
@@ -101,14 +100,20 @@ abstract class ModelAbstract {
 	protected function createDb () {}
 
 	/**
+	 * @param string $filename
 	 * @return string
-	 * @throws ExceptionFatal
 	 */
 	protected function getInitSql ($filename): string {
 
-		if (!($sqls = file_get_contents ($filename))) {
-			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot open SQL file: '  . $filename);
+		try {
+			if (!($sqls = file_get_contents($filename))) {
+				throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot open SQL file: ' . $filename);
+			}
+			$return = str_replace('/*prefix*/', Kernel::$configurationObj->getDbPrefix(), $sqls);
+		} catch (ExceptionFatal $e) {
+			$return = '';
 		}
-		return str_replace ('#dbPrefix#', Kernel::$configurationObj->getDbPrefix(), $sqls);
+
+		return $return;
 	}
 }

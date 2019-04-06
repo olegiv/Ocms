@@ -13,7 +13,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.5 21.02.2019
+ * @version 0.0.6 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -53,7 +53,6 @@ class Model implements ModelInterface {
 
   /**
    * @return Model
-   * @throws ExceptionFatal
    */
 	public static function getInstance(): Model {
 
@@ -65,7 +64,6 @@ class Model implements ModelInterface {
 
   /**
    * Model constructor.
-   * @throws ExceptionFatal
    */
 	private function __construct() {
 
@@ -74,7 +72,7 @@ class Model implements ModelInterface {
 	}
 
   /**
-   * @throws ExceptionFatal
+	 *
    */
 	private function initDb() {
 
@@ -86,7 +84,11 @@ class Model implements ModelInterface {
 				$this->db = ModelMySQL::getInstance()->init();
 				break;
 			default:
-				throw new ExceptionFatal (ExceptionFatal::E_FATAL, 'Bad DB type: ' . $this->dbType);
+				try {
+					throw new ExceptionFatal (ExceptionFatal::E_FATAL, 'Bad DB type: ' . $this->dbType);
+				} catch (ExceptionFatal $e) {
+
+				}
 		}
 	}
 
@@ -141,54 +143,68 @@ class Model implements ModelInterface {
 
 	/**
 	 * @return bool
-	 * @throws ExceptionRuntime
 	 */
 	public function execute (): bool {
 
 		try {
-			list ($stmt, $args) = self::prepare (func_get_args (), 1);
-			return $stmt->execute ($args);
+			list ($stmt, $args) = self::prepare (func_get_args ());
+			$return = $stmt->execute ($args);
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage ();
-			throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
+			try {
+				throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
+			} catch (ExceptionRuntime $e) {
+				$return = false;
+			}
 		}
+
+		return $return;
 	}
 
 	/**
-	 * @return object
-	 * @throws ExceptionRuntime
+	 * @return mixed
 	 */
 	public function single() {
 
 		try {
 			list($stmt, $args) = $this->prepare(func_get_args());
 			$stmt->execute($args);
-			return $stmt->fetchObject();
+			$return = $stmt->fetchObject();
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
-			throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
+			try {
+				throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error, $e->getCode (), $e);
+			} catch (ExceptionRuntime $e) {
+				$return = false;
+			}
 		}
+
+		return $return;
 	}
 
 	/**
 	 * @return array
-	 * @throws ExceptionRuntime
 	 */
 	public function fetch() {
 
 		try {
 			list ($stmt, $args) = self::prepare(func_get_args());
 			$stmt->execute($args);
-			return $stmt->fetchAll(\PDO::FETCH_OBJ);
+			$return = $stmt->fetchAll(\PDO::FETCH_OBJ);
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
-			throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
+			try {
+				throw new ExceptionRuntime (ExceptionBase::E_FATAL, $this->error);
+			} catch (ExceptionRuntime $e) {
+				$return = [];
+			}
 		}
+
+		return $return;
 	}
 
 	/**
 	 * @return string
-	 * @throws ExceptionRuntime
 	 */
 	public function shift(): string {
 
@@ -196,11 +212,17 @@ class Model implements ModelInterface {
 			list ($stmt, $args) = self::prepare(func_get_args());
 			$stmt->execute($args);
 			$res = $stmt->fetch(\PDO::FETCH_NUM);
-			return (string)$res[0];
+			$return = (string)$res[0];
 		} catch (\PDOException $e) {
 			$this->error = $e->getMessage();
-			throw new ExceptionRuntime(ExceptionBase::E_FATAL, $this->error);
+			try {
+				throw new ExceptionRuntime(ExceptionBase::E_FATAL, $this->error);
+			} catch (ExceptionRuntime $e) {
+				$return = '';
+			}
 		}
+
+		return $return;
 	}
 
 	/**

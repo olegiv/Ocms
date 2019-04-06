@@ -10,7 +10,7 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.2 15.02.2019
+ * @version 0.0.3 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -20,13 +20,13 @@ class BlockController extends NodeControllerBase implements ControllerBaseInterf
 
 	/**
 	 *
-	 * @var \Ocms\core\controller\BlockController This class instance
+	 * @var BlockController This class instance
 	 */
 	static $_instance;
 
 	/**
 	 * 
-	 * @return \Ocms\core\controller\BlockController
+	 * @return BlockController
 	 */
   public static function getInstance(): BlockController {
   
@@ -39,7 +39,6 @@ class BlockController extends NodeControllerBase implements ControllerBaseInterf
   /**
    * @param string $controllerId
    * @return string
-   * @throws \Ocms\core\exception\ExceptionRuntime
    */
 	public function renderController (string $controllerId): string {
 		

@@ -4,8 +4,6 @@ namespace Ocms\core\service\Parser;
 
 use Ocms\core\controller\ControllerBase;
 use Ocms\core\Kernel;
-use Ocms\core\model\AliasModel;
-use Ocms\core\view\Twig;
 
 /**
  * ParserService Class.
@@ -13,33 +11,11 @@ use Ocms\core\view\Twig;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.0 08.02.2019
+ * @version 0.0.1 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
 class ParserService implements ParserServiceInterface {
-
-	/**
-	 *
-	 * @var \Ocms\core\service\Parser\ParserService This class instance
-	 */
-	//static $_instance;
-
-  /**
-   * @return ParserService
-   */
-  /*public static function getInstance(): ParserService {
-  
-		if(!(self::$_instance instanceof self)) {
-			self::$_instance = new self();
-		}
-    return self::$_instance;
-  }*/
-	
-	/**
-	 * 
-	 */
-	//private function __construct() {}
 
 	/**
 	 * @param string $html

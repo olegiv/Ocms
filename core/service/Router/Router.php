@@ -3,8 +3,8 @@
 namespace Ocms\core\service\Router;
 
 use Ocms\core\controller\ControllerBase;
+use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\Kernel;
-use Ocms\core\service\Alias\AliasService;
 
 /**
  * Router Class.
@@ -12,7 +12,7 @@ use Ocms\core\service\Alias\AliasService;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.5 21.02.2019
+ * @version 0.0.6 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -23,7 +23,7 @@ class Router implements RouterInterface {
 
 	/**
 	 *
-	 * @var \Ocms\core\service\Router\Router This class instance
+	 * @var Router This class instance
 	 */
 	static $_instance;
 
@@ -52,7 +52,6 @@ class Router implements RouterInterface {
 
 	/**
 	 * @return Router
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
   public static function getInstance(): Router {
 
@@ -69,7 +68,7 @@ class Router implements RouterInterface {
 	private function __construct() {}
 
 	/**
-	 * @throws \Ocms\core\exception\ExceptionRuntime
+	 *
 	 */
 	/*private function load () {
 
@@ -81,8 +80,7 @@ class Router implements RouterInterface {
 	}*/
 
 	/**
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 * @throws \ReflectionException
+	 *
 	 */
 	public function run () {
 
@@ -100,8 +98,6 @@ class Router implements RouterInterface {
 
 	/**
 	 * @return bool
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 * @throws \ReflectionException
 	 */
 	private function setController (): bool {
 
@@ -111,41 +107,44 @@ class Router implements RouterInterface {
 
 	/**
 	 *
-	 *
-	 * @throws \Ocms\core\exception\ExceptionRuntime
 	 */
 	private function getControllerFromRequest (){
 
 		$request = getenv ('REQUEST_URI');
 		$parts = explode('?', $request);
 
-		if (($nodeId = Kernel::$aliasObj->getNode($parts[0]))) {
+		try {
 
-			$this->setClassForNode($nodeId);
+			if (($nodeId = Kernel::$aliasObj->getNode($parts[0]))) {
 
-		} else if (($controller = Kernel::$aliasObj->getController($parts[0]))) {
+				$this->setClassForNode($nodeId);
 
-			list ($class, $method) = explode('::', $controller);
-			if (isset ($class) && isset ($method)) {
-				$this->controllerClass = $class;
-				$this->controllerMethod = $method;
+			} else if (($controller = Kernel::$aliasObj->getController($parts[0]))) {
+
+				list ($class, $method) = explode('::', $controller);
+				if (isset ($class) && isset ($method)) {
+					$this->controllerClass = $class;
+					$this->controllerMethod = $method;
+				} else {
+					throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, 'Controller not found: %s', $controller);
+				}
+
 			} else {
-				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, 'Controller not found: %s', $controller);
+
+				$splits = explode('/', trim($parts[0], '/'));
+
+				$this->controllerClass = !empty($splits[0]) ? ucfirst($splits[0]) . 'Controller' : self::DEFAULT_CONTROLLER;
+				$this->controllerClass = ControllerBase::CONTROLLER_CLASS_PREFIX . $this->controllerClass;
+				$this->controllerMethod = !empty($splits[1]) ? $splits[1] . 'Action' : self::DEFAULT_ACTION;
+
+				if (isset($splits[2]) && !empty(trim($splits[2]))) {
+					$this->parameter = trim($splits[2]);
+				} else {
+					$this->parameter = 0; // @todo
+				}
 			}
+		} catch (ExceptionRuntime $e) {
 
-		} else {
-
-			$splits = explode('/', trim($parts[0],'/'));
-
-			$this->controllerClass = !empty($splits[0]) ? ucfirst($splits[0]).'Controller' : self::DEFAULT_CONTROLLER;
-			$this->controllerClass = ControllerBase::CONTROLLER_CLASS_PREFIX . $this->controllerClass;
-			$this->controllerMethod = !empty($splits[1]) ? $splits[1].'Action' : self::DEFAULT_ACTION;
-
-			if (isset($splits[2]) && !empty(trim ($splits[2]))){
-				$this->parameter = trim($splits[2]);
-			} else {
-				$this->parameter = 0; // @todo
-			}
 		}
 	}
 

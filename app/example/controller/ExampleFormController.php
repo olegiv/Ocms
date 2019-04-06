@@ -13,7 +13,7 @@ use Ocms\core\controller\ControllerBaseInterface;
  * @package core
  * @access public
  * @since 14.02.2019
- * @version 0.0.1 15.02.2019
+ * @version 0.0.2 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -31,10 +31,7 @@ class ExampleFormController extends ControllerBase implements ControllerBaseInte
 	];
 
 	/**
-	 * @throws \Ocms\core\exception\ExceptionRuntime
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
+	 *
 	 */
 	public static function display () {
 

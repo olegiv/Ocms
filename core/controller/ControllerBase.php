@@ -2,6 +2,7 @@
 
 namespace Ocms\core\controller;
 
+use Ocms\core\exception\ExceptionFatal;
 use Ocms\core\exception\ExceptionRuntime;
 
 /**
@@ -10,7 +11,7 @@ use Ocms\core\exception\ExceptionRuntime;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.3 15.02.2019
+ * @version 0.0.4 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
@@ -54,12 +55,11 @@ abstract class ControllerBase implements ControllerBaseInterface {
 	/**
 	 * @param string $controllerWithMethod
 	 * @return bool
-	 * @throws \Exception
 	 */
 	public static function validateControllerWithMethod (string $controllerWithMethod): bool {
 
-		$return = true;
 		list($controller, $method) = explode('::', $controllerWithMethod);
+
 		try {
 			if (! $controller) {
 				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND,	t('Controller is empty'));
@@ -70,6 +70,7 @@ abstract class ControllerBase implements ControllerBaseInterface {
 		} catch (ExceptionRuntime $e) {
 			$return = false;
 		}
+
 		return $return;
 	}
 
@@ -77,7 +78,6 @@ abstract class ControllerBase implements ControllerBaseInterface {
 	 * @param string $controller
 	 * @param string $method
 	 * @return bool
-	 * @throws \ReflectionException
 	 */
 	public static function validateController (string $controller, string $method): bool {
 
@@ -99,7 +99,12 @@ abstract class ControllerBase implements ControllerBaseInterface {
 					t('Controller "%s" does not exist', $controller));
 			}
 		} catch (ExceptionRuntime $e) {
-			$return = FALSE;
+			$return = false;
+		} catch (\ReflectionException $e) {
+			$return = false;
+			try {
+				throw new ExceptionFatal (ExceptionFatal::E_FATAL, $e->getMessage(), $e->getCode(), $e);
+			} catch (ExceptionFatal $e) {}
 		}
 		return $return;
 	}

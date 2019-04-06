@@ -2,15 +2,17 @@
 
 namespace Ocms\core\exception;
 
+use Throwable;
+
 /**
  * ControllerBaseInterface Interface.
  *
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.1 18.12.2018
+ * @version 0.0.2 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018, OCMS
+ * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 interface ExceptionInterface {
 	
@@ -35,8 +37,9 @@ interface ExceptionInterface {
   /**
    * ExceptionInterface constructor.
    * @param int $type
-   * @param null $message
-   * @param int $code
+   * @param string $message
+   * @param mixed $code
+	 * @param Throwable $previous
    */
-	public function __construct (int $type, $message = null, $code = 0);
+	public function __construct (int $type, string $message = '', $code = 0, Throwable $previous = null);
 }

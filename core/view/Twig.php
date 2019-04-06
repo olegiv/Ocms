@@ -6,13 +6,18 @@ use Ocms\core\controller\ControllerBase;
 use Ocms\core\exception\ExceptionRuntime;
 use Ocms\core\Kernel;
 
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+use Twig\Extension\DebugExtension;
+use Twig\TwigFunction;
+
 /**
  * Twig Helper View Class.
  *
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.6 21.02.2019
+ * @version 0.0.7 03.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
@@ -22,25 +27,25 @@ class Twig {
 	const TWIG_DEFAULT_PATH = 'templates/default';
 
 	/**
-	 * @return \Twig_Environment
+	 * @return Environment
 	 */
-	public static function init (): \Twig_Environment {
+	public static function init (): Environment {
 
-		$loader = new \Twig_Loader_Filesystem (self::getTwigPath());
-		$twigObj = new \Twig_Environment ($loader, self::getTwigOptions());
+		$loader = new FilesystemLoader (self::getTwigPath());
+		$twigObj = new Environment ($loader, self::getTwigOptions());
 		if (Kernel::inDebug ()) {
-			$twigObj->addExtension(new \Twig_Extension_Debug ());
+			$twigObj->addExtension(new DebugExtension ());
 		}
 		self::addFunctions($twigObj);
 		return $twigObj;
 	}
 
 	/**
-	 * @param \Twig_Environment $twigObj
+	 * @param Environment $twigObj
 	 */
-	private static function addFunctions (\Twig_Environment $twigObj) {
+	private static function addFunctions (Environment $twigObj) {
 
-		$function = new \Twig_Function('renderController', function ($controllerWithMethod, $param) {
+		$function = new TwigFunction('renderController', function ($controllerWithMethod, $param) {
 
 			if (ControllerBase::validateControllerWithMethod($controllerWithMethod)) {
 				$return = call_user_func ($controllerWithMethod, $param);
@@ -57,7 +62,7 @@ class Twig {
 
 		$twigObj->addFunction($function);
 
-		$function = new \Twig_Function('renderBlockById', function ($blockId) {
+		$function = new TwigFunction('renderBlockById', function ($blockId) {
 
 			$return = Kernel::$blockObj->renderBlockById($blockId);
 			if (Kernel::inDebug()) {
@@ -110,15 +115,18 @@ class Twig {
 	 * @param string $template
 	 * @param array $params
 	 * @return string
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
 	 */
 	public static function renderStringTemplate (string $template, array $params): string {
 
-		$twigObj = Kernel::$viewObj->getTwigObj();
-		$template = $twigObj->createTemplate($template);
-		return $template->render($params);
+		try {
+			$twigObj = Kernel::$viewObj->getTwigObj();
+			$template = $twigObj->createTemplate($template);
+			$return = $template->render($params);
+		} catch (\Throwable $e) {
+			$return = '';
+		}
+
+		return $return;
 	}
 
 	/**
@@ -126,28 +134,29 @@ class Twig {
 	 * @param string $templateFile
 	 * @param array $params
 	 * @return string
-	 * @throws ExceptionRuntime
-	 * @throws \Throwable
-	 * @throws \Twig_Error_Loader
-	 * @throws \Twig_Error_Syntax
 	 */
 	public static function renderCoreAppTemplate (string $app, string $templateFile, array $params): string {
 
-		$templatePath = Kernel::$libRoot . '/core/app/' . $app . '/template/' . $templateFile . '.html.twig';
-		if (file_exists($templatePath)) {
-			if (false !== ($template = file_get_contents($templatePath))) {
-				$return = self::renderStringTemplate($template, $params);
+		try {
+			$templatePath = Kernel::$libRoot . '/core/app/' . $app . '/template/' . $templateFile . '.html.twig';
+			if (file_exists($templatePath)) {
+				if (false !== ($template = file_get_contents($templatePath))) {
+					$return = self::renderStringTemplate($template, $params);
+				} else {
+					throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t('Cannot load template: %s', $templatePath));
+				}
 			} else {
-				throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Cannot load template: %s', $templatePath));
+				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t('Template %s does not exist', $templatePath));
 			}
-		} else {
-			throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Template %s does not exist', $templatePath));
+		} catch (ExceptionRuntime $e) {
+			$return = '';
 		}
 
 		if (Kernel::inDebug()) {
 			$return = NEW_LINE . '<!-- Template begin: ' . $templatePath . ' -->' . NEW_LINE .
 				$return . NEW_LINE . '<!-- Template end: ' . $templatePath . ' -->' . NEW_LINE;
 		}
+
 		return $return;
 	}
 }

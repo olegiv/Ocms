@@ -62,7 +62,7 @@ class ModelMySQL extends ModelAbstract implements ModelMySQLInterface {
 	}
 
 	/**
-	 * @throws ExceptionFatal
+	 *
 	 */
 	protected function connect() {
 
@@ -72,7 +72,9 @@ class ModelMySQL extends ModelAbstract implements ModelMySQLInterface {
 				$this->conf['username'], $this->conf['password']);
 			$this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		}	catch(\PDOException $e) {
-			throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot connect to MySQL, error: ' . $e->getMessage ());
+			try {
+				throw new ExceptionFatal (ExceptionBase::E_FATAL, 'Cannot connect to MySQL, error: ' . $e->getMessage());
+			} catch (ExceptionFatal $e) {}
 		}		
 	}
 
@@ -84,7 +86,7 @@ class ModelMySQL extends ModelAbstract implements ModelMySQLInterface {
 	}
 
 	/**
-	 * @throws ExceptionFatal
+	 *
 	 */
 	protected function initDb () {
 
@@ -95,7 +97,9 @@ class ModelMySQL extends ModelAbstract implements ModelMySQLInterface {
 				$this->db->exec ($sql);
 			}
 		} catch (\Exception $e) {
-			throw new ExceptionFatal (ExceptionBase::E_FATAL, $e->getMessage());
+			try {
+				throw new ExceptionFatal (ExceptionBase::E_FATAL, $e->getMessage());
+			} catch (ExceptionFatal $e) {}
 		}
 	}
 
