@@ -11,3 +11,7 @@
 # OS
 
 .DS_Store
+
+# Hosting
+
+/.well-known
