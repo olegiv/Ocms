@@ -30,6 +30,7 @@ Site:
 
 Layout:
   template:
+    core: true
     id: "default"
 
 Server:

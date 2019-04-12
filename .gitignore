@@ -1,6 +1,13 @@
-.idea
+# Configuration
+
 /conf/global.yaml
-/data
+/conf/routes.yaml
+
+# IDE
+
+.idea
 /nbproject
+
+# OS
+
 .DS_Store
-/html/img

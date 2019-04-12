@@ -10,19 +10,17 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.6 14.02.2019
+ * @version 0.0.7 12.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class View extends ViewBase {
 
-	const TEMPLATES_DIR = '/templates/';
-
 	/**
 	 *
 	 * @var View This class instance
 	 */
-	static $_instance;
+	public static $_instance;
 
 	/**
 	 *
@@ -50,10 +48,10 @@ class View extends ViewBase {
 	/**
 	 * View constructor.
 	 */
-	private function __construct() {
+	private function __construct () {
 
-		$this->twigObj = Twig::init();
-		self::$templatesRoot = self::TEMPLATES_DIR . self::getTemplateId () . '/';
+		$this->twigObj = Twig::init ();
+		self::$templatesRoot = '/' . Twig::getTemplatePath () . '/';
 	}
 
   /**
@@ -82,14 +80,6 @@ class View extends ViewBase {
 		}
 
 		return $html;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getTemplateId (): string {
-
-		return Kernel::$configurationObj->getConfigurationGlobalItem ('Layout', 'template', 'id');
 	}
 
 	/**

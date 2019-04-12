@@ -17,26 +17,29 @@ use Twig\TwigFunction;
  * @package core
  * @access public
  * @since 01.02.2019
- * @version 0.0.7 03.04.2019
+ * @version 0.0.8 12.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2019, OCMS
  */
 class Twig {
 
 	const CACHE_DEFAULT_PATH = 'data/cache';
-	const TWIG_DEFAULT_PATH = 'templates/default';
+	const TWIG_DEFAULT_PATH = 'templates/core/default';
+
+	const CORE_PATH_SUFFIX = 'core/';
+	const CUSTOM_PATH_SUFFIX = 'custom/';
 
 	/**
 	 * @return Environment
 	 */
 	public static function init (): Environment {
 
-		$loader = new FilesystemLoader (self::getTwigPath());
-		$twigObj = new Environment ($loader, self::getTwigOptions());
+		$loader = new FilesystemLoader (self::getTemplatePath ());
+		$twigObj = new Environment ($loader, self::getTwigOptions ());
 		if (Kernel::inDebug ()) {
 			$twigObj->addExtension(new DebugExtension ());
 		}
-		self::addFunctions($twigObj);
+		self::addFunctions ($twigObj);
 		return $twigObj;
 	}
 
@@ -80,10 +83,15 @@ class Twig {
 	 *
 	 * @return string
 	 */
-	private static function getTwigPath (): string {
+	public static function getTemplatePath (): string {
 
-		if (($template_id = View::getTemplateId ())) {
-			$twigPath = 'templates/' . $template_id;
+		if (Kernel::$configurationObj->getConfigurationGlobalItem ('Layout', 'template', 'core')) {
+			$twigPathSuffix = self::CORE_PATH_SUFFIX;
+		} else {
+			$twigPathSuffix = self::CUSTOM_PATH_SUFFIX;
+		}
+		if (($template_id = Kernel::$configurationObj->getConfigurationGlobalItem ('Layout', 'template', 'id'))) {
+			$twigPath = 'templates/' . $twigPathSuffix . $template_id;
 		} else {
 			$twigPath = self::TWIG_DEFAULT_PATH;
 		}
@@ -138,15 +146,16 @@ class Twig {
 	public static function renderCoreAppTemplate (string $app, string $templateFile, array $params): string {
 
 		try {
-			$templatePath = Kernel::$libRoot . '/core/app/' . $app . '/template/' . $templateFile . '.html.twig';
-			if (file_exists($templatePath)) {
-				if (false !== ($template = file_get_contents($templatePath))) {
-					$return = self::renderStringTemplate($template, $params);
+			$templatePath = 'core/app/' . $app . '/template/' . $templateFile . '.html.twig';
+			$templateAbsolutePath = Kernel::$libRoot . $templatePath;
+			if (file_exists ($templateAbsolutePath)) {
+				if (false !== ($template = file_get_contents ($templateAbsolutePath))) {
+					$return = self::renderStringTemplate ($template, $params);
 				} else {
-					throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t('Cannot load template: %s', $templatePath));
+					throw new ExceptionRuntime (ExceptionRuntime::E_FATAL, t ('Cannot load template: %s', $templatePath));
 				}
 			} else {
-				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t('Template %s does not exist', $templatePath));
+				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Template %s does not exist', $templatePath));
 			}
 		} catch (ExceptionRuntime $e) {
 			$return = '';
