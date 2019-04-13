@@ -40,7 +40,7 @@ CREATE TABLE `alias` (
 
 LOCK TABLES `alias` WRITE;
 /*!40000 ALTER TABLE `alias` DISABLE KEYS */;
-INSERT INTO `alias` VALUES (1,'/blogs',2,NULL),(2,'/about',3,NULL),(3,'/example',4,NULL),(4,'/example/form',NULL,'\\Ocms\\app\\example\\controller\\ExampleFormController::display'),(5,'/migration',NULL,'\\Ocms\\core\\app\\blog\\controller\\MigrationController::migrate'),(6,'/download',5,NULL);
+INSERT INTO `alias` VALUES (1,'/blog',2,NULL),(2,'/about',3,NULL),(3,'/example',4,NULL),(4,'/example/form',NULL,'\\Ocms\\app\\example\\controller\\ExampleFormController::display'),(5,'/migration',NULL,'\\Ocms\\core\\app\\blog\\controller\\MigrationController::migrate'),(6,'/download',5,NULL);
 /*!40000 ALTER TABLE `alias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +165,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,2,3,0,'/blogs','Blogs'),(2,3,4,0,'/about','About'),(3,1,1,0,'/','Homepage'),(4,4,5,0,'/example','Application Example'),(6,NULL,6,0,'/example/form','Form Example'),(7,5,2,0,'/download','Download');
+INSERT INTO `menu` VALUES (1,2,3,0,'/blog','Blogs'),(2,3,4,0,'/about','About'),(3,1,1,0,'/','Homepage'),(4,4,5,0,'/example','Application Example'),(6,NULL,6,0,'/example/form','Form Example'),(7,5,2,0,'/download','Download');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
