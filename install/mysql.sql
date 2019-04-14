@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-SET NAMES utf8 ;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,16 +21,16 @@ SET NAMES utf8 ;
 
 DROP TABLE IF EXISTS `alias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `alias` (
-                       `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                       `alias` varchar(255) NOT NULL,
-                       `node` int(11) unsigned DEFAULT NULL,
-                       `controller` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-                       PRIMARY KEY (`id`),
-                       UNIQUE KEY `alias` (`alias`),
-                       KEY `fk_ocms_alias_node_idx` (`node`),
-                       CONSTRAINT `fk_ocms_alias_node` FOREIGN KEY (`node`) REFERENCES `node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `alias` varchar(255) NOT NULL,
+  `node` int(11) unsigned DEFAULT NULL,
+  `controller` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `alias` (`alias`),
+  KEY `fk_ocms_alias_node_idx` (`node`),
+  CONSTRAINT `fk_ocms_alias_node` FOREIGN KEY (`node`) REFERENCES `node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,20 +50,20 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `block`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `block` (
-                       `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                       `id2_sidebar` varchar(100) NOT NULL,
-                       `title` varchar(255) NOT NULL,
-                       `body` text NOT NULL,
-                       `controller` varchar(100) NOT NULL,
-                       `display_in_nodes_logic` tinyint(1) NOT NULL,
-                       `display_in_nodes` varchar(100) NOT NULL,
-                       `display_in_blog` tinyint(1) NOT NULL,
-                       `display_title` tinyint(1) NOT NULL,
-                       PRIMARY KEY (`id`),
-                       KEY `fk_ocms_block_sidebar_idx` (`id2_sidebar`),
-                       CONSTRAINT `fk_ocms_block_sidebar` FOREIGN KEY (`id2_sidebar`) REFERENCES `sidebar` (`id`) ON UPDATE CASCADE
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id2_sidebar` varchar(100) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  `controller` varchar(100) NOT NULL,
+  `display_in_nodes_logic` tinyint(1) NOT NULL,
+  `display_in_nodes` varchar(100) NOT NULL,
+  `display_in_blog` tinyint(1) NOT NULL,
+  `display_title` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_ocms_block_sidebar_idx` (`id2_sidebar`),
+  CONSTRAINT `fk_ocms_block_sidebar` FOREIGN KEY (`id2_sidebar`) REFERENCES `sidebar` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -83,24 +83,24 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `blog`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `blog` (
-                      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                      `id2_author` int(11) unsigned NOT NULL,
-                      `id2_category` int(11) unsigned NOT NULL,
-                      `created` datetime NOT NULL,
-                      `content_date` datetime NOT NULL,
-                      `thumbnail` varchar(255) NOT NULL,
-                      `title` varchar(255) NOT NULL,
-                      `tags` varchar(255) NOT NULL,
-                      `abstract` text NOT NULL,
-                      `body` text NOT NULL,
-                      `description` text NOT NULL,
-                      PRIMARY KEY (`id`),
-                      KEY `fk_ocms_blog_author_idx` (`id2_author`),
-                      KEY `fk_ocms_blog_category_idx` (`id2_category`),
-                      CONSTRAINT `fk_ocms_blog_author` FOREIGN KEY (`id2_author`) REFERENCES `user` (`id`) ON UPDATE CASCADE,
-                      CONSTRAINT `fk_ocms_blog_category` FOREIGN KEY (`id2_category`) REFERENCES `category` (`id`) ON UPDATE CASCADE
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id2_author` int(11) unsigned NOT NULL,
+  `id2_category` int(11) unsigned NOT NULL,
+  `created` datetime NOT NULL,
+  `content_date` datetime NOT NULL,
+  `thumbnail` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `tags` varchar(255) NOT NULL,
+  `abstract` text NOT NULL,
+  `body` text NOT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_ocms_blog_author_idx` (`id2_author`),
+  KEY `fk_ocms_blog_category_idx` (`id2_category`),
+  CONSTRAINT `fk_ocms_blog_author` FOREIGN KEY (`id2_author`) REFERENCES `user` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_ocms_blog_category` FOREIGN KEY (`id2_category`) REFERENCES `category` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -120,12 +120,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `category` (
-                          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                          `label` varchar(255) NOT NULL,
-                          PRIMARY KEY (`id`),
-                          UNIQUE KEY `label` (`label`)
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `label` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `label` (`label`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -145,17 +145,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `menu` (
-                      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                      `id2_node` int(11) unsigned DEFAULT NULL,
-                      `ranking` int(11) unsigned NOT NULL,
-                      `parentNodeId` int(11) unsigned NOT NULL,
-                      `url` varchar(255) NOT NULL,
-                      `label` varchar(255) NOT NULL,
-                      PRIMARY KEY (`id`),
-                      KEY `fk_ocms_menu_node_idx` (`id2_node`),
-                      CONSTRAINT `fk_ocms_menu_node` FOREIGN KEY (`id2_node`) REFERENCES `node` (`id`) ON UPDATE CASCADE
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id2_node` int(11) unsigned DEFAULT NULL,
+  `ranking` int(11) unsigned NOT NULL,
+  `parentNodeId` int(11) unsigned NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `label` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_ocms_menu_node_idx` (`id2_node`),
+  CONSTRAINT `fk_ocms_menu_node` FOREIGN KEY (`id2_node`) REFERENCES `node` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -165,7 +165,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,2,3,0,'/blog','Blogs'),(2,3,4,0,'/about','About'),(3,1,1,0,'/','Homepage'),(4,4,5,0,'/example','Application Example'),(6,NULL,6,0,'/example/form','Form Example'),(7,5,2,0,'/download','Download');
+INSERT INTO `menu` VALUES (1,2,3,0,'/blog','Blog'),(2,3,4,0,'/about','About'),(3,1,1,0,'/','Homepage'),(4,4,5,0,'/example','Application Example'),(6,NULL,6,0,'/example/form','Form Example'),(7,5,2,0,'/download','Download');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,16 +175,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `node`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `node` (
-                      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                      `template` varchar(45) NOT NULL,
-                      `title` varchar(255) NOT NULL,
-                      `tags` varchar(255) NOT NULL,
-                      `body` text NOT NULL,
-                      `abstract` text NOT NULL,
-                      `description` text NOT NULL,
-                      PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `template` varchar(45) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `tags` varchar(255) NOT NULL,
+  `bodyClasses` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  `abstract` text NOT NULL,
+  `description` text NOT NULL,
+  `headerHtml` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=405 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -194,7 +196,7 @@ CREATE TABLE `node` (
 
 LOCK TABLES `node` WRITE;
 /*!40000 ALTER TABLE `node` DISABLE KEYS */;
-INSERT INTO `node` VALUES (1,'','OCMS Homepage','','<h3>Welcome!</h3>','','OCMS Homepage'),(2,'','Blogs','','<h3>Weclome to OCMS Blogs!</h3>','','OCMS Blogs'),(3,'','About','','<h3>Welcome to About page!</h3>','This is About OCMS page.','About OCMS'),(4,'single','Application Example','','<p>This is application controller HTML output example</p><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div>','',''),(5,'','Download OCMS','','<p>Get started by downloading OCMS core files.\n    These official releases come bundled with modules and themes to give you a good starting point to help build your site.</p>\n\n<h2>Download the latest release from Github</h2>\n\n<ul>\n    <li><a href=\"https://github.com/olegiv/Ocms/releases/latest\" target=\"_blank\">Download source code</a></li>\n    <li><a href=\"https://github.com/olegiv/Ocms/releases\" target=\"_blank\">Changelog</a></li>\n    <li><a href=\"https://github.com/olegiv/Ocms/blob/master/LICENSE.txt\" target=\"\">License</a></li>\n</ul>\n\n<h2>Download using Composer</h2>\n\n<pre>$ composer create-project ocms/ocms-core</pre>\n\n<h2>Previous releases</h2>\n\n<p>For previous releases, visit the <a href=\"https://github.com/olegiv/Ocms/releases\" target=\"\">Github release page</a>.</p>','',''),(404,'','404 - Page not found','','Page not found','','');
+INSERT INTO `node` VALUES (1,'','OCMS Homepage','','homepage','<h3>Welcome!</h3>','','OCMS Homepage','<!-- HEADER -->'),(2,'','Blogs','','','<h3>Weclome to OCMS Blogs!</h3>','','OCMS Blogs',''),(3,'','About','','','<h3>Welcome to About page!</h3>','This is About OCMS page.','About OCMS',''),(4,'single','Application Example','','','<p>This is application controller HTML output example</p><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div>','','',''),(5,'','Download OCMS','','','<p>Get started by downloading OCMS core files.\n    These official releases come bundled with modules and themes to give you a good starting point to help build your site.</p>\n\n<h2>Download the latest release from Github</h2>\n\n<ul>\n    <li><a href=\"https://github.com/olegiv/Ocms/releases/latest\" target=\"_blank\">Download source code</a></li>\n    <li><a href=\"https://github.com/olegiv/Ocms/releases\" target=\"_blank\">Changelog</a></li>\n    <li><a href=\"https://github.com/olegiv/Ocms/blob/master/LICENSE.txt\" target=\"\">License</a></li>\n</ul>\n\n<h2>Download using Composer</h2>\n\n<pre>$ composer create-project ocms/ocms-core</pre>\n\n<h2>Previous releases</h2>\n\n<p>For previous releases, visit the <a href=\"https://github.com/olegiv/Ocms/releases\" target=\"\">Github release page</a>.</p>','','',''),(404,'','404 - Page not found','','','Page not found','','','');
 /*!40000 ALTER TABLE `node` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,11 +206,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `sidebar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `sidebar` (
-                         `id` varchar(100) NOT NULL,
-                         `title` varchar(100) NOT NULL,
-                         PRIMARY KEY (`id`)
+  `id` varchar(100) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -228,12 +230,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tag` (
-                     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                     `label` varchar(255) NOT NULL,
-                     PRIMARY KEY (`id`),
-                     UNIQUE KEY `label_UNIQUE` (`label`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `label` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `label_UNIQUE` (`label`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -252,12 +254,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `user` (
-                      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                      `username` varchar(100) NOT NULL,
-                      `password` varchar(100) NOT NULL,
-                      PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -280,4 +282,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-26 23:59:08
+-- Dump completed on 2019-04-14 21:28:17

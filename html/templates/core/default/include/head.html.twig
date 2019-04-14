@@ -43,4 +43,8 @@
 <!-- Javascripts -->
 <script src="{{template_root}}js/default.js"></script>
 
+{% if headerHtml -%}
+	{{ headerHtml | raw }}
+{%- endif %}
+
 {{ renderController('\\Ocms\\core\\app\\analytics\\controller\\AnalyticsController::getTrackerHtmlCode', '') | raw }}

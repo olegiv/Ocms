@@ -5,7 +5,7 @@
 			{{- include ('include/head.html.twig') }}
 		{% endblock %}
 	</head>
-	<body>
+	<body{% if bodyClasses %} class="{{ bodyClasses }}"{% endif %}>
 		<div class="page js-page">
 			{% block header %}
 				{{- include ('include/header/header.html.twig') }}

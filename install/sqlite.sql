@@ -36,7 +36,7 @@ CREATE TABLE "ocms_menu" (
 	`url`	TEXT NOT NULL,
 	`label`	TEXT NOT NULL
 );
-INSERT INTO `ocms_menu` VALUES (1,2,2,NULL,'/blog','Blogs');
+INSERT INTO `ocms_menu` VALUES (1,2,2,NULL,'/blog','Blog');
 INSERT INTO `ocms_menu` VALUES (2,3,3,NULL,'/about','About');
 INSERT INTO `ocms_menu` VALUES (3,1,1,NULL,'/','Homepage');
 CREATE TABLE `ocms_category` (
