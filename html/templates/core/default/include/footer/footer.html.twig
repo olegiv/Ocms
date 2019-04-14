@@ -9,3 +9,7 @@
 
 </footer>
 <!-- End of Footer -->
+
+{% if footerHtml -%}
+	{{ footerHtml | raw }}
+{%- endif %}

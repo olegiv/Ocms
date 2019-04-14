@@ -186,6 +186,7 @@ CREATE TABLE `node` (
   `abstract` text NOT NULL,
   `description` text NOT NULL,
   `headerHtml` text NOT NULL,
+  `footerHtml` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=405 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -196,7 +197,7 @@ CREATE TABLE `node` (
 
 LOCK TABLES `node` WRITE;
 /*!40000 ALTER TABLE `node` DISABLE KEYS */;
-INSERT INTO `node` VALUES (1,'','OCMS Homepage','','homepage','<h3>Welcome!</h3>','','OCMS Homepage','<!-- HEADER -->'),(2,'','Blogs','','','<h3>Weclome to OCMS Blogs!</h3>','','OCMS Blogs',''),(3,'','About','','','<h3>Welcome to About page!</h3>','This is About OCMS page.','About OCMS',''),(4,'single','Application Example','','','<p>This is application controller HTML output example</p><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div>','','',''),(5,'','Download OCMS','','','<p>Get started by downloading OCMS core files.\n    These official releases come bundled with modules and themes to give you a good starting point to help build your site.</p>\n\n<h2>Download the latest release from Github</h2>\n\n<ul>\n    <li><a href=\"https://github.com/olegiv/Ocms/releases/latest\" target=\"_blank\">Download source code</a></li>\n    <li><a href=\"https://github.com/olegiv/Ocms/releases\" target=\"_blank\">Changelog</a></li>\n    <li><a href=\"https://github.com/olegiv/Ocms/blob/master/LICENSE.txt\" target=\"\">License</a></li>\n</ul>\n\n<h2>Download using Composer</h2>\n\n<pre>$ composer create-project ocms/ocms-core</pre>\n\n<h2>Previous releases</h2>\n\n<p>For previous releases, visit the <a href=\"https://github.com/olegiv/Ocms/releases\" target=\"\">Github release page</a>.</p>','','',''),(404,'','404 - Page not found','','','Page not found','','','');
+INSERT INTO `node` VALUES (1,'','OCMS Homepage','','homepage','<h3>Welcome!</h3>','','OCMS Homepage','<!-- HEADER -->','<!-- FOOTER -->'),(2,'','Blogs','','','<h3>Weclome to OCMS Blogs!</h3>','','OCMS Blogs','',''),(3,'','About','','','<h3>Welcome to About page!</h3>','This is About OCMS page.','About OCMS','',''),(4,'single','Application Example','','','<p>This is application controller HTML output example</p><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div><div><ocms:controller>\\Ocms\\app\\example\\controller\\ExampleController::withoutParams</ocms:controller></div>','','','',''),(5,'','Download OCMS','','','<p>Get started by downloading OCMS core files.\n    These official releases come bundled with modules and themes to give you a good starting point to help build your site.</p>\n\n<h2>Download the latest release from Github</h2>\n\n<ul>\n    <li><a href=\"https://github.com/olegiv/Ocms/releases/latest\" target=\"_blank\">Download source code</a></li>\n    <li><a href=\"https://github.com/olegiv/Ocms/releases\" target=\"_blank\">Changelog</a></li>\n    <li><a href=\"https://github.com/olegiv/Ocms/blob/master/LICENSE.txt\" target=\"\">License</a></li>\n</ul>\n\n<h2>Download using Composer</h2>\n\n<pre>$ composer create-project ocms/ocms-core</pre>\n\n<h2>Previous releases</h2>\n\n<p>For previous releases, visit the <a href=\"https://github.com/olegiv/Ocms/releases\" target=\"\">Github release page</a>.</p>','','','',''),(404,'','404 - Page not found','','','Page not found','','','','');
 /*!40000 ALTER TABLE `node` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,4 +283,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-14 21:28:17
+-- Dump completed on 2019-04-14 22:01:07

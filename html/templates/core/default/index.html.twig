@@ -17,10 +17,8 @@
 				{% endblock %}
 			</div>
 		{% endblock %}
-		<div id="footer">
-			{% block footer %}
-				{{- include ('include/footer/footer.html.twig') }}
-			{% endblock %}
-		</div>
+		{% block footer %}
+			{{- include ('include/footer/footer.html.twig') }}
+		{% endblock %}
 	</body>
 </html>
