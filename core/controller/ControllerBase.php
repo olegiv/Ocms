@@ -79,33 +79,41 @@ abstract class ControllerBase implements ControllerBaseInterface {
 	 * @param string $method
 	 * @return bool
 	 */
-	public static function validateController (string $controller, string $method): bool {
+	public static function validateController (string $controller = null, string $method = null): bool {
 
-		$return = TRUE;
-		try {
-			if (class_exists ($controller)) {
-				$rc = new \ReflectionClass($controller);
-				if ($rc->implementsInterface (self::CONTROLLER_CLASS_PREFIX . 'ControllerBaseInterface')) {
-					if(! $rc->hasMethod ($method)) {
+		$return = true;
+
+		if ($controller && $method) {
+
+			try {
+				if (class_exists($controller)) {
+					$rc = new \ReflectionClass($controller);
+					if ($rc->implementsInterface(self::CONTROLLER_CLASS_PREFIX . 'ControllerBaseInterface')) {
+						if (!$rc->hasMethod($method)) {
+							throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
+								t('Controller "%s" does not have method %s', $controller, $method));
+						}
+					} else {
 						throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
-							t('Controller "%s" does not have method %s', $controller, $method));
+							t('Controller "%s" does not implement ControllerBaseInterface', $controller));
 					}
 				} else {
-					throw new ExceptionRuntime (ExceptionRuntime::E_METHOD_NOT_ALLOWED,
-						t('Controller "%s" does not implement ControllerBaseInterface', $controller));
+					throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND,
+						t('Controller "%s" does not exist', $controller));
 				}
-			} else {
-				throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND,
-					t('Controller "%s" does not exist', $controller));
+			} catch (ExceptionRuntime $e) {
+				$return = false;
+			} catch (\ReflectionException $e) {
+				$return = false;
+				try {
+					throw new ExceptionFatal (ExceptionFatal::E_FATAL, $e->getMessage(), $e->getCode(), $e);
+				} catch (ExceptionFatal $e) {
+				}
 			}
-		} catch (ExceptionRuntime $e) {
+		} else {
 			$return = false;
-		} catch (\ReflectionException $e) {
-			$return = false;
-			try {
-				throw new ExceptionFatal (ExceptionFatal::E_FATAL, $e->getMessage(), $e->getCode(), $e);
-			} catch (ExceptionFatal $e) {}
 		}
+
 		return $return;
 	}
 }

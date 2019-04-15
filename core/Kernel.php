@@ -26,13 +26,13 @@ require_once 'Helper.php';
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.7 03.04.2019
+ * @version 0.0.8 15.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class Kernel implements KernelInterface {
 
-	const VERSION = '0.0.4';
+	const VERSION = '0.0.5';
 
 	const NODE_BLOG = 'NODE_BLOG';
 	const NODE_PAGE = 'NODE_PAGE';
@@ -166,9 +166,9 @@ class Kernel implements KernelInterface {
 		self::$i18nObj = I18n::getInstance();
 		self::$menuObj = MenuService::getInstance();
 		self::$userObj = UserService::getInstance();
+		self::$aliasObj = AliasService::getInstance();
 		self::$routerObj = Router::getInstance();
 		self::$blockObj = Block::getInstance();
-		self::$aliasObj = AliasService::getInstance();
 		self::$nodeControllerObj = NodeController::getInstance();
 		self::$frontControllerObj = FrontController::getInstance();
 		self::$blogControllerObj = BlogController::getInstance();
@@ -180,6 +180,7 @@ class Kernel implements KernelInterface {
 	 */
 	public function run () {
 
+		self::$modelObj->execute('SET NAMES utf8');
 		self::$routerObj->run();
 	}
 

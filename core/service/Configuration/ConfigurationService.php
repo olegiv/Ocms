@@ -14,13 +14,14 @@ use Ocms\core\exception\ExceptionFatal;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.4 03.04.2019
+ * @version 0.0.5 15.04.2019
  * @author Oleg Ivanchenko <oiv@ry.ru>
  * @copyright Copyright (C) 2018 - 2019, OCMS
  */
 class ConfigurationService implements ConfigurationServiceInterface {
 
-	const GLOBAL_CONF_FILE = '../conf/global.yaml';
+	const GLOBAL_CONF_FILE = '../conf/config.yaml';
+	const GLOBAL_ROUTES_FILE = '../conf/routes.yaml';
 
 	const MAX_ITEM_COUNT = 10000;
 
@@ -34,7 +35,13 @@ class ConfigurationService implements ConfigurationServiceInterface {
 	 *
 	 * @var array
 	 */
-	private $configurationGlobal;
+	private $configurationGlobal = [];
+
+	/**
+	 *
+	 * @var array
+	 */
+	private $routesGlobal = [];
 
   /**
    * @return ConfigurationService
@@ -52,23 +59,30 @@ class ConfigurationService implements ConfigurationServiceInterface {
    */
 	private function __construct() {
 
-		$this->loadConfigurationGlobal();
+		$this->loadConfigurations ();
 	}
 
   /**
 	 *
    */
-	private function loadConfigurationGlobal() {
+	private function loadConfigurations () {
+
+		$configurations = [
+			['file' => self::GLOBAL_CONF_FILE, 'label' => 'global configuration', 'var' => &$this->configurationGlobal],
+			['file' => self::GLOBAL_ROUTES_FILE, 'label' => 'global routes', 'var' => &$this->routesGlobal]
+		];
 
 		try {
-			try {
-				if (!($this->configurationGlobal = Yaml::parseFile(self::GLOBAL_CONF_FILE))) {
+			foreach ($configurations as $configuration) {
+				try {
+					if (! ($configuration['var'] = Yaml::parseFile ($configuration['file']))) {
+						throw new ExceptionFatal (ExceptionFatal::E_FATAL,
+							'Cannot parse ' . $configuration['label']);
+					}
+				} catch (ParseException $e) {
 					throw new ExceptionFatal (ExceptionFatal::E_FATAL,
-						'Cannot parse global configuration');
+						'Cannot parse ' . $configuration['label'] . ', error: ' . $e->getMessage ());
 				}
-			} catch (ParseException $e) {
-				throw new ExceptionFatal (ExceptionFatal::E_FATAL,
-					'Cannot parse global configuration, error: ' . $e->getMessage());
 			}
 		} catch (ExceptionFatal $e) {}
 	}
@@ -126,13 +140,21 @@ class ConfigurationService implements ConfigurationServiceInterface {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getRoutesGlobal (): array {
+
+		return $this->routesGlobal;
+	}
+
+	/**
 	 *
 	 * @param string $section
 	 * @return array
 	 */
 	public function getConfigurationGlobal (string $section = ''): array {
 
-		if ($section && isset($this->configurationGlobal[$section])) {
+		if ($section && isset ($this->configurationGlobal[$section])) {
 			$configuration = $this->configurationGlobal[$section];
 		} else {
 			$configuration = $this->configurationGlobal;
@@ -148,19 +170,29 @@ class ConfigurationService implements ConfigurationServiceInterface {
 	 */
 	public function getConfigurationGlobalItem () {
 
+		list ($section, $ids) = self::prepare (func_get_args ());
+		return $this->getYamlItem ($this->configurationGlobal, $section, $ids);
+	}
+
+	/**
+	 * @param array $configuration
+	 * @param string $section
+	 * @param array $ids
+	 * @return array|string
+	 */
+	private function getYamlItem (array $configuration, string $section, $ids) {
+
 		$configurationItem = '';
 
-		list ($section, $ids) = self::prepare (func_get_args ());
-
 		try {
-			if (isset ($this->configurationGlobal[$section])) {
+			if (isset ($configuration[$section])) {
 				if ($ids) {
-					if (self::MAX_ITEM_COUNT < ($maxId = count($ids))) {
+					if (self::MAX_ITEM_COUNT < ($maxId = count ($ids))) {
 						throw new ExceptionRuntime (
 							ExceptionRuntime::E_WARNING, t ('Too many global configuration items'));
 					}
 					$level = 0;
-					$base = $this->configurationGlobal[$section];
+					$base = $configuration[$section];
 					foreach ($ids as $id) {
 						if (isset ($base[$id])) {
 							$base = $base[$id];
@@ -174,9 +206,7 @@ class ConfigurationService implements ConfigurationServiceInterface {
 					}
 				}
 			}
-		} catch (ExceptionRuntime $e) {
-
-		}
+		} catch (ExceptionRuntime $e) {}
 
 		return $configurationItem;
 	}
