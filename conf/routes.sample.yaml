@@ -1,4 +1,4 @@
 migrate:
   alias: "/migrate"
   node: null
-  controller: "\Ocms\core\app\migration\MigrationController::migrate"
+  controller: "\\Ocms\\core\\app\\migration\\MigrationController::migrate"
