@@ -12,9 +12,9 @@ use Ocms\core\Kernel;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.7 15.04.2019
+ * @version 0.0.8 30.01.2020
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018 - 2019, OCMS
+ * @copyright Copyright (C) 2018 - 2020, OCMS
  */
 class Router implements RouterInterface {
 
@@ -122,11 +122,15 @@ class Router implements RouterInterface {
 				$nodeId = Kernel::$configurationObj->getHomePageId();
 				$this->setClassForNode($nodeId);
 
-			} else if (($nodeId = Kernel::$aliasObj->getNode($parts[0]))) {
+			} else if (($nodeId = $this->getNodeId($parts[0]))) {
 
 				$this->setClassForNode($nodeId);
 
-			} else if (($controller = Kernel::$aliasObj->getController($parts[0]))) {
+			} else if (($controller = $this->getController($parts[0]))) {
+
+				if (false === strpos($controller, '::')) {
+					throw new ExceptionRuntime (ExceptionRuntime::E_NOT_FOUND, t ('Controller path should contain "::": %s', $controller));
+				}
 
 				list ($class, $method) = explode('::', $controller);
 				if (isset ($class) && isset ($method)) {
@@ -157,6 +161,46 @@ class Router implements RouterInterface {
 		} catch (ExceptionRuntime $e) {
 
 		}
+	}
+
+	/**
+	 * @param string $alias
+	 * @return int
+	 */
+	private function getNodeId(string $alias): int {
+
+		$return = 0;
+
+		if (self::$routes) {
+			foreach (self::$routes as $route) {
+				if ($route->alias === $alias) {
+					$return = (int)$route->node;
+					break;
+				}
+			}
+		}
+
+		return $return;
+	}
+
+	/**
+	 * @param string $alias
+	 * @return string
+	 */
+	private function getController(string $alias): string {
+
+		$return = '';
+
+		if (self::$routes) {
+			foreach (self::$routes as $route) {
+				if ($route->alias === $alias) {
+					$return = $route->controller;
+					break;
+				}
+			}
+		}
+
+		return $return;
 	}
 
 	/**

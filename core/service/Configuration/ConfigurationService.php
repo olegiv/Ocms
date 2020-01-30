@@ -14,9 +14,9 @@ use Ocms\core\exception\ExceptionFatal;
  * @package core
  * @access public
  * @since 10.06.2018
- * @version 0.0.5 15.04.2019
+ * @version 0.0.6 30.01.2020
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2018 - 2019, OCMS
+ * @copyright Copyright (C) 2018 - 2020, OCMS
  */
 class ConfigurationService implements ConfigurationServiceInterface {
 
@@ -144,7 +144,15 @@ class ConfigurationService implements ConfigurationServiceInterface {
 	 */
 	public function getRoutesGlobal (): array {
 
-		return $this->routesGlobal;
+		$return = [];
+
+		if ($this->routesGlobal) {
+			foreach ($this->routesGlobal as $key => $route) {
+				$return[] = (object)array_merge(['name' => $key], $route);
+			}
+		}
+
+		return $return;
 	}
 
 	/**

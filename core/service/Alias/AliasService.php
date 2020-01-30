@@ -10,9 +10,9 @@ use Ocms\core\model\AliasModel;
  * @package core
  * @access public
  * @since 18.01.2019
- * @version 0.0.3 03.04.2019
+ * @version 0.0.4 30.01.2020
  * @author Oleg Ivanchenko <oiv@ry.ru>
- * @copyright Copyright (C) 2019, OCMS
+ * @copyright Copyright (C) 2019 - 2020, OCMS
  */
 class AliasService implements AliasServiceInterface {
 
@@ -26,36 +26,18 @@ class AliasService implements AliasServiceInterface {
    * @return AliasService
    */
   public static function getInstance(): AliasService {
-  
+
 		if(!(self::$_instance instanceof self)) {
 			self::$_instance = new self();
 		}
     return self::$_instance;
   }
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private function __construct() {
-		
-	}
 
-	/**
-	 * @param string $alias
-	 * @return int
-	 */
-	public function getNode(string $alias):int {
-
-		return AliasModel::getNode($alias);
-	}
-
-	/**
-	 * @param string $alias
-	 * @return string
-	 */
-	public function getController (string $alias): string {
-
-		return AliasModel::getController($alias);
 	}
 
 	/**
