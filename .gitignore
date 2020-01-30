@@ -15,3 +15,8 @@
 # Hosting
 
 /.well-known
+
+# Applications
+
+app/*
+!app/example/
