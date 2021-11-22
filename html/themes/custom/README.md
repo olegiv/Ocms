@@ -1,0 +1,1 @@
+# Opossum CMS custom layouts

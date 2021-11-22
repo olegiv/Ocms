@@ -6,9 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Twig\\' => array($vendorDir . '/twig/twig/src'),
-    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
-    'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
-    'Kodus\\' => array($vendorDir . '/kodus/sql-splitter/src'),
+    'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
+    'Phalcon\\Migrations\\' => array($vendorDir . '/phalcon/migrations/src'),
+    'Phalcon\\Cop\\' => array($vendorDir . '/phalcon/cli-options-parser/src'),
+    'Ocms\\Core\\' => array($baseDir . '/core'),
+    'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
 );

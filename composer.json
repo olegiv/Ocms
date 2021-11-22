@@ -1,7 +1,7 @@
 {
 	"name": "ocms/ocms-core",
 	"description": "The Opossum CMS Core",
-	"keywords": ["CMS", "PHP", "PHP7", "HTML5", "CSS3", "Twig", "MySQL", "SQLite", "content", "wysiwyg", "opossum", "MVP"],
+	"keywords": ["CMS", "PHP", "PHP7", "phalcon" ,"HTML5", "CSS3", "Twig", "MySQL", "content", "wysiwyg", "opossum", "MVP"],
 	"homepage": "https://ocms.tech/",
 	"type": "project",
 	"license": "GPL-2.0-or-later",
@@ -14,10 +14,17 @@
 		}
 	],
 	"require": {
-		"php": ">=7.0.0",
-		"ext-pdo": "*",
-		"twig/twig": "^2.0",
-		"symfony/yaml": "^3.4",
-		"kodus/sql-splitter": "^1.0"
+		"php": ">=7.4",
+		"ext-phalcon": "^4.0.0",
+		"phalcon/migrations": "^2.2",
+		"vlucas/phpdotenv": "^4.0"
+	},
+	"require-dev": {
+		"phalcon/ide-stubs": "^4.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"Ocms\\Core\\": "core/"
+		}
 	}
 }

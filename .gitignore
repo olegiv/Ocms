@@ -1,22 +1,27 @@
 # Configuration
+/.env
 
-/conf/config.yaml
-/conf/routes.yaml
+# Data
+/var/cache/volt/*.php
 
 # IDE
-
-.idea
-/nbproject
+/.idea
 
 # OS
-
 .DS_Store
 
 # Hosting
+.well-known
 
-/.well-known
+# Phalcon
+.phalcon
 
-# Applications
+# Vendor
+/vendor
 
-app/*
-!app/example/
+# Apache
+/html/themes/custom/*
+!/html/themes/custom/README.md
+
+# Local files
+/local
