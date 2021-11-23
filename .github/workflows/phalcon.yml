@@ -16,4 +16,5 @@ jobs:
 
     - name: Phalcon Action
       uses: MilesChou/phalcon-action@0.0.1
-  
+      with:
+        args: php -m
