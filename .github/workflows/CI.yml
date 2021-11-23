@@ -1,0 +1,44 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+env:
+  DB_HOST: '127.0.0.1'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Init Database
+      run: |
+        mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS `ocms`;'
+    - name: Copy .env file
+      run: cp .env.example .env
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: '7.4'
+        tools: pecl
+        extensions: mbstring, intl, json, phalcon4
+        coverage: xdebug
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
