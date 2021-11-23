@@ -18,3 +18,9 @@ jobs:
       uses: MilesChou/phalcon-action@0.0.1
       with:
         args: php -m
+        
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
