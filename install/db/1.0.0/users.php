@@ -146,17 +146,5 @@ class UsersMigration_100 extends Migration
      */
      public function afterCreateTable(): void
      {
-        $this->batchInsert(self::TABLE_USERS, [
-		        'id',
-	            'active',
-	            'created_at',
-		        'username',
-		        'password',
-		        'role',
-		        'email',
-		        'first_name',
-		        'last_name'
-            ]
-        );
      }
 }

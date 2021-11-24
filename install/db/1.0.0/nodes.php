@@ -137,16 +137,5 @@ class NodesMigration_100 extends Migration
 	 */
 	public function afterCreateTable(): void
 	{
-		$this->batchInsert(self::TABLE_NODES, [
-				'id',
-				'id2_owner',
-				'is_published',
-				'created_at',
-				'title',
-				'abstract',
-				'body',
-				'alias'
-			]
-		);
 	}
 }

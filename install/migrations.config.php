@@ -18,7 +18,8 @@ return new Config([
         'logInDb' => true,
         'migrationsDir' => 'install/db',
         'exportDataFromTables' => [
-            'nodes'
+            'nodes',
+	        'users'
         ]
     ]
 ]);
